@@ -54,7 +54,7 @@ namespace Combine
 		/// </summary>
 		protected override void LoadContent()
 		{
-			//TODO: use this.Content to load your game content here 
+			RC_GameStateParent.font = Content.Load<SpriteFont>("font/Arcon");
 		}
 
 		/// <summary>
@@ -80,7 +80,9 @@ namespace Combine
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{
+			spriteBatch.Begin();
 			StateManager.getCurrentLevel().Draw(gameTime);
+			spriteBatch.End();
 
 			base.Draw(gameTime);
 		}
