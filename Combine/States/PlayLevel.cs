@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using RC_Framework;
 namespace Combine
 {
@@ -20,6 +21,8 @@ namespace Combine
 									new Vector2(rightSideItemsX, rightSideStep * 12)};
 		int move;
 		int score;
+		Song song;
+
 		public PlayLevel(RC_GameStateManager lm) :
 			base(lm)
 		{
@@ -27,6 +30,7 @@ namespace Combine
 
 		public override void LoadContent()
 		{
+			song = Content.Load<Song>("music/puzzle-1-a");
 			Texture2D homeButton = Content.Load<Texture2D>("textures/gui/homeButton");
 			Texture2D pauseButton = Content.Load<Texture2D>("textures/gui/pauseButton");
 			GUI = new GUI_Control();
@@ -39,7 +43,28 @@ namespace Combine
 		{
 			move = 0;
 			score = 0;
+			MediaPlayer.Play(song);
+			MediaPlayer.IsRepeating = true;
+			Console.WriteLine("Enter Play");
 			base.EnterLevel(fromLevelNum);
+		}
+
+		public override void ResumeLevel()
+		{
+			MediaPlayer.Resume();
+			Console.WriteLine("Resume Play");
+		}
+
+		public override void SuspendLevel()
+		{
+			MediaPlayer.Pause();
+			Console.WriteLine("Suspend Play");
+		}
+
+		public override void ExitLevel()
+		{
+			MediaPlayer.Stop();
+			Console.WriteLine("Exit Play");
 		}
 
 		public override void Update(GameTime gameTime)
