@@ -22,15 +22,15 @@ namespace Combine
 		{
 			song = Content.Load<Song>("music/puzzle-1-b");
 			buttonTexture = Content.Load<Texture2D>("textures/gui/buttonDefault");
-		}
-
-		public override void EnterLevel(int fromLevelNum)
-		{
 			HomeMenu = new GUI_Control();
 			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 100)).attachLeftMouseDownCallback(Level1ButtonClick));
 			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 200)).attachLeftMouseDownCallback(Level2ButtonClick));
 			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 300)).attachLeftMouseDownCallback(Level2ButtonClick));
 
+		}
+
+		public override void EnterLevel(int fromLevelNum)
+		{
 			MediaPlayer.Play(song);
 			MediaPlayer.IsRepeating = true;
 			Console.WriteLine("Enter Home");
