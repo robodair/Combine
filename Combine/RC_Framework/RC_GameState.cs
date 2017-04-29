@@ -13,185 +13,185 @@ using Microsoft.Xna.Framework.Media;
 
 namespace RC_Framework
 {
-//  *********************************************************  RC_GameStateParent  *************************************************************
-    /// <summary>
-    /// Parent State class, all levels inherit from this
-    /// </summary>
-    public abstract class RC_GameStateParent
-    {
-        // the following block of variables are candidates to become global variables used in many places 
-        public static GraphicsDevice graphicsDevice;
-        public static GraphicsDeviceManager graphicsManager;
-        public static SpriteBatch spriteBatch;
-        
-        public static ContentManager Content;
-        public static RC_GameStateManager gameStateManager;
+	//  *********************************************************  RC_GameStateParent  *************************************************************
+	/// <summary>
+	/// Parent State class, all levels inherit from this
+	/// </summary>
+	public abstract class RC_GameStateParent
+	{
+		// the following block of variables are candidates to become global variables used in many places 
+		public static GraphicsDevice graphicsDevice;
+		public static GraphicsDeviceManager graphicsManager;
+		public static SpriteBatch spriteBatch;
 
-        public static KeyboardState keyState; // for convenience - not really needed
-        public static KeyboardState prevKeyState; // for convenience not really needed
+		public static ContentManager Content;
+		public static RC_GameStateManager gameStateManager;
 
-        public static float mouse_x = 0;
-        public static float mouse_y = 0; // for convenience not really needed
-        public static MouseState currentMouseState; // for convenience not really needed
-        public static MouseState previousMouseState; // for convenience not really needed
+		public static KeyboardState keyState; // for convenience - not really needed
+		public static KeyboardState prevKeyState; // for convenience not really needed
 
-        public static SpriteFont font; // use if you want again not really needed
+		public static float mouse_x = 0;
+		public static float mouse_y = 0; // for convenience not really needed
+		public static MouseState currentMouseState; // for convenience not really needed
+		public static MouseState previousMouseState; // for convenience not really needed
 
-        public RC_GameStateParent(GraphicsDevice g, SpriteBatch s, ContentManager c, RC_GameStateManager lm)
-        {
-            graphicsDevice = g;
-            spriteBatch = s;
-            Content = c;
-            gameStateManager = lm;
-        }
+		public static SpriteFont font; // use if you want again not really needed
 
-        public virtual void LoadContent() { }
-        public virtual void UnloadContent() { }
-        public virtual void EnterLevel(int fromLevelNum) { } // runs on set and push
-        public virtual void ExitLevel() { } // runs on set and pop
-        public virtual void Update(GameTime gameTime) { }
-        public abstract void Draw(GameTime gameTime);
+		public RC_GameStateParent(GraphicsDevice g, SpriteBatch s, ContentManager c, RC_GameStateManager lm)
+		{
+			graphicsDevice = g;
+			spriteBatch = s;
+			Content = c;
+			gameStateManager = lm;
+		}
 
-        /// <summary>
-        /// Utility routine to set up keyboard and mouse
-        /// </summary>
-        public static void getKeyboardAndMouse()
-        {
+		public virtual void LoadContent() { }
+		public virtual void UnloadContent() { }
+		public virtual void EnterLevel(int fromLevelNum) { } // runs on set and push
+		public virtual void ExitLevel() { } // runs on set and pop
+		public virtual void Update(GameTime gameTime) { }
+		public abstract void Draw(GameTime gameTime);
 
-            prevKeyState = keyState;
-            keyState = Keyboard.GetState();
+		/// <summary>
+		/// Utility routine to set up keyboard and mouse
+		/// </summary>
+		public static void getKeyboardAndMouse()
+		{
 
-            previousMouseState = currentMouseState;
-            currentMouseState = Mouse.GetState();
+			prevKeyState = keyState;
+			keyState = Keyboard.GetState();
 
-            mouse_x = currentMouseState.X;
-            mouse_y = currentMouseState.Y;
-        }
+			previousMouseState = currentMouseState;
+			currentMouseState = Mouse.GetState();
 
-    }
+			mouse_x = currentMouseState.X;
+			mouse_y = currentMouseState.Y;
+		}
 
-    // ***************************************************************************  RC_GameStateManager  ****************************************************
+	}
 
-    /// <summary>
-    /// To manage levels  
-    /// </summary>
-    public class RC_GameStateManager
-    {
-        RC_GameStateParent[] states;
-        RC_GameStateParent cur=null; //current_State;        
-        RC_GameStateParent prevState=null; //previous state;
-        public RC_GameStateParent prevStatePlayLevel=null; //previous state;
-        int curLevNum;
-        //int prevPlayLevNum=0;
+	// ***************************************************************************  RC_GameStateManager  ****************************************************
 
-        int[] levelStack;
-        int sp; // stack pointer
+	/// <summary>
+	/// To manage levels  
+	/// </summary>
+	public class RC_GameStateManager
+	{
+		RC_GameStateParent[] states;
+		RC_GameStateParent cur = null; //current_State;        
+		RC_GameStateParent prevState = null; //previous state;
+		public RC_GameStateParent prevStatePlayLevel = null; //previous state;
+		int curLevNum;
+		//int prevPlayLevNum=0;
+
+		int[] levelStack;
+		int sp; // stack pointer
 
 		GraphicsDevice g;
 		SpriteBatch s;
 		ContentManager c;
 
 		public RC_GameStateManager(GraphicsDevice g, SpriteBatch s, ContentManager c)
-        {
-            init(100);
+		{
+			init(100);
 
-        }
+		}
 
-        private void init(int numLevelz)
-        {
-            states = new RC_GameStateParent[numLevelz];
-            for (int i = 0; i < numLevelz; i++) states[i] = null;
-            levelStack = new int[30];
-            sp = 0;
-            setEmptyLevel();
-        }
+		private void init(int numLevelz)
+		{
+			states = new RC_GameStateParent[numLevelz];
+			for (int i = 0; i < numLevelz; i++) states[i] = null;
+			levelStack = new int[30];
+			sp = 0;
+			setEmptyLevel();
+		}
 
-        public void AddLevel(int levNum, RC_GameStateParent lev)
-        {
-            states[levNum] = lev;
-        }
+		public void AddLevel(int levNum, RC_GameStateParent lev)
+		{
+			states[levNum] = lev;
+		}
 
-        public RC_GameStateParent getLevel(int levNum)
-        {
-            return states[levNum];
-        }
+		public RC_GameStateParent getLevel(int levNum)
+		{
+			return states[levNum];
+		}
 
-        public void setLevel(int levNum)
-        {
-            prevState = cur;
-          
-            states[levNum].EnterLevel(curLevNum);
-            cur = states[levNum];  
-            prevStatePlayLevel = cur; // to call draw
-            prevState.ExitLevel();
-            curLevNum = levNum;
+		public void setLevel(int levNum)
+		{
+			prevState = cur;
 
-            RC_GameStateParent.prevKeyState = Keyboard.GetState();
-            RC_GameStateParent.keyState = Keyboard.GetState(); // fix legacy keystate issues
-            RC_GameStateParent.previousMouseState = Mouse.GetState();
-            RC_GameStateParent.currentMouseState = Mouse.GetState();
-        }
+			states[levNum].EnterLevel(curLevNum);
+			cur = states[levNum];
+			prevStatePlayLevel = cur; // to call draw
+			prevState.ExitLevel();
+			curLevNum = levNum;
 
-        public void pushLevel(int levNum)
-        {
-            prevState = cur;
-            prevState.ExitLevel();
-            states[levNum].EnterLevel(curLevNum);
-            levelStack[sp] = curLevNum;
-            cur = states[levNum];
-            curLevNum = levNum;
-            sp++;
-        }
+			RC_GameStateParent.prevKeyState = Keyboard.GetState();
+			RC_GameStateParent.keyState = Keyboard.GetState(); // fix legacy keystate issues
+			RC_GameStateParent.previousMouseState = Mouse.GetState();
+			RC_GameStateParent.currentMouseState = Mouse.GetState();
+		}
 
-        public int popLevel()
-        {
-            sp--;
-            prevState = cur;
-            cur = states[levelStack[sp]];
-            curLevNum = levelStack[sp];
-            prevState.ExitLevel();
-            cur.EnterLevel(levelStack[sp+1]);
+		public void pushLevel(int levNum)
+		{
+			prevState = cur;
+			prevState.ExitLevel();
+			states[levNum].EnterLevel(curLevNum);
+			levelStack[sp] = curLevNum;
+			cur = states[levNum];
+			curLevNum = levNum;
+			sp++;
+		}
 
-            RC_GameStateParent.prevKeyState = Keyboard.GetState();
-            RC_GameStateParent.keyState = Keyboard.GetState(); // fix legacy keystate issues
-            RC_GameStateParent.previousMouseState = Mouse.GetState();
-            RC_GameStateParent.currentMouseState = Mouse.GetState();
-            return curLevNum;
-        }
+		public int popLevel()
+		{
+			sp--;
+			prevState = cur;
+			cur = states[levelStack[sp]];
+			curLevNum = levelStack[sp];
+			prevState.ExitLevel();
+			cur.EnterLevel(levelStack[sp + 1]);
 
-        public void setEmptyLevel()
-        {
+			RC_GameStateParent.prevKeyState = Keyboard.GetState();
+			RC_GameStateParent.keyState = Keyboard.GetState(); // fix legacy keystate issues
+			RC_GameStateParent.previousMouseState = Mouse.GetState();
+			RC_GameStateParent.currentMouseState = Mouse.GetState();
+			return curLevNum;
+		}
+
+		public void setEmptyLevel()
+		{
 			cur = new EmptyState(g, s, c, this);
-            curLevNum = -1; // hmm i guess empty level is now level -1
-        }
+			curLevNum = -1; // hmm i guess empty level is now level -1
+		}
 
-        public RC_GameStateParent getCurrentLevel()
-        {
-            return cur;
-        }
+		public RC_GameStateParent getCurrentLevel()
+		{
+			return cur;
+		}
 
-        public int getCurrentLevelNum()
-        {
-            return curLevNum;
-        }
-    }
+		public int getCurrentLevelNum()
+		{
+			return curLevNum;
+		}
+	}
 
-    //      ************************************************ Empty State **************************************************
+	//      ************************************************ Empty State **************************************************
 
-    /// <summary>
-    /// A default 'empty' level to fix probelms of having nothing to Draw or Update
-    /// in short this class exists as a do nothing placeholder
-    /// we need it in game initialisation and startup and it helps to simplify teaching 
-    /// </summary>
-    class EmptyState : RC_GameStateParent
-    {
+	/// <summary>
+	/// A default 'empty' level to fix probelms of having nothing to Draw or Update
+	/// in short this class exists as a do nothing placeholder
+	/// we need it in game initialisation and startup and it helps to simplify teaching 
+	/// </summary>
+	class EmptyState : RC_GameStateParent
+	{
 		public EmptyState(GraphicsDevice g, SpriteBatch s, ContentManager c, RC_GameStateManager lm) :
 			base(g, s, c, lm)
 		{
 		}
 
-        public override void Draw(GameTime gameTime)
-        {
-        }
-    }
+		public override void Draw(GameTime gameTime)
+		{
+		}
+	}
 }
