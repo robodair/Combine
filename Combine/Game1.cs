@@ -77,7 +77,7 @@ namespace Combine
 			RC_GameStateParent.getKeyboardAndMouse();
 
 			if (RC_GameStateParent.keyState.IsKeyDown(Keys.Escape))
-                Exit();
+				Exit();
 
 			StateManager.getCurrentLevel().Update(gameTime);
 
