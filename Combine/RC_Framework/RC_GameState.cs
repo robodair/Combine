@@ -37,7 +37,7 @@ namespace RC_Framework
 
         public static SpriteFont font; // use if you want again not really needed
 
-        public virtual void InitializeLevel(GraphicsDevice g, SpriteBatch s, ContentManager c, RC_GameStateManager lm)
+        public RC_GameStateParent(GraphicsDevice g, SpriteBatch s, ContentManager c, RC_GameStateManager lm)
         {
             graphicsDevice = g;
             spriteBatch = s;
@@ -87,7 +87,11 @@ namespace RC_Framework
         int[] levelStack;
         int sp; // stack pointer
 
-        public RC_GameStateManager()
+		GraphicsDevice g;
+		SpriteBatch s;
+		ContentManager c;
+
+		public RC_GameStateManager(GraphicsDevice g, SpriteBatch s, ContentManager c)
         {
             init(100);
 
@@ -157,7 +161,7 @@ namespace RC_Framework
 
         public void setEmptyLevel()
         {
-            cur = new EmptyState();
+			cur = new EmptyState(g, s, c, this);
             curLevNum = -1; // hmm i guess empty level is now level -1
         }
 
@@ -181,6 +185,11 @@ namespace RC_Framework
     /// </summary>
     class EmptyState : RC_GameStateParent
     {
+		public EmptyState(GraphicsDevice g, SpriteBatch s, ContentManager c, RC_GameStateManager lm) :
+			base(g, s, c, lm)
+		{
+		}
+
         public override void Draw(GameTime gameTime)
         {
         }
