@@ -84,6 +84,7 @@ namespace RC_Framework
 		public RC_GameStateParent prevStatePlayLevel = null; //previous state;
 		int curLevNum;
 		//int prevPlayLevNum=0;
+		public int numLevels { get; set; }
 
 		int[] levelStack;
 		int sp; // stack pointer
@@ -99,6 +100,7 @@ namespace RC_Framework
 			this.graphicsManager = gm;
 			this.spriteBatch = s;
 			this.content = c;
+			numLevels = 0;
 			init(100);
 
 		}
@@ -115,6 +117,7 @@ namespace RC_Framework
 		public void AddLevel(int levNum, RC_GameStateParent lev)
 		{
 			states[levNum] = lev;
+			numLevels += 1;
 		}
 
 		public RC_GameStateParent getLevel(int levNum)
