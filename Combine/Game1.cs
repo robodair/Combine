@@ -52,7 +52,16 @@ namespace Combine
 		/// </summary>
 		protected override void LoadContent()
 		{
-			RC_GameStateParent.font = Content.Load<SpriteFont>("font/Arcon");
+			UtilTexSI.initTextures(GraphicsDevice);
+			SpriteFont font = Content.Load<SpriteFont>("font/Arcon");
+			RC_GameStateParent.font = font;
+
+			for (int i = 0; i < StateManager.numLevels; i++)
+			{
+				StateManager.getLevel(i).LoadContent();
+			}
+
+			GUI_Globals.initGUIGlobals(GraphicsDevice, font, font, Color.White);
 
 			StateManager.setLevel(HOME_SCREEN);
 			StateManager.pushLevel(SPLASH_SCREEN);
