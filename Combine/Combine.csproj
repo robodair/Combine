@@ -66,6 +66,7 @@
     <Compile Include="RC_Framework\RC_UtilTexRenderables.cs" />
     <Compile Include="RC_Framework\RC_Waypoint.cs" />
     <Compile Include="States\HomeScreen.cs" />
+    <Compile Include="States\SplashScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />
