@@ -32,3 +32,15 @@
 /processorParam:TextureFormat=Color
 /build:textures/gui/buttonDefault.png
 
+#begin music/puzzle-1-a.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/puzzle-1-a.mp3
+
+#begin music/puzzle-1-b.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/puzzle-1-b.mp3
+
