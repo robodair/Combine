@@ -8,8 +8,8 @@ namespace Combine
 	public class SplashScreen : RC_GameStateParent
 	{
 		int counter = 0;
-		public SplashScreen(GraphicsDevice g, SpriteBatch s, ContentManager c, RC_GameStateManager lm) :
-			base(g, s, c, lm)
+		public SplashScreen(RC_GameStateManager lm) :
+			base(lm)
 		{
 		}
 

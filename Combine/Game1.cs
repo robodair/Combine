@@ -24,7 +24,6 @@ namespace Combine
 		{
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
-			StateManager = new RC_GameStateManager(GraphicsDevice, spriteBatch, Content);
 		}
 
 		/// <summary>
@@ -35,8 +34,13 @@ namespace Combine
 		/// </summary>
 		protected override void Initialize()
 		{
-			StateManager.AddLevel(SPLASH_SCREEN, new SplashScreen(GraphicsDevice, spriteBatch, Content, StateManager));
-			StateManager.AddLevel(HOME_SCREEN, new HomeScreen(GraphicsDevice, spriteBatch, Content, StateManager));
+			// Create a new SpriteBatch, which can be used to draw textures.
+			spriteBatch = new SpriteBatch(GraphicsDevice);
+
+			StateManager = new RC_GameStateManager(GraphicsDevice, graphics, spriteBatch, Content);
+
+			StateManager.AddLevel(SPLASH_SCREEN, new SplashScreen(StateManager));
+			StateManager.AddLevel(HOME_SCREEN, new HomeScreen(StateManager));
 
 			StateManager.setLevel(HOME_SCREEN);
 			StateManager.pushLevel(SPLASH_SCREEN);
@@ -50,9 +54,6 @@ namespace Combine
 		/// </summary>
 		protected override void LoadContent()
 		{
-			// Create a new SpriteBatch, which can be used to draw textures.
-			spriteBatch = new SpriteBatch(GraphicsDevice);
-
 			//TODO: use this.Content to load your game content here 
 		}
 

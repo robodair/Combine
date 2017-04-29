@@ -37,11 +37,12 @@ namespace RC_Framework
 
 		public static SpriteFont font; // use if you want again not really needed
 
-		public RC_GameStateParent(GraphicsDevice g, SpriteBatch s, ContentManager c, RC_GameStateManager lm)
+		public RC_GameStateParent(RC_GameStateManager lm)
 		{
-			graphicsDevice = g;
-			spriteBatch = s;
-			Content = c;
+			graphicsDevice = lm.graphicsDevice;
+			graphicsManager = lm.graphicsManager;
+			spriteBatch = lm.spriteBatch;
+			Content = lm.content;
 			gameStateManager = lm;
 		}
 
@@ -87,12 +88,17 @@ namespace RC_Framework
 		int[] levelStack;
 		int sp; // stack pointer
 
-		GraphicsDevice g;
-		SpriteBatch s;
-		ContentManager c;
+		public GraphicsDevice graphicsDevice { get; }
+		public GraphicsDeviceManager graphicsManager { get; }
+		public SpriteBatch spriteBatch { get; }
+		public ContentManager content { get; }
 
-		public RC_GameStateManager(GraphicsDevice g, SpriteBatch s, ContentManager c)
+		public RC_GameStateManager(GraphicsDevice g, GraphicsDeviceManager gm, SpriteBatch s, ContentManager c)
 		{
+			this.graphicsDevice = g;
+			this.graphicsManager = gm;
+			this.spriteBatch = s;
+			this.content = c;
 			init(100);
 
 		}
@@ -161,7 +167,7 @@ namespace RC_Framework
 
 		public void setEmptyLevel()
 		{
-			cur = new EmptyState(g, s, c, this);
+			cur = new EmptyState(this);
 			curLevNum = -1; // hmm i guess empty level is now level -1
 		}
 
@@ -185,8 +191,8 @@ namespace RC_Framework
 	/// </summary>
 	class EmptyState : RC_GameStateParent
 	{
-		public EmptyState(GraphicsDevice g, SpriteBatch s, ContentManager c, RC_GameStateManager lm) :
-			base(g, s, c, lm)
+		public EmptyState(RC_GameStateManager lm) :
+			base(lm)
 		{
 		}
 

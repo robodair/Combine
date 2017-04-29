@@ -8,8 +8,8 @@ namespace Combine
 {
 	public class HomeScreen : RC_GameStateParent
 	{
-		public HomeScreen(GraphicsDevice g, SpriteBatch s, ContentManager c, RC_GameStateManager lm) :
-			base(g, s, c, lm)
+		public HomeScreen(RC_GameStateManager lm) :
+			base(lm)
 		{
 		}
 
