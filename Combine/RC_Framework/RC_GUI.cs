@@ -158,6 +158,8 @@ namespace RC_Framework
         //public override bool MouseUpEventRight(float mouse_x, float mouse_y) { return false; }
         //public override bool KeyHitEvent(Keys keyHit) { return false; }
 
+        public Action LeftMouseDownCallback;
+
         /// <summary>
         /// Handle left mouse click
         /// </summary>
@@ -392,6 +394,12 @@ namespace RC_Framework
             }
         }
 
+        public GUI_Control attachLeftMouseDownCallback(Action callback)
+        {
+            this.LeftMouseDownCallback = callback;
+            return this;
+        }
+
     }
 
 // ---------------------------------------------------------- Frame ------------------------------------
@@ -509,6 +517,9 @@ namespace RC_Framework
             {
                 wasClicked = true;
                 if (state == 0) state = 1; else state = 0;
+                {
+                    LeftMouseDownCallback();
+                }
                 return true;
             }
             return false;
@@ -634,6 +645,10 @@ namespace RC_Framework
                 wasClicked = true;
                 clickTimeTicks = 0;
                 state=1;
+                if (LeftMouseDownCallback != null)
+                {
+                    LeftMouseDownCallback();
+                }
                 return true;
             }
             return false;
