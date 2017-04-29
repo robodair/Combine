@@ -42,9 +42,6 @@ namespace Combine
 			StateManager.AddLevel(SPLASH_SCREEN, new SplashScreen(StateManager));
 			StateManager.AddLevel(HOME_SCREEN, new HomeScreen(StateManager));
 
-			StateManager.setLevel(HOME_SCREEN);
-			StateManager.pushLevel(SPLASH_SCREEN);
-
 			base.Initialize();
 		}
 
@@ -55,6 +52,9 @@ namespace Combine
 		protected override void LoadContent()
 		{
 			RC_GameStateParent.font = Content.Load<SpriteFont>("font/Arcon");
+
+			StateManager.setLevel(HOME_SCREEN);
+			StateManager.pushLevel(SPLASH_SCREEN);
 		}
 
 		/// <summary>
