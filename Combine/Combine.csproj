@@ -71,6 +71,7 @@
   <ItemGroup>
     <None Include="app.manifest" />
     <None Include="Icon.png" />
+    <None Include="Content\font\Arcon.otf" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
