@@ -42,23 +42,25 @@ namespace Combine
 		public override void Draw(GameTime gameTime)
 		{
 			graphicsDevice.Clear(Color.DarkSlateBlue);
-
 			HomeMenu.drawSubControls(spriteBatch);
 		}
 
 		public void Level1ButtonClick()
 		{
 			Console.WriteLine("Level 1 Button Clicked");
+			gameStateManager.setLevel(2);
 		}
 
 		public void Level2ButtonClick()
 		{
 			Console.WriteLine("Level 2 Button Clicked");
+			gameStateManager.setLevel(3);
 		}
 
 		public void Level3ButtonClick()
 		{
 			Console.WriteLine("Level 3 Button Clicked");
+			gameStateManager.setLevel(4);
 		}
 	}
 }

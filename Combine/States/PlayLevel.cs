@@ -30,7 +30,7 @@ namespace Combine
 
 		public override void Draw(GameTime gameTime)
 		{
-			throw new NotImplementedException();
+			graphicsDevice.Clear(Color.DarkSlateBlue);
 		}
 
 	}

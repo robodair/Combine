@@ -19,6 +19,9 @@ namespace Combine
 
 		const int SPLASH_SCREEN = 0;
 		const int HOME_SCREEN = 1;
+		const int SQUARES_LEVEL = 2;
+		const int TRIANGLES_LEVEL = 3;
+		const int PENTAGONS_LEVEL = 4;
 
 		public Game1()
 		{
@@ -41,6 +44,9 @@ namespace Combine
 
 			StateManager.AddLevel(SPLASH_SCREEN, new SplashScreen(StateManager));
 			StateManager.AddLevel(HOME_SCREEN, new HomeScreen(StateManager));
+			StateManager.AddLevel(SQUARES_LEVEL, new PlayLevel(StateManager));
+			StateManager.AddLevel(TRIANGLES_LEVEL, new PlayLevel(StateManager));
+			StateManager.AddLevel(PENTAGONS_LEVEL, new PlayLevel(StateManager));
 
 			this.IsMouseVisible = true;
 			base.Initialize();
