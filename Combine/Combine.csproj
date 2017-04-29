@@ -67,6 +67,7 @@
     <Compile Include="RC_Framework\RC_Waypoint.cs" />
     <Compile Include="States\HomeScreen.cs" />
     <Compile Include="States\SplashScreen.cs" />
+    <Compile Include="States\PlayLevel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />
