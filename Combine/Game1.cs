@@ -42,6 +42,7 @@ namespace Combine
 			StateManager.AddLevel(SPLASH_SCREEN, new SplashScreen(StateManager));
 			StateManager.AddLevel(HOME_SCREEN, new HomeScreen(StateManager));
 
+			this.IsMouseVisible = true;
 			base.Initialize();
 		}
 
