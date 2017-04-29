@@ -11,6 +11,7 @@ namespace Combine
 	{
 		const int rightSideItemsX = 720;
 		const int rightSideStep = 25;
+		const int piecesX = 620;
 
 		GUI_Control GUI;
 		Vector2[] RightSideItems = {new Vector2(rightSideItemsX, rightSideStep),
@@ -19,6 +20,10 @@ namespace Combine
 									new Vector2(rightSideItemsX, rightSideStep * 4),
 									new Vector2(rightSideItemsX, rightSideStep * 9),
 									new Vector2(rightSideItemsX, rightSideStep * 12)};
+		Piece[] pieces;
+		Vector2[] PiecePositions = {new Vector2(piecesX, graphicsManager.PreferredBackBufferHeight / 4),
+									new Vector2(piecesX, (graphicsManager.PreferredBackBufferHeight / 4) * 2),
+									new Vector2(piecesX, (graphicsManager.PreferredBackBufferHeight / 4) * 3)};
 		int move;
 		int score;
 		Song song;
@@ -43,6 +48,7 @@ namespace Combine
 		{
 			move = 0;
 			score = 0;
+			pieces = new Piece[3];
 			MediaPlayer.Play(song);
 			MediaPlayer.IsRepeating = true;
 			Console.WriteLine("Enter Play");
@@ -74,6 +80,34 @@ namespace Combine
 			{
 				GUI.MouseDownEventLeft(currentMouseState.X, currentMouseState.Y);
 			}
+
+			// if the piece slots are vacant, move pieces and create new ones to fill the blank slot
+			if (pieces[2] == null && pieces[1] != null && pieces[1].inPosition)
+			{
+				// Move pieces[1] down to pieces [2]
+				pieces[2] = pieces[1];
+				pieces[1] = null;
+				pieces[2].SetTargetPosition(PiecePositions[2]);
+			}
+			if (pieces[1] == null && pieces[0] != null && pieces[0].inPosition)
+			{
+				// Move pieces[0] down to pieces [1]
+				pieces[1] = pieces[0];
+				pieces[0] = null;
+				pieces[1].SetTargetPosition(PiecePositions[1]);
+			}
+			if (pieces[0] == null)
+			{
+				// Spawn a new piece and make it slide in
+				pieces[0] = new Piece(piecesX);
+				pieces[0].SetTargetPosition(PiecePositions[0]);
+				Console.WriteLine("Piece Created!!");
+			}
+			foreach (Piece piece in pieces)
+			{
+				if (piece != null)
+					piece.Update(gameTime);
+			}
 			base.Update(gameTime);
 		}
 
@@ -87,6 +121,12 @@ namespace Combine
 			spriteBatch.DrawString(font, score.ToString(), RightSideItems[3], Color.White, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 
 			GUI.drawSubControls(spriteBatch);
+
+			foreach (Piece piece in pieces)
+			{
+				if (piece != null)
+					piece.Draw(spriteBatch);
+			}
 		}
 
 		public void homeButtonClicked()
