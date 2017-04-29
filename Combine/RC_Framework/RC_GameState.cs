@@ -50,6 +50,8 @@ namespace RC_Framework
 		public virtual void UnloadContent() { }
 		public virtual void EnterLevel(int fromLevelNum) { } // runs on set and push
 		public virtual void ExitLevel() { } // runs on set and pop
+		public virtual void SuspendLevel() { } // runs on set and pop
+		public virtual void ResumeLevel() { } // runs on set and pop
 		public virtual void Update(GameTime gameTime) { }
 		public abstract void Draw(GameTime gameTime);
 
@@ -128,11 +130,10 @@ namespace RC_Framework
 		public void setLevel(int levNum)
 		{
 			prevState = cur;
-
+			prevState.ExitLevel();
 			states[levNum].EnterLevel(curLevNum);
 			cur = states[levNum];
 			prevStatePlayLevel = cur; // to call draw
-			prevState.ExitLevel();
 			curLevNum = levNum;
 
 			RC_GameStateParent.prevKeyState = Keyboard.GetState();
@@ -144,7 +145,7 @@ namespace RC_Framework
 		public void pushLevel(int levNum)
 		{
 			prevState = cur;
-			prevState.ExitLevel();
+			prevState.SuspendLevel();
 			states[levNum].EnterLevel(curLevNum);
 			levelStack[sp] = curLevNum;
 			cur = states[levNum];
@@ -159,7 +160,7 @@ namespace RC_Framework
 			cur = states[levelStack[sp]];
 			curLevNum = levelStack[sp];
 			prevState.ExitLevel();
-			cur.EnterLevel(levelStack[sp + 1]);
+			cur.ResumeLevel();
 
 			RC_GameStateParent.prevKeyState = Keyboard.GetState();
 			RC_GameStateParent.keyState = Keyboard.GetState(); // fix legacy keystate issues
