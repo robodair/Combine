@@ -24,9 +24,9 @@ namespace Combine
 		public override void EnterLevel(int fromLevelNum)
 		{
 			HomeMenu = new GUI_Control();
-			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 100)));
-			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 200)));
-			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 300)));
+			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 100)).attachLeftMouseDownCallback(Level1ButtonClick));
+			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 200)).attachLeftMouseDownCallback(Level2ButtonClick));
+			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 300)).attachLeftMouseDownCallback(Level2ButtonClick));
 		}
 
 		public override void Update(GameTime gameTime)
@@ -44,6 +44,21 @@ namespace Combine
 			graphicsDevice.Clear(Color.DarkSlateBlue);
 
 			HomeMenu.drawSubControls(spriteBatch);
+		}
+
+		public void Level1ButtonClick()
+		{
+			Console.WriteLine("Level 1 Button Clicked");
+		}
+
+		public void Level2ButtonClick()
+		{
+			Console.WriteLine("Level 2 Button Clicked");
+		}
+
+		public void Level3ButtonClick()
+		{
+			Console.WriteLine("Level 3 Button Clicked");
 		}
 	}
 }
