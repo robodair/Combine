@@ -37,6 +37,7 @@ namespace Combine
 		/// </summary>
 		protected override void Initialize()
 		{
+			LineBatch.init(GraphicsDevice);
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
