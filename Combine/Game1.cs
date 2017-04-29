@@ -17,6 +17,7 @@ namespace Combine
 		SpriteBatch spriteBatch;
 		RC_GameStateManager StateManager;
 
+		const int SPLASH_SCREEN = 0;
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
@@ -32,10 +33,12 @@ namespace Combine
 		/// </summary>
 		protected override void Initialize()
 		{
+			StateManager.AddLevel(SPLASH_SCREEN, new SplashScreen(GraphicsDevice, spriteBatch, Content, StateManager));
 
 			StateManager.AddLevel(1, new HomeScreen(GraphicsDevice, spriteBatch, Content, StateManager));
 
 			StateManager.setLevel(1);
+			StateManager.pushLevel(SPLASH_SCREEN);
 
 			base.Initialize();
 		}
