@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using RC_Framework;
 
 namespace Combine
@@ -11,6 +12,7 @@ namespace Combine
 	{
 		Texture2D buttonTexture;
 		GUI_Control HomeMenu;
+		Song song;
 		public HomeScreen(RC_GameStateManager lm) :
 			base(lm)
 		{
@@ -18,6 +20,7 @@ namespace Combine
 
 		public override void LoadContent()
 		{
+			song = Content.Load<Song>("music/puzzle-1-b");
 			buttonTexture = Content.Load<Texture2D>("textures/gui/buttonDefault");
 		}
 
@@ -27,6 +30,28 @@ namespace Combine
 			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 100)).attachLeftMouseDownCallback(Level1ButtonClick));
 			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 200)).attachLeftMouseDownCallback(Level2ButtonClick));
 			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 300)).attachLeftMouseDownCallback(Level2ButtonClick));
+
+			MediaPlayer.Play(song);
+			MediaPlayer.IsRepeating = true;
+			Console.WriteLine("Enter Home");
+		}
+
+		public override void ResumeLevel()
+		{
+			MediaPlayer.Resume();
+			Console.WriteLine("Resume Home");
+		}
+
+		public override void SuspendLevel()
+		{
+			MediaPlayer.Pause();
+			Console.WriteLine("Suspend Home");
+		}
+
+		public override void ExitLevel()
+		{
+			MediaPlayer.Stop();
+			Console.WriteLine("Exit Home");
 		}
 
 		public override void Update(GameTime gameTime)
