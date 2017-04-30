@@ -41,6 +41,7 @@ namespace Combine
 			GUI = new GUI_Control();
 			GUI.AddControl(new ButtonSI(homeButton, Color.Goldenrod, RightSideItems[4]).attachLeftMouseDownCallback(homeButtonClicked));
 			GUI.AddControl(new ButtonSI(pauseButton, Color.Goldenrod, RightSideItems[5]).attachLeftMouseDownCallback(pauseButtonClicked));
+			pieces = new Piece[3];
 			base.LoadContent();
 		}
 
@@ -48,6 +49,8 @@ namespace Combine
 		{
 			move = 0;
 			score = 0;
+			// Remove current pieces in queue
+			foreach (Piece piece in pieces){GUI.RemoveControl(piece);}
 			pieces = new Piece[3];
 			MediaPlayer.Play(song);
 			MediaPlayer.IsRepeating = true;
@@ -122,13 +125,7 @@ namespace Combine
 			spriteBatch.DrawString(font, "SCORE", RightSideItems[2], Color.Gray, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 			spriteBatch.DrawString(font, score.ToString(), RightSideItems[3], Color.White, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 
-			GUI.drawSubControls(spriteBatch);
-
-			foreach (Piece piece in pieces)
-			{
-				if (piece != null)
-					piece.Draw(spriteBatch);
-			}
+			GUI.drawSubControls(spriteBatch); // This draws the pieces too
 		}
 
 		public void homeButtonClicked()
