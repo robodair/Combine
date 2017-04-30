@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using RC_Framework;
 namespace Combine
 {
-	public class Piece
+	public class Piece : GUI_Control
 	{
 		Vector2 Position;
 		Vector2 TargetPosition;
@@ -107,6 +107,9 @@ namespace Combine
 				part.setColor(Color.Yellow);
 
 			}
+
+			// Set the bounds for the piece
+			bounds = new Rectangle(Position.ToPoint(), new Point(100, 100));
 		}
 
 		public void SetTargetPosition(Vector2 targetPosition)
@@ -115,7 +118,7 @@ namespace Combine
 			TargetPosition = targetPosition;
 		}
 
-		public void Update(GameTime gameTime)
+		public override void Update(GameTime gameTime)
 		{
 			// Move to the target position if not already there
 			if (!Position.Equals(TargetPosition))
@@ -137,6 +140,7 @@ namespace Combine
 				}
 
 				Position += movement;
+				setPos(Position.X, Position.Y);
 			}
 			else
 			{
@@ -144,13 +148,23 @@ namespace Combine
 			}
 		}
 
-		public void Draw(SpriteBatch sb)
+		public override void Draw(SpriteBatch sb)
 		{
 			foreach (Sprite3 part in parts)
 			{
 				part.Draw(sb);
 				part.drawInfo(sb, Color.AliceBlue, Color.Goldenrod);
 			}
+
+			LineBatch.drawLineRectangle(sb, bounds, Color.Goldenrod);
+			base.Draw(sb);
+		}
+
+		public void Rotate()
+		{
+			// execute a rotation (rotate all the parts areound the center of the bounds)
+			Console.WriteLine("Rotate!!");
+
 		}
 	}
 }
