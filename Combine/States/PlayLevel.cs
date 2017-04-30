@@ -48,8 +48,6 @@ namespace Combine
 			GUI = new GUI_Control();
 			GUI.AddControl(new ButtonSI(homeButton, Color.Goldenrod, RightSideItems[4]).attachLeftMouseDownCallback(homeButtonClicked));
 			GUI.AddControl(new ButtonSI(pauseButton, Color.Goldenrod, RightSideItems[5]).attachLeftMouseDownCallback(pauseButtonClicked));
-			pieces = new Piece[3];
-			grid = new Grid(8);
 			base.LoadContent();
 		}
 
@@ -58,9 +56,10 @@ namespace Combine
 			move = 0;
 			score = 0;
 			// Remove current pieces in queue
-			foreach (Piece piece in pieces){GUI.RemoveControl(piece);}
+			if (pieces != null)
+				foreach (Piece piece in pieces){GUI.RemoveControl(piece);}
 			pieces = new Piece[3];
-			grid = new Grid(8);
+			grid = new Grid(6);
 			MediaPlayer.Play(song);
 			MediaPlayer.IsRepeating = true;
 			dragging = false;
