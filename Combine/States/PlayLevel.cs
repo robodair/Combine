@@ -33,6 +33,7 @@ namespace Combine
 		Piece savedControl;
 
 		Grid grid;
+		public int MATCH_SCORE = 30;
 
 		public PlayLevel(RC_GameStateManager lm) :
 			base(lm)
@@ -88,6 +89,7 @@ namespace Combine
 
 		public override void Update(GameTime gameTime)
 		{
+			grid.Update(gameTime, savedControl);
 			GUI.Update(gameTime);
 			// Click UP Event
 			if (previousMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
@@ -104,6 +106,9 @@ namespace Combine
 						// remove the object from the piece array
 						pieces[Array.IndexOf(pieces, savedControl)] = null;
 						GUI.RemoveControl(savedControl);
+						move++;
+						score += grid.checkForFullSquares() * MATCH_SCORE;
+						savedControl = null;
 					}
 				}
 				dragging = false; // cancel dragging
@@ -167,8 +172,6 @@ namespace Combine
 				if (piece != null)
 					piece.Update(gameTime);
 			}
-
-			grid.Update(gameTime, savedControl);
 			base.Update(gameTime);
 		}
 

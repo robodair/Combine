@@ -23,7 +23,6 @@ namespace Combine
 			{
 				for (int j = 0; j < grid.GetLength(1); j++)
 				{
-					Console.WriteLine(i + ", " + j);
 					grid[i, j] = new Sprite3(true, squarePartTexture, i * (Piece.partSize + Piece.partSpacing) + gridOffset.X, j * (Piece.partSize + Piece.partSpacing) + gridOffset.Y);
 					grid[i, j].setColor(Color.DimGray);
 					grid[i, j].setWidthHeight(Piece.partSize, Piece.partSize);
@@ -87,7 +86,41 @@ namespace Combine
 				}
 			}
 
-			// TODO: Detect combinations that mean there has been a win, make a list of them, display animations and remove the pieces
+		}
+
+		public int checkForFullSquares()
+		{
+			HashSet<int[]> squaresToClear = new HashSet<int[]>();
+			int numMatches = 0;
+			// check every square to see if the corresponding next 3 are the same color
+			for (int i = 0; i < grid.GetLength(0) - 1; i++)
+			{
+				for (int j = 0; j < grid.GetLength(1) - 1; j++)
+				{
+					if (colorGrid[i, j] != Color.Transparent && // Transparent means no color
+					    colorGrid[i, j] == colorGrid[i + 1, j] &&
+						colorGrid[i, j] == colorGrid[i, j + 1] &&
+						colorGrid[i, j] == colorGrid[i + 1, j + 1])
+					{
+						// add the squares to a set to be cleared of colour
+						numMatches++;
+						squaresToClear.Add(new int[] { i, j });
+						squaresToClear.Add(new int[] { i + 1, j });
+						squaresToClear.Add(new int[] { i, j + 1 });
+						squaresToClear.Add(new int[] { i + 1, j + 1 });
+					}
+				}
+			}
+
+			foreach (int[] square in squaresToClear)
+			{
+				// reset the colours
+				colorGrid[square[0], square[1]] = Color.Transparent;
+				grid[square[0], square[1]].colour = Color.DimGray;
+			}
+			Console.WriteLine("Found " + numMatches + " matches");
+			// TODO: Schedule animations
+			return numMatches;
 		}
 
 		public bool CaptureDroppedObject(Piece savedControl)
