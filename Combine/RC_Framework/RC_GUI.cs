@@ -192,6 +192,28 @@ namespace RC_Framework
 		}
 
 		/// <summary>
+		/// Get the control under the mouse
+		/// </summary>
+		/// <param name="mouse_x"></param>
+		/// <param name="mouse_y"></param>
+		/// <returns></returns>
+		public GUI_Control getControlUnder(float mouse_x, float mouse_y)
+		{
+			if (controls == null) return null;
+			if (controls.Count <= 0) return null;
+
+			for (int i = 0; i < controls.Count; i++)
+			{
+				bool rc = controls[i].inside(mouse_x, mouse_y);
+				if (rc)
+				{
+					return controls[i];
+				}
+			}
+			return null;
+		}
+
+		/// <summary>
 		/// handle mouse over event (eg tool tips)
 		/// </summary>
 		/// <param name="mouse_x"></param>
