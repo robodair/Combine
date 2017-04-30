@@ -10,6 +10,7 @@ namespace Combine
 	{
 		Vector2 Position;
 		Vector2 TargetPosition;
+		Vector2 PartsOffset; // Offset of the parts from the piece position
 		public bool inPosition { get; set; }
 		int moveSpeed = 5;
 		const int partSize = 30;
@@ -47,57 +48,72 @@ namespace Combine
 
 		private void createTetrominoParts(int layout)
 		{
+			Vector2 PartsOrigin;
 			// set the part hotspot offsets
 			switch (layout)
 			{
 				case 0:
 					// I block
-					parts[0] = new Sprite3(true, UtilTexSI.texWhite, Position.X, Position.Y);
-					parts[1] = new Sprite3(true, UtilTexSI.texWhite, Position.X + partSize + partSpacing, Position.Y);
-					parts[2] = new Sprite3(true, UtilTexSI.texWhite, Position.X + (partSize + partSpacing) * 2, Position.Y);
-					parts[3] = new Sprite3(true, UtilTexSI.texWhite, Position.X + (partSize + partSpacing) * 3, Position.Y);
+					PartsOffset = new Vector2(0, (partSize + partSpacing) * 1.5f);
+					PartsOrigin = Position + PartsOffset;
+					parts[0] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y);
+					parts[1] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
+					parts[2] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y);
+					parts[3] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 3, PartsOrigin.Y);
 					break;
 				case 1:
 					// O block
-					parts[0] = new Sprite3(true, UtilTexSI.texWhite, Position.X, Position.Y);
-					parts[1] = new Sprite3(true, UtilTexSI.texWhite, Position.X + partSize + partSpacing, Position.Y);
-					parts[2] = new Sprite3(true, UtilTexSI.texWhite, Position.X, Position.Y + partSize + partSpacing);
-					parts[3] = new Sprite3(true, UtilTexSI.texWhite, Position.X + partSize + partSpacing, Position.Y + partSize + partSpacing);
+					PartsOffset = new Vector2(partSize + partSpacing, partSize + partSpacing);
+					PartsOrigin = Position + PartsOffset;
+					parts[0] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y);
+					parts[1] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
+					parts[2] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y + partSize + partSpacing);
+					parts[3] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y + partSize + partSpacing);
 					break;
 				case 2:
 					// T Block
-					parts[0] = new Sprite3(true, UtilTexSI.texWhite, Position.X, Position.Y);
-					parts[1] = new Sprite3(true, UtilTexSI.texWhite, Position.X + partSize + partSpacing, Position.Y);
-					parts[2] = new Sprite3(true, UtilTexSI.texWhite, Position.X + (partSize + partSpacing) * 2, Position.Y);
-					parts[3] = new Sprite3(true, UtilTexSI.texWhite, Position.X + partSize + partSpacing, Position.Y + partSize + partSpacing);
+					PartsOffset = new Vector2((partSize + partSpacing) * 0.5f, partSize + partSpacing);
+					PartsOrigin = Position + PartsOffset;
+					parts[0] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y);
+					parts[1] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
+					parts[2] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y);
+					parts[3] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y + partSize + partSpacing);
 					break;
 				case 3:
 					// J block
-					parts[0] = new Sprite3(true, UtilTexSI.texWhite, Position.X, Position.Y);
-					parts[1] = new Sprite3(true, UtilTexSI.texWhite, Position.X + partSize + partSpacing, Position.Y);
-					parts[2] = new Sprite3(true, UtilTexSI.texWhite, Position.X + (partSize + partSpacing) * 2, Position.Y);
-					parts[3] = new Sprite3(true, UtilTexSI.texWhite, Position.X + (partSize + partSpacing) * 2, Position.Y + partSize + partSpacing);
+					PartsOffset = new Vector2((partSize + partSpacing) * 0.5f, partSize + partSpacing);
+					PartsOrigin = Position + PartsOffset;
+					parts[0] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y);
+					parts[1] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
+					parts[2] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y);
+					parts[3] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y + partSize + partSpacing);
 					break;
 				case 4:
 					// L block
-					parts[0] = new Sprite3(true, UtilTexSI.texWhite, Position.X, Position.Y);
-					parts[1] = new Sprite3(true, UtilTexSI.texWhite, Position.X + partSize + partSpacing, Position.Y);
-					parts[2] = new Sprite3(true, UtilTexSI.texWhite, Position.X + (partSize + partSpacing) * 2, Position.Y);
-					parts[3] = new Sprite3(true, UtilTexSI.texWhite, Position.X, Position.Y + partSize + partSpacing);
+					PartsOffset = new Vector2((partSize + partSpacing) * 0.5f, partSize + partSpacing);
+					PartsOrigin = Position + PartsOffset;
+					parts[0] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y);
+					parts[1] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
+					parts[2] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y);
+					parts[3] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y + partSize + partSpacing);
 					break;
 				case 5:
 					// S block
-					parts[0] = new Sprite3(true, UtilTexSI.texWhite, Position.X + partSize + partSpacing, Position.Y);
-					parts[1] = new Sprite3(true, UtilTexSI.texWhite, Position.X + (partSize + partSpacing) * 2, Position.Y);
-					parts[2] = new Sprite3(true, UtilTexSI.texWhite, Position.X, Position.Y + partSize + partSpacing);
-					parts[3] = new Sprite3(true, UtilTexSI.texWhite, Position.X + partSize + partSpacing, Position.Y + partSize + partSpacing);
+					PartsOffset = new Vector2((partSize + partSpacing) * 0.5f, partSize + partSpacing);
+					PartsOrigin = Position + PartsOffset;
+					parts[0] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
+					parts[1] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y);
+					parts[2] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y + partSize + partSpacing);
+					parts[3] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, Position.Y + partSize + partSpacing);
 					break;
 				case 6:
 					// Z block
-					parts[0] = new Sprite3(true, UtilTexSI.texWhite, Position.X, Position.Y);
-					parts[1] = new Sprite3(true, UtilTexSI.texWhite, Position.X + partSize + partSpacing, Position.Y);
-					parts[2] = new Sprite3(true, UtilTexSI.texWhite, Position.X + partSize + partSpacing, Position.Y + partSize + partSpacing);
-					parts[3] = new Sprite3(true, UtilTexSI.texWhite, Position.X + (partSize + partSpacing) * 2, Position.Y + partSize + partSpacing);
+					PartsOffset = new Vector2((partSize + partSpacing) * 0.5f, partSize + partSpacing);
+					PartsOrigin = Position + PartsOffset;
+					parts[0] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y);
+					parts[1] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
+					parts[2] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y + partSize + partSpacing);
+					parts[3] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y + partSize + partSpacing);
 					break;
 			}
 
@@ -129,7 +145,7 @@ namespace Combine
 			}
 
 			// Set the bounds for the piece
-			bounds = new Rectangle(Position.ToPoint(), new Point(100, 100));
+			bounds = new Rectangle(Position.ToPoint(), new Point(partSize * 4 + partSpacing * 3, partSize * 4 + partSpacing * 3));
 		}
 
 		public void SetTargetPosition(Vector2 targetPosition)
@@ -177,7 +193,9 @@ namespace Combine
 				part.drawInfo(sb, Color.AliceBlue, Color.Goldenrod);
 			}
 
+			// Debug drawing
 			LineBatch.drawLineRectangle(sb, bounds, Color.Goldenrod);
+			LineBatch.drawCross(sb, Position.X, Position.Y, 5, Color.GhostWhite, Color.GhostWhite);
 			base.Draw(sb);
 		}
 
