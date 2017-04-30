@@ -14,9 +14,12 @@ namespace Combine
 		Sprite3[,] grid;
 		Color[,] colorGrid;
 		Vector2 gridOffset = new Vector2(100, 100);
+		RC_RenderableList particleEffects;
+		Random rand;
 
 		public Grid(int size)
 		{
+			rand = new Random();
 			grid = new Sprite3[size, size];
 			colorGrid = new Color[size, size];
 			for (int i = 0; i < grid.GetLength(0); i++)
@@ -29,6 +32,7 @@ namespace Combine
 					colorGrid[i, j] = Color.Transparent;
 				}
 			}
+			particleEffects = new RC_RenderableList();
 		}
 
 		public static void LoadContent(ContentManager c)
@@ -47,10 +51,13 @@ namespace Combine
 					//grid[i, j].drawInfo(sb, Color.AliceBlue, Color.Goldenrod);
 				}
 			}
+
+			particleEffects.Draw(sb);
 		}
 
 		public void Update(GameTime gameTime, Piece piece)
 		{
+			particleEffects.Update(gameTime);
 			// Clear the display colours of all items that don't have an assigned color
 			for (int i = 0; i < grid.GetLength(0); i++)
 			{
@@ -98,7 +105,7 @@ namespace Combine
 				for (int j = 0; j < grid.GetLength(1) - 1; j++)
 				{
 					if (colorGrid[i, j] != Color.Transparent && // Transparent means no color
-					    colorGrid[i, j] == colorGrid[i + 1, j] &&
+						colorGrid[i, j] == colorGrid[i + 1, j] &&
 						colorGrid[i, j] == colorGrid[i, j + 1] &&
 						colorGrid[i, j] == colorGrid[i + 1, j + 1])
 					{
@@ -117,9 +124,17 @@ namespace Combine
 				// reset the colours
 				colorGrid[square[0], square[1]] = Color.Transparent;
 				grid[square[0], square[1]].colour = Color.DimGray;
+				// Create a particle system for the square
+				// create a new particle system for each of the squares
+				ParticleSystem p = new ParticleSystem(grid[square[0], square[1]].getPos() + grid[square[0], square[1]].getHSOffset(), 100, 90, rand.Next());
+				p.setMandatory1(UtilTexSI.texWhite, new Vector2(8, 8), new Vector2(1, 1), Color.White, Color.White);
+				p.setMandatory2(20, 20, 0, 0, 0);
+				p.setMandatory3(30, new Rectangle(0, 0, 800, 600));
+				p.setMandatory4(new Vector2(0, 0), new Vector2(1, 1), new Vector2(10,10));
+				p.activate();
+				particleEffects.addReuse(p);
 			}
 			Console.WriteLine("Found " + numMatches + " matches");
-			// TODO: Schedule animations
 			return numMatches;
 		}
 
