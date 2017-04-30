@@ -22,7 +22,7 @@ namespace Combine
 
 		static Texture2D squarePartTexture;
 
-		Sprite3[] parts;
+		public Sprite3[] parts { get; set;}
 
 		Random rand;
 

@@ -161,6 +161,8 @@ namespace Combine
 				if (piece != null)
 					piece.Update(gameTime);
 			}
+
+			grid.Update(gameTime, savedControl);
 			base.Update(gameTime);
 		}
 
