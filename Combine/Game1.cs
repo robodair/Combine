@@ -45,9 +45,9 @@ namespace Combine
 
 			StateManager.AddLevel(SPLASH_SCREEN, new SplashScreen(StateManager));
 			StateManager.AddLevel(HOME_SCREEN, new HomeScreen(StateManager));
-			StateManager.AddLevel(SQUARES_LEVEL, new PlayLevel(StateManager));
-			StateManager.AddLevel(TRIANGLES_LEVEL, new PlayLevel(StateManager));
-			StateManager.AddLevel(PENTAGONS_LEVEL, new PlayLevel(StateManager));
+			StateManager.AddLevel(SQUARES_LEVEL, new PlayLevel(StateManager, "square"));
+			StateManager.AddLevel(TRIANGLES_LEVEL, new PlayLevel(StateManager, "triangle"));
+			StateManager.AddLevel(PENTAGONS_LEVEL, new PlayLevel(StateManager, "pentagon"));
 
 			this.IsMouseVisible = true;
 			base.Initialize();

@@ -34,10 +34,12 @@ namespace Combine
 
 		Grid grid;
 		public int MATCH_SCORE = 30;
+		public String Type { get; private set; }
 
-		public PlayLevel(RC_GameStateManager lm) :
+		public PlayLevel(RC_GameStateManager lm, string type) :
 			base(lm)
 		{
+			Type = type;
 		}
 
 		public override void LoadContent()
@@ -59,6 +61,7 @@ namespace Combine
 			if (pieces != null)
 				foreach (Piece piece in pieces){GUI.RemoveControl(piece);}
 			pieces = new Piece[3];
+			// TODO: use Type to decide which grid we should implement
 			grid = new Grid(6);
 			MediaPlayer.Play(song);
 			MediaPlayer.IsRepeating = true;
@@ -164,7 +167,7 @@ namespace Combine
 			if (pieces[0] == null)
 			{
 				// Spawn a new piece and make it slide in TODO: Use the level number ot work out what type
-				pieces[0] = new Piece(piecesX, "square");
+				pieces[0] = new Piece(piecesX, Type);
 				pieces[0].SetTargetPosition(PiecePositions[0]);
 				pieces[0].attachLeftMouseDownCallback(pieces[0].Rotate);
 				GUI.AddControl(pieces[0]);
