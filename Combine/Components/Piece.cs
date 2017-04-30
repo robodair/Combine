@@ -16,6 +16,9 @@ namespace Combine
 		const int partSize = 30;
 		const int partSpacing = 5;
 		public Color color;
+		int rotationStep;
+
+		static Texture2D squarePartTexture;
 
 		Sprite3[] parts;
 
@@ -34,6 +37,7 @@ namespace Combine
 			switch (type)
 			{
 				case "square":
+					rotationStep = 90;
 					parts = new Sprite3[4];
 					createTetrominoParts(rand.Next(0, 7)); // New square piece (Tetromino)
 					break;
@@ -49,71 +53,65 @@ namespace Combine
 		private void createTetrominoParts(int layout)
 		{
 			Vector2 PartsOrigin;
+			// default part offset
+			PartsOffset = new Vector2(partSize + partSpacing * 0.5f, partSize* 1.5f + partSpacing);
+			PartsOrigin = Position + PartsOffset;
+
 			// set the part hotspot offsets
 			switch (layout)
 			{
 				case 0:
 					// I block
-					PartsOffset = new Vector2(0, (partSize + partSpacing) * 1.5f);
+					PartsOffset = new Vector2(partSize * 0.5f, (partSize + partSpacing) * 2f);
 					PartsOrigin = Position + PartsOffset;
-					parts[0] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y);
-					parts[1] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
-					parts[2] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y);
-					parts[3] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 3, PartsOrigin.Y);
+					parts[0] = new Sprite3(true, squarePartTexture, PartsOrigin.X, PartsOrigin.Y);
+					parts[1] = new Sprite3(true, squarePartTexture, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
+					parts[2] = new Sprite3(true, squarePartTexture, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y);
+					parts[3] = new Sprite3(true, squarePartTexture, PartsOrigin.X + (partSize + partSpacing) * 3, PartsOrigin.Y);
 					break;
 				case 1:
 					// O block
-					PartsOffset = new Vector2(partSize + partSpacing, partSize + partSpacing);
+					PartsOffset = new Vector2(partSize * 1.5f + partSpacing, partSize * 1.5f + partSpacing);
 					PartsOrigin = Position + PartsOffset;
-					parts[0] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y);
-					parts[1] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
-					parts[2] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y + partSize + partSpacing);
-					parts[3] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y + partSize + partSpacing);
+					parts[0] = new Sprite3(true, squarePartTexture, PartsOrigin.X, PartsOrigin.Y);
+					parts[1] = new Sprite3(true, squarePartTexture, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
+					parts[2] = new Sprite3(true, squarePartTexture, PartsOrigin.X, PartsOrigin.Y + partSize + partSpacing);
+					parts[3] = new Sprite3(true, squarePartTexture, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y + partSize + partSpacing);
 					break;
 				case 2:
 					// T Block
-					PartsOffset = new Vector2((partSize + partSpacing) * 0.5f, partSize + partSpacing);
-					PartsOrigin = Position + PartsOffset;
-					parts[0] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y);
-					parts[1] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
-					parts[2] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y);
-					parts[3] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y + partSize + partSpacing);
+					parts[0] = new Sprite3(true, squarePartTexture, PartsOrigin.X, PartsOrigin.Y);
+					parts[1] = new Sprite3(true, squarePartTexture, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
+					parts[2] = new Sprite3(true, squarePartTexture, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y);
+					parts[3] = new Sprite3(true, squarePartTexture, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y + partSize + partSpacing);
 					break;
 				case 3:
 					// J block
-					PartsOffset = new Vector2((partSize + partSpacing) * 0.5f, partSize + partSpacing);
-					PartsOrigin = Position + PartsOffset;
-					parts[0] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y);
-					parts[1] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
-					parts[2] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y);
-					parts[3] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y + partSize + partSpacing);
+					parts[0] = new Sprite3(true, squarePartTexture, PartsOrigin.X, PartsOrigin.Y);
+					parts[1] = new Sprite3(true, squarePartTexture, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
+					parts[2] = new Sprite3(true, squarePartTexture, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y);
+					parts[3] = new Sprite3(true, squarePartTexture, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y + partSize + partSpacing);
 					break;
 				case 4:
 					// L block
-					PartsOffset = new Vector2((partSize + partSpacing) * 0.5f, partSize + partSpacing);
-					PartsOrigin = Position + PartsOffset;
-					parts[0] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y);
-					parts[1] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
-					parts[2] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y);
-					parts[3] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y + partSize + partSpacing);
+					parts[0] = new Sprite3(true, squarePartTexture, PartsOrigin.X, PartsOrigin.Y);
+					parts[1] = new Sprite3(true, squarePartTexture, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
+					parts[2] = new Sprite3(true, squarePartTexture, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y);
+					parts[3] = new Sprite3(true, squarePartTexture, PartsOrigin.X, PartsOrigin.Y + partSize + partSpacing);
 					break;
 				case 5:
 					// S block
-					PartsOffset = new Vector2((partSize + partSpacing) * 0.5f, partSize + partSpacing);
-					PartsOrigin = Position + PartsOffset;
-					parts[0] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
-					parts[1] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y);
-					parts[2] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y + partSize + partSpacing);
-					parts[3] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, Position.Y + partSize + partSpacing);
+					parts[0] = new Sprite3(true, squarePartTexture, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
+					parts[1] = new Sprite3(true, squarePartTexture, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y);
+					parts[2] = new Sprite3(true, squarePartTexture, PartsOrigin.X, PartsOrigin.Y + partSize + partSpacing);
+					parts[3] = new Sprite3(true, squarePartTexture, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y + partSize + partSpacing);
 					break;
 				case 6:
 					// Z block
-					PartsOffset = new Vector2((partSize + partSpacing) * 0.5f, partSize + partSpacing);
-					PartsOrigin = Position + PartsOffset;
-					parts[0] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X, PartsOrigin.Y);
-					parts[1] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
-					parts[2] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y + partSize + partSpacing);
-					parts[3] = new Sprite3(true, UtilTexSI.texWhite, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y + partSize + partSpacing);
+					parts[0] = new Sprite3(true, squarePartTexture, PartsOrigin.X, PartsOrigin.Y);
+					parts[1] = new Sprite3(true, squarePartTexture, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y);
+					parts[2] = new Sprite3(true, squarePartTexture, PartsOrigin.X + partSize + partSpacing, PartsOrigin.Y + partSize + partSpacing);
+					parts[3] = new Sprite3(true, squarePartTexture, PartsOrigin.X + (partSize + partSpacing) * 2, PartsOrigin.Y + partSize + partSpacing);
 					break;
 			}
 
@@ -139,6 +137,7 @@ namespace Combine
 
 			foreach (Sprite3 part in parts)
 			{
+				part.setBBandHSFractionOfTexCentered(1);
 				part.setWidthHeight(partSize, partSize);
 				part.setColor(color);
 
@@ -201,9 +200,17 @@ namespace Combine
 
 		public void Rotate()
 		{
-			// execute a rotation (rotate all the parts areound the center of the bounds)
+			// execute a rotation (rotate all the parts around the center of the bounds)
 			Console.WriteLine("Rotate!!");
+			foreach (Sprite3 part in parts)
+			{
+				part.setPos(Util.rotatePointDeg(part.getPos(), bounds.Center.ToVector2(), rotationStep));
+			}
+		}
 
+		public static void LoadContent(ContentManager c)
+		{
+			squarePartTexture = c.Load<Texture2D>("textures/pieces/square");
 		}
 	}
 }
