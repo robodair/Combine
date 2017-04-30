@@ -21,9 +21,9 @@ namespace Combine
 									new Vector2(rightSideItemsX, rightSideStep * 9),
 									new Vector2(rightSideItemsX, rightSideStep * 12)};
 		Piece[] pieces;
-		Vector2[] PiecePositions = {new Vector2(piecesX, graphicsManager.PreferredBackBufferHeight / 4),
-									new Vector2(piecesX, (graphicsManager.PreferredBackBufferHeight / 4) * 2),
-									new Vector2(piecesX, (graphicsManager.PreferredBackBufferHeight / 4) * 3)};
+		Vector2[] PiecePositions = {new Vector2(piecesX, 25),
+									new Vector2(piecesX, 175),
+									new Vector2(piecesX, 325)};
 		int move;
 		int score;
 		Song song;
