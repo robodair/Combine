@@ -14,6 +14,7 @@ namespace Combine
 		int moveSpeed = 5;
 		const int partSize = 30;
 		const int partSpacing = 5;
+		public Color color;
 
 		Sprite3[] parts;
 
@@ -101,10 +102,29 @@ namespace Combine
 			}
 
 			// Color the parts
+			switch (rand.Next(0, 5)) // 5 different colours for square pieces
+			{
+				case 0:
+					color = Color.Chartreuse; // Green
+					break;
+				case 1:
+					color = Color.Yellow;
+					break;
+				case 2:
+					color = Color.DodgerBlue;
+					break;
+				case 3:
+					color = Color.Crimson; // Red
+					break;
+				case 4:
+					color = Color.DarkOrchid; // Purple
+					break;
+			}
+
 			foreach (Sprite3 part in parts)
 			{
 				part.setWidthHeight(partSize, partSize);
-				part.setColor(Color.Yellow);
+				part.setColor(color);
 
 			}
 
@@ -146,6 +166,7 @@ namespace Combine
 			{
 				inPosition = true;
 			}
+			base.Update(gameTime);
 		}
 
 		public override void Draw(SpriteBatch sb)
