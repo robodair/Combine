@@ -108,6 +108,10 @@ namespace Combine
 						move++;
 						score += grid.checkForFullSquares() * MATCH_SCORE;
 						savedControl = null;
+						//if (grid.noMorePossibleMoves(pieces))
+						//{
+						//	// TODO: show end of game screen & save score
+						//}
 					}
 				}
 				dragging = false; // cancel dragging
