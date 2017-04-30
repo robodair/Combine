@@ -36,7 +36,7 @@ namespace Combine
 			// Move to the target position if not already there
 			if (!Position.Equals(TargetPosition))
 			{
-				Position = Position + Vector2.Normalize(TargetPosition - Position) * moveSpeed;
+				Vector2 movement = Vector2.Normalize(TargetPosition - Position) * moveSpeed;
 				if (Math.Abs(Position.X - TargetPosition.X) < 1)
 				{
 					Position.X = TargetPosition.X;
@@ -48,8 +48,11 @@ namespace Combine
 
 				foreach (Sprite3 part in parts)
 				{
-					part.setPos(Position);
+					part.moveByDeltaX(movement.X);
+					part.moveByDeltaY(movement.Y);
 				}
+
+				Position += movement;
 			}
 			else
 			{
