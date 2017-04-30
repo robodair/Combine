@@ -285,6 +285,16 @@ namespace RC_Framework
 		}
 
 		/// <summary>
+		/// add a sub control making me its parent
+		/// </summary>
+		/// <param name="c"></param>
+		public void RemoveControl(GUI_Control c)
+		{
+			if (controls == null) { controls = new List<GUI_Control>(); }
+			controls.Remove(c);
+		}
+
+		/// <summary>
 		/// get a control if you know its index
 		/// </summary>
 		/// <param name="cnum"></param>
