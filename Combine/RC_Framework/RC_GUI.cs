@@ -168,8 +168,20 @@ namespace RC_Framework
 		/// <returns></returns>
 		public override bool MouseDownEventLeft(float mouse_x, float mouse_y)
 		{
-			if (controls == null) return false;
-			if (controls.Count <= 0) return false;
+			if (controls == null || controls.Count <= 0)
+			{
+				// Check if the mouse is inside th bounds of the (invisible) GUIControl
+				if (inside(mouse_x, mouse_y))
+				{
+					if (LeftMouseDownCallback != null)
+					{
+
+						LeftMouseDownCallback();
+					}
+					return true;
+				}
+				return false;
+			}
 
 			for (int i = 0; i < controls.Count; i++)
 			{
