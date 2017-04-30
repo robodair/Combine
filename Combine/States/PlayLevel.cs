@@ -28,6 +28,10 @@ namespace Combine
 		int score;
 		Song song;
 
+		Boolean dragging = false;
+		MouseState beginDragging;
+		Piece savedControl;
+
 		public PlayLevel(RC_GameStateManager lm) :
 			base(lm)
 		{
@@ -54,12 +58,14 @@ namespace Combine
 			pieces = new Piece[3];
 			MediaPlayer.Play(song);
 			MediaPlayer.IsRepeating = true;
+			dragging = false;
 			Console.WriteLine("Enter Play");
 			base.EnterLevel(fromLevelNum);
 		}
 
 		public override void ResumeLevel()
 		{
+			dragging = false;
 			MediaPlayer.Resume();
 			Console.WriteLine("Resume Play");
 		}
@@ -79,9 +85,47 @@ namespace Combine
 		public override void Update(GameTime gameTime)
 		{
 			GUI.Update(gameTime);
+			// Click UP Event
+			if (previousMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
+			{
+				if (!dragging) // Don't send a click even if we were dragging
+				{
+					GUI.MouseDownEventLeft(currentMouseState.X, currentMouseState.Y);
+				}
+				if (savedControl != null)
+				{
+					savedControl.dragging = false;
+				}
+				dragging = false; // cancel dragging
+			}
+
+			// Save state in case there's a drag
 			if (previousMouseState.LeftButton == ButtonState.Released && currentMouseState.LeftButton == ButtonState.Pressed)
 			{
-				GUI.MouseDownEventLeft(currentMouseState.X, currentMouseState.Y);
+				beginDragging = currentMouseState; // save the place where the mouse was when we began dragging
+				GUI_Control control = GUI.getControlUnder(currentMouseState.X, currentMouseState.Y);
+				if (control != null && control.GetType() == typeof(Piece)) // save the GUI item we're over
+				{
+					savedControl = (Piece)control;
+				}
+				else
+				{
+					savedControl = null;
+				}
+			}
+
+			// Actually move the dragged piece with the mouse
+			if (previousMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Pressed)
+			{
+				// if we've moved more than a few pixels we are dragging, send a drag event to the gui item
+				if (Math.Abs(beginDragging.X - currentMouseState.X) > 5 || Math.Abs(beginDragging.Y - currentMouseState.Y) > 5){
+					if (savedControl != null)
+					{
+						dragging = true;
+						savedControl.beginDrag(currentMouseState.X, currentMouseState.Y); // the piece ignores subsequent calls to this
+						savedControl.setDragPos(currentMouseState.X, currentMouseState.Y);
+					}
+				}
 			}
 
 			// if the piece slots are vacant, move pieces and create new ones to fill the blank slot
