@@ -11,7 +11,7 @@ namespace Combine
 	{
 		const int rightSideItemsX = 720;
 		const int rightSideStep = 25;
-		const int piecesX = 620;
+		const int piecesX = 550;
 
 		GUI_Control GUI;
 		Vector2[] RightSideItems = {new Vector2(rightSideItemsX, rightSideStep),
