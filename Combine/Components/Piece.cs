@@ -13,8 +13,8 @@ namespace Combine
 		Vector2 PartsOffset; // Offset of the parts from the piece position
 		public bool inPosition { get; set; }
 		int moveSpeed = 5;
-		const int partSize = 30;
-		const int partSpacing = 5;
+		public const int partSize = 30;
+		public const int partSpacing = 5;
 		public Color color;
 		int rotationStep;
 		public bool dragging { get; set; }

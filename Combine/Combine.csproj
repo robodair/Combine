@@ -68,6 +68,7 @@
     <Compile Include="States\SplashScreen.cs" />
     <Compile Include="States\PlayLevel.cs" />
     <Compile Include="Components\Piece.cs" />
+    <Compile Include="Components\Grid.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />

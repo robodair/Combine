@@ -32,6 +32,8 @@ namespace Combine
 		MouseState beginDragging;
 		Piece savedControl;
 
+		Grid grid;
+
 		public PlayLevel(RC_GameStateManager lm) :
 			base(lm)
 		{
@@ -46,6 +48,7 @@ namespace Combine
 			GUI.AddControl(new ButtonSI(homeButton, Color.Goldenrod, RightSideItems[4]).attachLeftMouseDownCallback(homeButtonClicked));
 			GUI.AddControl(new ButtonSI(pauseButton, Color.Goldenrod, RightSideItems[5]).attachLeftMouseDownCallback(pauseButtonClicked));
 			pieces = new Piece[3];
+			grid = new Grid(8);
 			base.LoadContent();
 		}
 
@@ -56,6 +59,7 @@ namespace Combine
 			// Remove current pieces in queue
 			foreach (Piece piece in pieces){GUI.RemoveControl(piece);}
 			pieces = new Piece[3];
+			grid = new Grid(8);
 			MediaPlayer.Play(song);
 			MediaPlayer.IsRepeating = true;
 			dragging = false;
@@ -163,6 +167,8 @@ namespace Combine
 		public override void Draw(GameTime gameTime)
 		{
 			graphicsDevice.Clear(Color.DarkSlateBlue);
+
+			grid.Draw(spriteBatch);
 
 			spriteBatch.DrawString(font, "MOVE", RightSideItems[0], Color.Gray, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 			spriteBatch.DrawString(font, move.ToString(), RightSideItems[1], Color.White, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);

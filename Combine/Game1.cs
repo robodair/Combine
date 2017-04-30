@@ -63,6 +63,8 @@ namespace Combine
 			SpriteFont font = Content.Load<SpriteFont>("font/Arcon");
 			RC_GameStateParent.font = font;
 			Piece.LoadContent(Content);
+			Grid.LoadContent(Content);
+
 
 			for (int i = 0; i < StateManager.numLevels; i++)
 			{
