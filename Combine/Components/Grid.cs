@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using RC_Framework;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace Combine
 {
@@ -60,26 +61,67 @@ namespace Combine
 					{
 						grid[i, j].setColor(Color.DimGray);
 					}
+					else
+					{
+						grid[i, j].setColor(colorGrid[i, j]);
+					}
 				}
 			}
 
 			// Highlight the squares under the given piece (if they don't have a color)
 			if (piece != null)
 			{
-				foreach (Sprite3 item in grid)
+				for (int i = 0; i < grid.GetLength(0); i++)
 				{
-					// if the HS of any of the piece components is inside this sprite, it highlights
-					foreach (Sprite3 part in piece.parts)
+					for (int j = 0; j < grid.GetLength(1); j++)
 					{
-						if (item.Contains((int)part.getPosX(), (int)part.getPosY()))
+						// if the HS of any of the piece components is inside this sprite, it highlights
+						foreach (Sprite3 part in piece.parts)
 						{
-							item.colour = Util.lighterOrDarker(part.colour, 0.8f);
+							if (grid[i, j].Contains((int)part.getPosX(), (int)part.getPosY()) && colorGrid[i, j] == Color.Transparent)
+							{
+								grid[i, j].colour = Util.lighterOrDarker(part.colour, 0.8f);
+							}
 						}
 					}
 				}
 			}
 
-			// Detect combinations that mean there has been a win, make a list of them, display animations and remove the pieces
+			// TODO: Detect combinations that mean there has been a win, make a list of them, display animations and remove the pieces
+		}
+
+		public bool CaptureDroppedObject(Piece savedControl)
+		{
+			// Collect a list of squares that match
+			List<int[]> matchedSquares = new List<int[]>();
+			if (savedControl != null)
+			{
+				for (int i = 0; i < grid.GetLength(0); i++)
+				{
+					for (int j = 0; j < grid.GetLength(1); j++)
+					{
+						// if the HS of any of the piece components is inside this sprite, it highlights
+						foreach (Sprite3 part in savedControl.parts)
+						{
+							if (grid[i, j].Contains((int)part.getPosX(), (int)part.getPosY()) && colorGrid[i, j] == Color.Transparent)
+							{
+								matchedSquares.Add(new int[] { i, j });
+							}
+						}
+					}
+				}
+			}
+			// If all parts have a square, apply the colors and return true
+			if (matchedSquares.Count == savedControl.parts.Length)
+			{
+				foreach (int[] position in matchedSquares)
+				{
+					grid[position[0], position[1]].colour = savedControl.partColor;
+					colorGrid[position[0], position[1]] = savedControl.partColor;
+				}
+				return true;
+			}
+			return false;
 		}
 	}
 }

@@ -12,17 +12,17 @@ namespace Combine
 		Vector2 TargetPosition;
 		Vector2 PartsOffset; // Offset of the parts from the piece position
 		public bool inPosition { get; set; }
+		public Color partColor { get; private set; }
 		int moveSpeed = 5;
 		public const int partSize = 30;
 		public const int partSpacing = 5;
-		public Color color;
 		int rotationStep;
 		public bool dragging { get; set; }
 		Vector2 dragOffset;
 
 		static Texture2D squarePartTexture;
 
-		public Sprite3[] parts { get; set;}
+		public Sprite3[] parts { get; set; }
 
 		Random rand;
 
@@ -121,19 +121,19 @@ namespace Combine
 			switch (rand.Next(0, 5)) // 5 different colours for square pieces
 			{
 				case 0:
-					color = Color.Chartreuse; // Green
+					partColor = Color.Chartreuse; // Green
 					break;
 				case 1:
-					color = Color.Yellow;
+					partColor = Color.Yellow;
 					break;
 				case 2:
-					color = Color.DodgerBlue;
+					partColor = Color.DodgerBlue;
 					break;
 				case 3:
-					color = Color.Crimson; // Red
+					partColor = Color.Crimson; // Red
 					break;
 				case 4:
-					color = Color.DarkOrchid; // Purple
+					partColor = Color.DarkOrchid; // Purple
 					break;
 			}
 
@@ -141,7 +141,7 @@ namespace Combine
 			{
 				part.setBBandHSFractionOfTexCentered(1);
 				part.setWidthHeight(partSize, partSize);
-				part.setColor(color);
+				part.setColor(partColor);
 
 			}
 

@@ -96,9 +96,15 @@ namespace Combine
 				{
 					GUI.MouseDownEventLeft(currentMouseState.X, currentMouseState.Y);
 				}
-				if (savedControl != null)
+				if (dragging && savedControl != null)
 				{
 					savedControl.dragging = false;
+					if (grid.CaptureDroppedObject(savedControl))
+					{
+						// remove the object from the piece array
+						pieces[Array.IndexOf(pieces, savedControl)] = null;
+						GUI.RemoveControl(savedControl);
+					}
 				}
 				dragging = false; // cancel dragging
 			}
