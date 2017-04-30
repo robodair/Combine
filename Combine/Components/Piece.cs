@@ -17,6 +17,8 @@ namespace Combine
 		const int partSpacing = 5;
 		public Color color;
 		int rotationStep;
+		public bool dragging { get; set; }
+		Vector2 dragOffset;
 
 		static Texture2D squarePartTexture;
 
@@ -54,7 +56,7 @@ namespace Combine
 		{
 			Vector2 PartsOrigin;
 			// default part offset
-			PartsOffset = new Vector2(partSize + partSpacing * 0.5f, partSize* 1.5f + partSpacing);
+			PartsOffset = new Vector2(partSize + partSpacing * 0.5f, partSize * 1.5f + partSpacing);
 			PartsOrigin = Position + PartsOffset;
 
 			// set the part hotspot offsets
@@ -161,21 +163,14 @@ namespace Combine
 				Vector2 movement = Vector2.Normalize(TargetPosition - Position) * moveSpeed;
 				if (Math.Abs(Position.X - TargetPosition.X) < moveSpeed)
 				{
-					Position.X = TargetPosition.X;
+					movement.X = TargetPosition.X - Position.X;
 				}
 				if (Math.Abs(Position.Y - TargetPosition.Y) < moveSpeed)
 				{
-					Position.Y = TargetPosition.Y;
+					movement.Y = TargetPosition.Y - Position.Y;
 				}
 
-				foreach (Sprite3 part in parts)
-				{
-					part.moveByDeltaX(movement.X);
-					part.moveByDeltaY(movement.Y);
-				}
-
-				Position += movement;
-				setPos(Position.X, Position.Y);
+				moveBy(movement);
 			}
 			else
 			{
@@ -184,17 +179,50 @@ namespace Combine
 			base.Update(gameTime);
 		}
 
+		public void beginDrag(float x, float y)
+		{
+			if (!dragging)
+			{
+				dragging = true;
+				dragOffset = new Vector2(x, y) - Position;
+			}
+		}
+
+		public void setDragPos(float x, float y)
+		{
+			Vector2 movement = new Vector2(x, y) - Position - dragOffset;
+			moveBy(movement);
+		}
+
+		public override void setPos(float x, float y)
+		{
+			Vector2 movement = new Vector2(x, y) - Position;
+			moveBy(movement);
+		}
+
+		public void moveBy(Vector2 movement)
+		{
+			foreach (Sprite3 part in parts)
+			{
+				part.moveByDeltaX(movement.X);
+				part.moveByDeltaY(movement.Y);
+			}
+
+			Position += movement;
+			base.setPos(Position.X, Position.Y);
+		}
+
 		public override void Draw(SpriteBatch sb)
 		{
 			foreach (Sprite3 part in parts)
 			{
 				part.Draw(sb);
-				part.drawInfo(sb, Color.AliceBlue, Color.Goldenrod);
+				//part.drawInfo(sb, Color.AliceBlue, Color.Goldenrod);
 			}
 
 			// Debug drawing
-			LineBatch.drawLineRectangle(sb, bounds, Color.Goldenrod);
-			LineBatch.drawCross(sb, Position.X, Position.Y, 5, Color.GhostWhite, Color.GhostWhite);
+			//LineBatch.drawLineRectangle(sb, bounds, Color.Goldenrod);
+			//LineBatch.drawCross(sb, Position.X, Position.Y, 5, Color.GhostWhite, Color.GhostWhite);
 			base.Draw(sb);
 		}
 
