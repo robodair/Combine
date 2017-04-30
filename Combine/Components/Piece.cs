@@ -160,11 +160,11 @@ namespace Combine
 			if (!Position.Equals(TargetPosition))
 			{
 				Vector2 movement = Vector2.Normalize(TargetPosition - Position) * moveSpeed;
-				if (Math.Abs(Position.X - TargetPosition.X) < 1)
+				if (Math.Abs(Position.X - TargetPosition.X) < moveSpeed)
 				{
 					Position.X = TargetPosition.X;
 				}
-				if (Math.Abs(Position.Y - TargetPosition.Y) < 1)
+				if (Math.Abs(Position.Y - TargetPosition.Y) < moveSpeed)
 				{
 					Position.Y = TargetPosition.Y;
 				}
