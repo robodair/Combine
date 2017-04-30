@@ -98,9 +98,11 @@ namespace Combine
 			}
 			if (pieces[0] == null)
 			{
-				// Spawn a new piece and make it slide in
-				pieces[0] = new Piece(piecesX);
+				// Spawn a new piece and make it slide in TODO: Use the level number ot work out what type
+				pieces[0] = new Piece(piecesX, "square");
 				pieces[0].SetTargetPosition(PiecePositions[0]);
+				pieces[0].attachLeftMouseDownCallback(pieces[0].Rotate);
+				GUI.AddControl(pieces[0]);
 				Console.WriteLine("Piece Created!!");
 			}
 			foreach (Piece piece in pieces)
