@@ -20,7 +20,7 @@ namespace Combine
 									new Vector2(rightSideItemsX, rightSideStep * 4),
 									new Vector2(rightSideItemsX, rightSideStep * 9),
 									new Vector2(rightSideItemsX, rightSideStep * 12)};
-		Piece[] pieces;
+		SquarePiece[] pieces;
 		Vector2[] PiecePositions = {new Vector2(piecesX, 25),
 									new Vector2(piecesX, 175),
 									new Vector2(piecesX, 325)};
@@ -30,9 +30,9 @@ namespace Combine
 
 		Boolean dragging = false;
 		MouseState beginDragging;
-		Piece savedControl;
+		SquarePiece savedControl;
 
-		Grid grid;
+		SquareGrid grid;
 		public int MATCH_SCORE = 30;
 		public String Type { get; private set; }
 
@@ -59,10 +59,10 @@ namespace Combine
 			score = 0;
 			// Remove current pieces in queue
 			if (pieces != null)
-				foreach (Piece piece in pieces){GUI.RemoveControl(piece);}
-			pieces = new Piece[3];
+				foreach (SquarePiece piece in pieces) { GUI.RemoveControl(piece); }
+			pieces = new SquarePiece[3];
 			// TODO: use Type to decide which grid we should implement
-			grid = new Grid(6);
+			grid = new SquareGrid(6, 100, 100, 30, 5);
 			MediaPlayer.Play(song);
 			MediaPlayer.IsRepeating = true;
 			dragging = false;
@@ -91,8 +91,7 @@ namespace Combine
 
 		public override void Update(GameTime gameTime)
 		{
-			grid.Update(gameTime, savedControl);
-			GUI.Update(gameTime);
+			grid.UpdateAsLevelGrid(gameTime, savedControl);
 			// Click UP Event
 			if (previousMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
 			{
@@ -102,14 +101,14 @@ namespace Combine
 				}
 				if (dragging && savedControl != null)
 				{
-					savedControl.dragging = false;
-					if (grid.CaptureDroppedObject(savedControl))
+					savedControl.endDrag();
+					if (grid.CaptureDroppedPiece(savedControl))
 					{
 						// remove the object from the piece array
 						pieces[Array.IndexOf(pieces, savedControl)] = null;
 						GUI.RemoveControl(savedControl);
 						move++;
-						score += grid.checkForFullSquares() * MATCH_SCORE;
+						score += grid.RemoveCompletedShapes() * MATCH_SCORE;
 						savedControl = null;
 						//if (grid.noMorePossibleMoves(pieces))
 						//{
@@ -119,15 +118,16 @@ namespace Combine
 				}
 				dragging = false; // cancel dragging
 			}
+			GUI.Update(gameTime);
 
 			// Save state in case there's a drag
 			if (previousMouseState.LeftButton == ButtonState.Released && currentMouseState.LeftButton == ButtonState.Pressed)
 			{
 				beginDragging = currentMouseState; // save the place where the mouse was when we began dragging
 				GUI_Control control = GUI.getControlUnder(currentMouseState.X, currentMouseState.Y);
-				if (control != null && control.GetType() == typeof(Piece)) // save the GUI item we're over
+				if (control != null && control.GetType() == typeof(SquarePiece)) // save the GUI item we're over
 				{
-					savedControl = (Piece)control;
+					savedControl = (SquarePiece)control;
 				}
 				else
 				{
@@ -139,7 +139,8 @@ namespace Combine
 			if (previousMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Pressed)
 			{
 				// if we've moved more than a few pixels we are dragging, send a drag event to the gui item
-				if (Math.Abs(beginDragging.X - currentMouseState.X) > 5 || Math.Abs(beginDragging.Y - currentMouseState.Y) > 5){
+				if (Math.Abs(beginDragging.X - currentMouseState.X) > 5 || Math.Abs(beginDragging.Y - currentMouseState.Y) > 5)
+				{
 					if (savedControl != null)
 					{
 						dragging = true;
@@ -167,13 +168,13 @@ namespace Combine
 			if (pieces[0] == null)
 			{
 				// Spawn a new piece and make it slide in TODO: Use the level number ot work out what type
-				pieces[0] = new Piece(piecesX, Type);
+				pieces[0] = new SquarePiece(piecesX, 30, 5);
 				pieces[0].SetTargetPosition(PiecePositions[0]);
-				pieces[0].attachLeftMouseDownCallback(pieces[0].Rotate);
+				pieces[0].attachLeftMouseDownCallback(pieces[0].RotateRight);
 				GUI.AddControl(pieces[0]);
 				Console.WriteLine("Piece Created!!");
 			}
-			foreach (Piece piece in pieces)
+			foreach (SquarePiece piece in pieces)
 			{
 				if (piece != null)
 					piece.Update(gameTime);
@@ -185,7 +186,7 @@ namespace Combine
 		{
 			graphicsDevice.Clear(Color.DarkSlateBlue);
 
-			grid.Draw(spriteBatch);
+			grid.Draw(spriteBatch, true);
 
 			spriteBatch.DrawString(font, "MOVE", RightSideItems[0], Color.Gray, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 			spriteBatch.DrawString(font, move.ToString(), RightSideItems[1], Color.White, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);

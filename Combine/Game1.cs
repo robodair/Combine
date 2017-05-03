@@ -63,6 +63,7 @@ namespace Combine
 			SpriteFont font = Content.Load<SpriteFont>("font/Arcon");
 			RC_GameStateParent.font = font;
 			Piece.LoadContent(Content);
+			SquareGrid.LoadContent(Content);
 			Grid.LoadContent(Content);
 
 
