@@ -69,6 +69,10 @@
     <Compile Include="States\PlayLevel.cs" />
     <Compile Include="Components\Piece.cs" />
     <Compile Include="Components\Grid.cs" />
+    <Compile Include="Components\SquarePiece.cs" />
+    <Compile Include="Components\SquareGrid.cs" />
+    <Compile Include="Components\ShapeGrid.cs" />
+    <Compile Include="Components\ShapePiece.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />
