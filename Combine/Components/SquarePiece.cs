@@ -65,24 +65,52 @@ namespace Combine
 			{
 				case 0:
 					// I block
+					PieceGrid.getSprite(0, 0).setActive(true);
+					PieceGrid.getSprite(1, 0).setActive(true);
+					PieceGrid.getSprite(2, 0).setActive(true);
+					PieceGrid.getSprite(3, 0).setActive(true);
 					break;
 				case 1:
 					// O block
+					PieceGrid.getSprite(0, 0).setActive(true);
+					PieceGrid.getSprite(1, 0).setActive(true);
+					PieceGrid.getSprite(0, 1).setActive(true);
+					PieceGrid.getSprite(1, 1).setActive(true);
 					break;
 				case 2:
 					// T Block
+					PieceGrid.getSprite(0, 0).setActive(true);
+					PieceGrid.getSprite(1, 0).setActive(true);
+					PieceGrid.getSprite(2, 0).setActive(true);
+					PieceGrid.getSprite(1, 1).setActive(true);
 					break;
 				case 3:
 					// J block
+					PieceGrid.getSprite(1, 0).setActive(true);
+					PieceGrid.getSprite(1, 1).setActive(true);
+					PieceGrid.getSprite(1, 2).setActive(true);
+					PieceGrid.getSprite(0, 2).setActive(true);
 					break;
 				case 4:
 					// L block
+					PieceGrid.getSprite(0, 0).setActive(true);
+					PieceGrid.getSprite(1, 0).setActive(true);
+					PieceGrid.getSprite(2, 0).setActive(true);
+					PieceGrid.getSprite(2, 1).setActive(true);
 					break;
 				case 5:
 					// S block
+					PieceGrid.getSprite(1, 0).setActive(true);
+					PieceGrid.getSprite(2, 0).setActive(true);
+					PieceGrid.getSprite(0, 1).setActive(true);
+					PieceGrid.getSprite(1, 1).setActive(true);
 					break;
 				case 6:
 					// Z block
+					PieceGrid.getSprite(0, 0).setActive(true);
+					PieceGrid.getSprite(1, 0).setActive(true);
+					PieceGrid.getSprite(1, 1).setActive(true);
+					PieceGrid.getSprite(2, 1).setActive(true);
 					break;
 			}
 
