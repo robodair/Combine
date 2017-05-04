@@ -303,7 +303,6 @@ namespace Combine
 		/// <param name="y">The y coordinate.</param>
 		public Sprite3 getSprite(int x, int y)
 		{
-			Console.WriteLine("getting: " + x + ", " + y);
 			return Sprites[x, y];
 		}
 	}
