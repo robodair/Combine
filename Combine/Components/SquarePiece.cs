@@ -198,7 +198,6 @@ namespace Combine
 
 		public void RotateRight()
 		{
-			Console.WriteLine("RotatePiece");
 			PieceGrid.RotateRight();
 		}
 
