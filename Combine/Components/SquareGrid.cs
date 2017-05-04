@@ -105,6 +105,30 @@ namespace Combine
 				}
 			}
 
+			// For a square grid, we also want to shift the piece left and up to the top every rotation
+			int shiftX = Sprites.GetLength(0);
+			int shiftY = Sprites.GetLength(1);
+			forAllItems(delegate (int x, int y, Sprite3 s)
+			{
+				if (s.getActive())
+				{
+					if (x < shiftX) shiftX = x;
+					if (y < shiftY) shiftY = y;
+				}
+			});
+
+			// Shift the array
+			Sprite3[,] alignedSprites = new Sprite3[Size, Size];
+			forAllItems(delegate (int x, int y, Sprite3 s)
+			{
+				x -= shiftX;
+				y -= shiftY;
+				if (x < 0) x = Sprites.GetLength(0) + x;
+				if (y < 0) y = Sprites.GetLength(1) + y;
+				alignedSprites[x, y] = s;
+			});
+			Sprites = alignedSprites;
+
 			// Update sprite positions
 			// Transpose grid into the new array
 			forAllItems(delegate (int x, int y, Sprite3 s)
