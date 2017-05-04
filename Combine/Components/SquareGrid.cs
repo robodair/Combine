@@ -92,6 +92,7 @@ namespace Combine
 				// https://chortle.ccsu.edu/VectorLessons/vmch13/vmch13_14.html
 				newSprites[y, x] = s;
 			});
+			Sprites = newSprites;
 
 			// Reverse rows
 			// http://stackoverflow.com/questions/21023348/fast-algorithm-in-java-to-reverse-an-array
