@@ -58,7 +58,7 @@ namespace Combine
 					break;
 			}
 
-			PieceGrid = new SquareGrid(4, 0, 0, 30, 5, PartColor);
+			PieceGrid = new SquareGrid(4, 0, 0, 30, 5, false, PartColor);
 
 			// Setup active sprites for the grid
 			switch (Rand.Next(0, 7))

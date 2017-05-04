@@ -46,6 +46,17 @@ namespace Combine
 		/// <param name="action">Action.</param>
 		void forAllItems(Action<int, int, Sprite3> action);
 
+		/// <summary>
+		/// Sets the position.
+		/// </summary>
+		/// <param name="position">Position.</param>
 		void setPos(Vector2 position);
+
+		/// <summary>
+		/// Gets the sprite at (x, y).
+		/// </summary>
+		/// <param name="x">The x coordinate.</param>
+		/// <param name="y">The y coordinate.</param>
+		Sprite3 getSprite(int x, int y);
 	}
 }

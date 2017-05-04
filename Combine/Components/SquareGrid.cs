@@ -10,7 +10,7 @@ namespace Combine
 {
 	public class SquareGrid : ShapeGrid<SquarePiece>
 	{
-		Color DefaultColor = Color.DimGray;
+		Color DefaultColor;
 		Sprite3[,] Sprites;         // The array of sprites
 		int Size;                   // The size of the grid
 		Random Rand;                // Random used for decision making
@@ -28,8 +28,11 @@ namespace Combine
 		/// <param name="offset_y">Offset y.</param>
 		/// <param name="partSize">Part size.</param>
 		/// <param name="partSpacing">Part spacing.</param>
-		public SquareGrid(int size, int offset_x, int offset_y, int partSize, int partSpacing)
+		/// <param name="spriteActive">Whether sprites are visible or invisible when created or now</param>
+		/// <param name="defaultColor">Part spacing.</param>
+		public SquareGrid(int size, int offset_x, int offset_y, int partSize, int partSpacing, bool spriteActive = true, Color? defaultColor = null)
 		{
+			DefaultColor = defaultColor ?? Color.DimGray;
 			PartSize = partSize;
 			PartSpacing = partSpacing;
 			OffsetX = offset_x;
@@ -44,30 +47,8 @@ namespace Combine
 				Sprites[x, y] = new Sprite3(true, SquarePiece.Texture,
 											x * (partSize + partSpacing) + offset_x,
 											y * (partSize + partSpacing) + offset_y);
-				Sprites[x, y].colour = DefaultColor;
-				Sprites[x, y].setWidthHeight(partSize, partSize);
-				Sprites[x, y].setBBandHSFractionOfTexCentered(1);
-			});
-		}
-
-		public SquareGrid(int size, int offset_x, int offset_y, int partSize, int partSpacing, Color defaultColor)
-		{
-			DefaultColor = defaultColor;
-			PartSize = partSize;
-			PartSpacing = partSpacing;
-			OffsetX = offset_x;
-			OffsetY = offset_y;
-			Size = size;
-			Rand = new Random();
-			Sprites = new Sprite3[Size, Size];
-			particleEffects = new RC_RenderableList();
-			forAllItems(delegate (int x, int y, Sprite3 sprite)
-			{
-				// Initialise a sprite
-				Sprites[x, y] = new Sprite3(true, SquarePiece.Texture,
-											x * (partSize + partSpacing) + offset_x,
-											y * (partSize + partSpacing) + offset_y);
-				Sprites[x, y].colour = DefaultColor;
+				Sprites[x, y].setActive(spriteActive);
+				Sprites[x, y].setColor(DefaultColor);
 				Sprites[x, y].setWidthHeight(partSize, partSize);
 				Sprites[x, y].setBBandHSFractionOfTexCentered(1);
 			});
@@ -173,7 +154,9 @@ namespace Combine
 				{
 					piece.PieceGrid.forAllItems(delegate (int _x, int _y, Sprite3 part)
 					{
-						if (s.Contains((int)part.getPosX(), (int)part.getPosY()) && s.getColor() == DefaultColor)
+						if (part.getActive()
+							&& s.Contains((int)part.getPosX(), (int)part.getPosY())
+							&& !s.varBool0) // varBool0 means the space is already filled
 						{
 							s.setColor(Util.lighterOrDarker(part.colour, 0.8f));
 						}
@@ -286,6 +269,17 @@ namespace Combine
 				// new sprite positions (and rotations, if this wasn't a square grid!)
 				s.setPos(x * (PartSize + PartSpacing) + OffsetX, y * (PartSize + PartSpacing) + OffsetY);
 			});
+		}
+
+		/// <summary>
+		/// Gets the sprite at (x, y).
+		/// </summary>
+		/// <param name="x">The x coordinate.</param>
+		/// <param name="y">The y coordinate.</param>
+		public Sprite3 getSprite(int x, int y)
+		{
+			Console.WriteLine("getting: " + x + ", " + y);
+			return Sprites[x, y];
 		}
 	}
 }
