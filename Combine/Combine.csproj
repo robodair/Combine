@@ -73,6 +73,8 @@
     <Compile Include="Components\SquareGrid.cs" />
     <Compile Include="Components\ShapeGrid.cs" />
     <Compile Include="Components\ShapePiece.cs" />
+    <Compile Include="Components\TriangleGrid.cs" />
+    <Compile Include="Components\TrianglePiece.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />
