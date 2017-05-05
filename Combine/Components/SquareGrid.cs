@@ -73,7 +73,7 @@ namespace Combine
 			{
 				for (int y = 0; y < Sprites.GetLength(1); y++)
 				{
-					action(y, x, Sprites[y, x]);
+					action(x, y, Sprites[x, y]);
 				}
 			}
 		}
