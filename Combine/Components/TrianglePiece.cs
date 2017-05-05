@@ -31,11 +31,10 @@ namespace Combine
 			Rand = new Random();
 			inPosition = false;
 			Position = new Vector2(x, -50); // start above the game
-			createTetrominoPart(); // New square piece (Tetromino)
-			NumParts = 4;
+			createTrianglePart(); // New Triangle Piece
 		}
 
-		private void createTetrominoPart()
+		private void createTrianglePart()
 		{
 			switch (Rand.Next(0, 5)) // 5 different colours for square pieces
 			{
@@ -62,52 +61,45 @@ namespace Combine
 			switch (Rand.Next(0, 7))
 			{
 				case 0:
-					// I block
+					// 1 triangle Hex
+					PieceGrid.getSprite(0, 0).setActive(true);
+					break;
+				case 1:
+					// 2 triangle Hex
+					PieceGrid.getSprite(0, 0).setActive(true);
+					break;
+				case 2:
+					// 3 triangle Hex
+					PieceGrid.getSprite(0, 0).setActive(true);
+					PieceGrid.getSprite(1, 0).setActive(true);
+					PieceGrid.getSprite(2, 0).setActive(true);
+					break;
+				case 3:
+					// 4 triangle Hex
 					PieceGrid.getSprite(0, 0).setActive(true);
 					PieceGrid.getSprite(1, 0).setActive(true);
 					PieceGrid.getSprite(2, 0).setActive(true);
 					PieceGrid.getSprite(3, 0).setActive(true);
 					break;
-				case 1:
-					// O block
-					PieceGrid.getSprite(0, 0).setActive(true);
-					PieceGrid.getSprite(1, 0).setActive(true);
-					PieceGrid.getSprite(0, 1).setActive(true);
-					PieceGrid.getSprite(1, 1).setActive(true);
-					break;
-				case 2:
-					// T Block
-					PieceGrid.getSprite(0, 0).setActive(true);
-					PieceGrid.getSprite(1, 0).setActive(true);
-					PieceGrid.getSprite(2, 0).setActive(true);
-					PieceGrid.getSprite(1, 1).setActive(true);
-					break;
-				case 3:
-					// J block
-					PieceGrid.getSprite(1, 0).setActive(true);
-					PieceGrid.getSprite(1, 1).setActive(true);
-					PieceGrid.getSprite(1, 2).setActive(true);
-					PieceGrid.getSprite(0, 2).setActive(true);
-					break;
 				case 4:
-					// L block
+					// 5 triangle Hex
 					PieceGrid.getSprite(0, 0).setActive(true);
 					PieceGrid.getSprite(1, 0).setActive(true);
 					PieceGrid.getSprite(2, 0).setActive(true);
+					PieceGrid.getSprite(3, 1).setActive(true);
 					PieceGrid.getSprite(2, 1).setActive(true);
 					break;
 				case 5:
-					// S block
-					PieceGrid.getSprite(1, 0).setActive(true);
-					PieceGrid.getSprite(2, 0).setActive(true);
+					// 4 Triangle
+					PieceGrid.getSprite(0, 0).setActive(true);
 					PieceGrid.getSprite(0, 1).setActive(true);
 					PieceGrid.getSprite(1, 1).setActive(true);
+					PieceGrid.getSprite(2, 1).setActive(true);
 					break;
 				case 6:
-					// Z block
+					// 3 Triangle Radiation Symbol
 					PieceGrid.getSprite(0, 0).setActive(true);
-					PieceGrid.getSprite(1, 0).setActive(true);
-					PieceGrid.getSprite(1, 1).setActive(true);
+					PieceGrid.getSprite(2, 0).setActive(true);
 					PieceGrid.getSprite(2, 1).setActive(true);
 					break;
 			}
