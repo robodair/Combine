@@ -42,11 +42,10 @@ namespace Combine
 			particleEffects = new RC_RenderableList();
 			forAllItems(delegate (int x, int y, Sprite3 sprite)
 			{
-				int rowOffset = (Sprites.GetLength(1) - y) * (partSize / 2 + PartSpacing);
+				Vector2 spritePos = getPosForSprite(x, y);
+
 				// Initialise a sprite
-				Sprites[x, y] = new Sprite3(true, TrianglePiece.Texture,
-											x * ((partSize / 2) + PartSpacing) + offset_x + rowOffset,
-				                            y * (partSize + PartSpacing) + offset_y);
+				Sprites[x, y] = new Sprite3(true, TrianglePiece.Texture, spritePos.X, spritePos.Y);
 				Sprites[x, y].setActive(spriteActive);
 				Sprites[x, y].setColor(DefaultColor);
 				Sprites[x, y].setWidthHeight(partSize, partSize);
@@ -59,6 +58,13 @@ namespace Combine
 			});
 
 			Align(); // this will ensure all the triangles point the right way
+		}
+
+		Vector2 getPosForSprite(int x, int y)
+		{
+			int rowOffset = (Sprites.GetLength(1) - y) * (PartSize / 2 + PartSpacing);
+			return new Vector2(x * ((PartSize / 2) + PartSpacing) + OffsetX + rowOffset,
+							   y * (PartSize + PartSpacing) + OffsetY);
 		}
 
 		/// <summary>
@@ -80,7 +86,6 @@ namespace Combine
 			{
 				// In top half
 				int rightOffset = Size + y * 2;
-				Console.WriteLine("Row: " + y + " offset from right should be:" + rightOffset);
 				return x <= rightOffset;
 			}
 		}
@@ -179,7 +184,7 @@ namespace Combine
 			forAllItems(delegate (int x, int y, Sprite3 s)
 			{
 				// new sprite positions (and rotations, if this wasn't a square grid!)
-				s.setPos(x * (PartSize + PartSpacing) + OffsetX, y * (PartSize + PartSpacing) + OffsetY);
+				s.setPos(getPosForSprite(x, y));
 			});
 
 		}
@@ -205,7 +210,7 @@ namespace Combine
 				s.Draw(sb);
 				if (debug)
 				{
-					//s.drawInfo(sb, Color.AliceBlue, Color.Goldenrod);
+					s.drawInfo(sb, Color.AliceBlue, Color.Goldenrod);
 				}
 			});
 			particleEffects.Draw(sb);
@@ -345,7 +350,7 @@ namespace Combine
 			forAllItems(delegate (int x, int y, Sprite3 s)
 			{
 				// new sprite positions (and rotations, if this wasn't a square grid!)
-				s.setPos(x * (PartSize + PartSpacing) + OffsetX, y * (PartSize + PartSpacing) + OffsetY);
+				s.setPos(getPosForSprite(x, y));
 			});
 		}
 
