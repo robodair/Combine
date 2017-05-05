@@ -27,14 +27,13 @@ namespace Combine
 		/// <param name="offset_x">Offset x.</param>
 		/// <param name="offset_y">Offset y.</param>
 		/// <param name="partSize">Part size.</param>
-		/// <param name="partSpacing">Part spacing.</param>
 		/// <param name="spriteActive">Whether sprites are visible or invisible when created or now</param>
 		/// <param name="defaultColor">Part spacing.</param>
-		public SquareGrid(int size, int offset_x, int offset_y, int partSize, int partSpacing, bool spriteActive = true, Color? defaultColor = null)
+		public SquareGrid(int size, int offset_x, int offset_y, int partSize, bool spriteActive = true, Color? defaultColor = null)
 		{
 			DefaultColor = defaultColor ?? Color.DimGray;
 			PartSize = partSize;
-			PartSpacing = partSpacing;
+			PartSpacing = PartSize / 6;
 			OffsetX = offset_x;
 			OffsetY = offset_y;
 			Size = size;
@@ -45,8 +44,8 @@ namespace Combine
 			{
 				// Initialise a sprite
 				Sprites[x, y] = new Sprite3(true, SquarePiece.Texture,
-											x * (partSize + partSpacing) + offset_x,
-											y * (partSize + partSpacing) + offset_y);
+											x * (partSize + PartSpacing) + offset_x,
+											y * (partSize + PartSpacing) + offset_y);
 				Sprites[x, y].setActive(spriteActive);
 				Sprites[x, y].setColor(DefaultColor);
 				Sprites[x, y].setWidthHeight(partSize, partSize);

@@ -27,35 +27,62 @@ namespace Combine
 		/// <param name="offset_x">Offset x.</param>
 		/// <param name="offset_y">Offset y.</param>
 		/// <param name="partSize">Part size.</param>
-		/// <param name="partSpacing">Part spacing.</param>
 		/// <param name="spriteActive">Whether sprites are visible or invisible when created or now</param>
 		/// <param name="defaultColor">Part spacing.</param>
-		public TriangleGrid(int size, int offset_x, int offset_y, int partSize, int partSpacing, bool spriteActive = true, Color? defaultColor = null)
+		public TriangleGrid(int size, int offset_x, int offset_y, int partSize, bool spriteActive = true, Color? defaultColor = null)
 		{
 			DefaultColor = defaultColor ?? Color.DimGray;
 			PartSize = partSize;
-			PartSpacing = partSpacing;
+			PartSpacing = partSize / 7;
 			OffsetX = offset_x;
 			OffsetY = offset_y;
 			Size = size;
 			Rand = new Random();
-			Sprites = new Sprite3[Size, Size];
+			Sprites = new Sprite3[Size * 2, Size];
 			particleEffects = new RC_RenderableList();
 			forAllItems(delegate (int x, int y, Sprite3 sprite)
 			{
-				int rowOffset = (Sprites.GetLength(1) - y) * (partSize / 2 + partSpacing);
+				int rowOffset = (Sprites.GetLength(1) - y) * (partSize / 2 + PartSpacing);
 				// Initialise a sprite
 				Sprites[x, y] = new Sprite3(true, TrianglePiece.Texture,
-											x * ((partSize / 2) + partSpacing) + offset_x + rowOffset,
-											y * (partSize) + offset_y); // No part spacing here because that's actually included in the texture already
+											x * ((partSize / 2) + PartSpacing) + offset_x + rowOffset,
+				                            y * (partSize + PartSpacing) + offset_y);
 				Sprites[x, y].setActive(spriteActive);
 				Sprites[x, y].setColor(DefaultColor);
 				Sprites[x, y].setWidthHeight(partSize, partSize);
 				Sprites[x, y].setBBandHSFractionOfTexCentered(1);
+				if (!validTriangle(x, y))
+				{
+					Sprites[x, y].setActive(false);
+				}
 
 			});
 
 			Align(); // this will ensure all the triangles point the right way
+		}
+
+		/// <summary>
+		/// Checks if a triangle is valid for the hexagon grid
+		/// </summary>
+		/// <returns><c>true</c>, if triangle was valided, <c>false</c> otherwise.</returns>
+		/// <param name="x">The x coordinate.</param>
+		/// <param name="y">The y coordinate.</param>
+		private bool validTriangle(int x, int y)
+		{
+			if (y >= Size / 2)
+			{
+				// In bottom half
+				int fromMiddle = y - Size / 2;
+				int leftOffset = fromMiddle * 2 + 1;
+				return x >= leftOffset;
+			}
+			else
+			{
+				// In top half
+				int rightOffset = Size + y * 2;
+				Console.WriteLine("Row: " + y + " offset from right should be:" + rightOffset);
+				return x <= rightOffset;
+			}
 		}
 
 		private void Align()
@@ -90,7 +117,7 @@ namespace Combine
 			{
 				for (int y = 0; y < Sprites.GetLength(1); y++)
 				{
-					action(y, x, Sprites[y, x]);
+					action(x, y, Sprites[x, y]);
 				}
 			}
 		}
@@ -100,7 +127,7 @@ namespace Combine
 		/// </summary>
 		public void RotateRight()
 		{ //TODO adapt for triangle
-			Sprite3[,] newSprites = new Sprite3[Size, Size];
+			Sprite3[,] newSprites = new Sprite3[Size * 2, Size];
 
 			// Transpose grid into the new array
 			forAllItems(delegate (int x, int y, Sprite3 s)
@@ -136,7 +163,7 @@ namespace Combine
 			});
 
 			// Shift the array
-			Sprite3[,] alignedSprites = new Sprite3[Size, Size];
+			Sprite3[,] alignedSprites = new Sprite3[Size * 2, Size];
 			forAllItems(delegate (int x, int y, Sprite3 s)
 			{
 				x -= shiftX;
@@ -169,7 +196,7 @@ namespace Combine
 				s.Draw(sb);
 				if (debug)
 				{
-					s.drawInfo(sb, Color.AliceBlue, Color.Goldenrod);
+					//s.drawInfo(sb, Color.AliceBlue, Color.Goldenrod);
 				}
 			});
 			particleEffects.Draw(sb);
