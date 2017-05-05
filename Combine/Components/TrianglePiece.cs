@@ -56,7 +56,7 @@ namespace Combine
 					break;
 			}
 
-			PieceGrid = new TriangleGrid(4, 0, 0, 30, false, PartColor);
+			PieceGrid = new TriangleGrid(2, 0, 0, 30, false, PartColor);
 
 			// Setup active sprites for the grid
 			switch (Rand.Next(0, 7))
