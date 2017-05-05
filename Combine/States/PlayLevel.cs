@@ -65,7 +65,7 @@ namespace Combine
 				foreach (ShapePiece piece in pieces) { GUI.RemoveControl((GUI_Control)piece); }
 			pieces = (new ShapePiece[3]);
 			// TODO: use Type to decide which grid we should implement
-			grid = (ShapeGrid<PieceType>)Activator.CreateInstance(typeof(GridType), new object[] { GridSize, 100, 100, 30, 5, true, null });
+			grid = (ShapeGrid<PieceType>)Activator.CreateInstance(typeof(GridType), new object[] { GridSize, 100, 100, 30, true, null });
 			MediaPlayer.Play(song);
 			MediaPlayer.IsRepeating = true;
 			dragging = false;
