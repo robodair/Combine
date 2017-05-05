@@ -9,7 +9,6 @@ namespace Combine
 	{
 		int counter = 0;
 		Vector2 titlePos;
-		float titleScale = 2;
 		Vector2 subtitlePos;
 		Vector2 creatorPos;
 
@@ -39,7 +38,7 @@ namespace Combine
 		{
 			base.Update(gameTime);
 			counter++;
-			if (counter == 240)
+			if (counter == 30)
 			{
 				gameStateManager.popLevel();
 			}
