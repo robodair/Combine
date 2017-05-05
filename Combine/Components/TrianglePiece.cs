@@ -112,6 +112,16 @@ namespace Combine
 					break;
 			}
 
+			// Num parts is equal to the number of active sprites in the grid
+
+			NumParts = 0;
+			PieceGrid.forAllItems(delegate (int x, int y, Sprite3 s){
+				if (s.getActive())
+				{
+					NumParts++;
+				}
+			});
+
 			// Set the bounds for the piece
 			bounds = new Rectangle(Position.ToPoint(), new Point(PartSize * 4 + PieceGrid.getPartSpacing() * 3,
 																 PartSize * 4 + PieceGrid.getPartSpacing() * 3));
