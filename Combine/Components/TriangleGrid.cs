@@ -241,7 +241,8 @@ namespace Combine
 					piece.PieceGrid.forAllItems(delegate (int _x, int _y, Sprite3 part)
 					{
 						if (part.getActive()
-						    && !s.varBool0 // varBool0 means the space is already filled
+							&& !s.varBool0 // varBool0 means the space is already filled
+							&& Math.Abs(s.getDisplayAngleRadians() - part.getDisplayAngleRadians()) < 0.1
 							&& s.getBoundingBoxAA().Contains((int)part.getPosX(), (int)part.getPosY()))
 						{
 							spritesToHighlight.Add(s);
@@ -327,6 +328,7 @@ namespace Combine
 						{
 							if (s.getActive() && part.getActive()
 								&& !s.varBool0
+								&& Math.Abs(s.getDisplayAngleRadians() - part.getDisplayAngleRadians()) < 0.1
 								&& s.getBoundingBoxAA().Contains((int)part.getPosX(), (int)part.getPosY()))
 							{
 								matchedTriangles.Add(s);
