@@ -13,6 +13,8 @@ namespace Combine
 		const int rightSideStep = 25;
 		const int piecesX = 550;
 
+		int GridSize;
+
 		GUI_Control GUI;
 		Vector2[] RightSideItems = {new Vector2(rightSideItemsX, rightSideStep),
 									new Vector2(rightSideItemsX, rightSideStep * 2),
@@ -36,10 +38,11 @@ namespace Combine
 		public int MATCH_SCORE = 30;
 		public String Type { get; private set; }
 
-		public PlayLevel(RC_GameStateManager lm, string type) :
+		public PlayLevel(RC_GameStateManager lm, string type, int gridSize) :
 			base(lm)
 		{
 			Type = type;
+			GridSize = gridSize;
 		}
 
 		public override void LoadContent()
@@ -62,7 +65,7 @@ namespace Combine
 				foreach (ShapePiece piece in pieces) { GUI.RemoveControl((GUI_Control)piece); }
 			pieces = (new ShapePiece[3]);
 			// TODO: use Type to decide which grid we should implement
-			grid = (ShapeGrid<PieceType>) Activator.CreateInstance(typeof(GridType), new object[] { 6, 100, 100, 30, 5, true, null});
+			grid = (ShapeGrid<PieceType>)Activator.CreateInstance(typeof(GridType), new object[] { GridSize, 100, 100, 30, 5, true, null });
 			MediaPlayer.Play(song);
 			MediaPlayer.IsRepeating = true;
 			dragging = false;
@@ -91,7 +94,7 @@ namespace Combine
 
 		public override void Update(GameTime gameTime)
 		{
-			((ShapeGrid<PieceType>)grid).UpdateAsLevelGrid(gameTime, (PieceType) savedControl);
+			((ShapeGrid<PieceType>)grid).UpdateAsLevelGrid(gameTime, (PieceType)savedControl);
 			// Click UP Event
 			if (previousMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
 			{
@@ -168,7 +171,7 @@ namespace Combine
 			if (pieces[0] == null)
 			{
 				// Spawn a new piece and make it slide in
-				pieces[0] = (ShapePiece) Activator.CreateInstance(typeof(PieceType), piecesX, 30, 5);
+				pieces[0] = (ShapePiece)Activator.CreateInstance(typeof(PieceType), piecesX, 30, 5);
 				pieces[0].SetTargetPosition(PiecePositions[0]);
 				((GUI_Control)pieces[0]).attachLeftMouseDownCallback(pieces[0].RotateRight);
 				GUI.AddControl(((GUI_Control)pieces[0]));
