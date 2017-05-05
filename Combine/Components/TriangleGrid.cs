@@ -50,6 +50,7 @@ namespace Combine
 				Sprites[x, y].setColor(DefaultColor);
 				Sprites[x, y].setWidthHeight(partSize, partSize);
 				Sprites[x, y].setBBandHSFractionOfTexCentered(1);
+				Sprites[x, y].setBB(PartSize / 3, 0, PartSize / 2, PartSize);
 				if (!validTriangle(x, y))
 				{
 					Sprites[x, y].setActive(false);
@@ -224,6 +225,8 @@ namespace Combine
 		public void UpdateAsLevelGrid(GameTime gameTime, TrianglePiece piece)
 		{
 			particleEffects.Update(gameTime);
+
+			List<Sprite3> spritesToHighlight = new List<Sprite3>();
 			forAllItems(delegate (int x, int y, Sprite3 s)
 			{
 				// Clear the display colours of all items that don't have an assigned color
@@ -232,20 +235,28 @@ namespace Combine
 					s.setColor(DefaultColor);
 				}
 
-				// Highlight the squares under the given piece (if they don't have a color)
+				// Select squares to highlight
 				if (piece != null)
 				{
 					piece.PieceGrid.forAllItems(delegate (int _x, int _y, Sprite3 part)
 					{
 						if (part.getActive()
-							&& s.Contains((int)part.getPosX(), (int)part.getPosY())
-							&& !s.varBool0) // varBool0 means the space is already filled
+						    && !s.varBool0 // varBool0 means the space is already filled
+							&& s.getBoundingBoxAA().Contains((int)part.getPosX(), (int)part.getPosY()))
 						{
-							s.setColor(Util.lighterOrDarker(part.colour, 0.8f));
+							spritesToHighlight.Add(s);
 						}
 					});
 				}
 			});
+			// highlight the squares if it's the whole piece we're highlighting
+			if (piece != null && spritesToHighlight.Count == piece.NumParts)
+			{
+				foreach (Sprite3 s in spritesToHighlight)
+				{
+					s.setColor(Util.lighterOrDarker(piece.PartColor, 0.8f));
+				}
+			}
 		}
 
 		/// <summary>
@@ -316,7 +327,7 @@ namespace Combine
 						{
 							if (s.getActive() && part.getActive()
 								&& !s.varBool0
-								&& s.Contains((int)part.getPosX(), (int)part.getPosY()))
+								&& s.getBoundingBoxAA().Contains((int)part.getPosX(), (int)part.getPosY()))
 							{
 								matchedTriangles.Add(s);
 							}
