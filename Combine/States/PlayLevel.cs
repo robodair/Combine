@@ -171,7 +171,7 @@ namespace Combine
 			if (pieces[0] == null)
 			{
 				// Spawn a new piece and make it slide in
-				pieces[0] = (ShapePiece)Activator.CreateInstance(typeof(PieceType), piecesX, 30, 5);
+				pieces[0] = (ShapePiece)Activator.CreateInstance(typeof(PieceType), piecesX, 30);
 				pieces[0].SetTargetPosition(PiecePositions[0]);
 				((GUI_Control)pieces[0]).attachLeftMouseDownCallback(pieces[0].RotateRight);
 				GUI.AddControl(((GUI_Control)pieces[0]));

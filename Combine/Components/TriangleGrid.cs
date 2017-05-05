@@ -185,6 +185,15 @@ namespace Combine
 		}
 
 		/// <summary>
+		/// Gets the part spacing.
+		/// </summary>
+		/// <returns>The part spacing.</returns>
+		public int getPartSpacing()
+		{
+			return PartSpacing;
+		}
+
+		/// <summary>
 		/// Draw the specified sb and debug.
 		/// </summary>
 		/// <param name="sb">SpriteBatch.</param>

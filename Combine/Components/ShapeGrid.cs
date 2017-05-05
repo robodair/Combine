@@ -58,5 +58,11 @@ namespace Combine
 		/// <param name="x">The x coordinate.</param>
 		/// <param name="y">The y coordinate.</param>
 		Sprite3 getSprite(int x, int y);
+
+		/// <summary>
+		/// Gets the part spacing.
+		/// </summary>
+		/// <returns>The part spacing.</returns>
+		int getPartSpacing();
 	}
 }

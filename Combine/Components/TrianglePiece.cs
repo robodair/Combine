@@ -22,14 +22,12 @@ namespace Combine
 		int moveSpeed = 5;
 		bool dragging;
 		Vector2 dragOffset;
-		int PartSpacing;            // Default part spacing (between the outer edges of parts)
 		int PartSize;               // Width/Height of parts
 
 
-		public TrianglePiece(float x, int partSize, int partSpacing)
+		public TrianglePiece(float x, int partSize)
 		{
 			PartSize = partSize;
-			PartSpacing = partSpacing;
 			Rand = new Random();
 			inPosition = false;
 			Position = new Vector2(x, -50); // start above the game
@@ -115,8 +113,8 @@ namespace Combine
 			}
 
 			// Set the bounds for the piece
-			bounds = new Rectangle(Position.ToPoint(),
-								   new Point(PartSize * 4 + PartSpacing * 3, PartSize * 4 + PartSpacing * 3));
+			bounds = new Rectangle(Position.ToPoint(), new Point(PartSize * 4 + PieceGrid.getPartSpacing() * 3,
+																 PartSize * 4 + PieceGrid.getPartSpacing() * 3));
 		}
 
 		public static void LoadContent(ContentManager c)

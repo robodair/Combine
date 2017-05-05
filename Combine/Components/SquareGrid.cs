@@ -304,5 +304,14 @@ namespace Combine
 		{
 			return Sprites[x, y];
 		}
+
+		/// <summary>
+		/// Gets the part spacing.
+		/// </summary>
+		/// <returns>The part spacing.</returns>
+		public int getPartSpacing()
+		{
+			return PartSpacing;
+		}
 	}
 }
