@@ -79,7 +79,7 @@ namespace Combine
 					PieceGrid.getSprite(0, 0).setActive(true);
 					PieceGrid.getSprite(1, 0).setActive(true);
 					PieceGrid.getSprite(2, 0).setActive(true);
-					PieceGrid.getSprite(3, 0).setActive(true);
+					PieceGrid.getSprite(3, 1).setActive(true);
 					break;
 				case 4:
 					// 5 triangle Hex
