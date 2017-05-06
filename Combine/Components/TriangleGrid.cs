@@ -240,10 +240,7 @@ namespace Combine
 				{
 					piece.PieceGrid.forAllItems(delegate (int _x, int _y, Sprite3 part)
 					{
-						if (part.getActive()
-							&& !s.varBool0 // varBool0 means the space is already filled
-							&& Math.Abs(s.getDisplayAngleRadians() - part.getDisplayAngleRadians()) < 0.1
-							&& s.getBoundingBoxAA().Contains((int)part.getPosX(), (int)part.getPosY()))
+						if (TrianglesOverlap(s, part))
 						{
 							spritesToHighlight.Add(s);
 						}
@@ -258,6 +255,23 @@ namespace Combine
 					s.setColor(Util.lighterOrDarker(piece.PartColor, 0.8f));
 				}
 			}
+		}
+
+		/// <summary>
+		/// If the given triangles overlap (one could be dropped into the other)
+		/// </summary>
+		/// <returns><c>true</c>, if overlap was trianglesed, <c>false</c> otherwise.</returns>
+		/// <param name="gridTriangle">Grid triangle.</param>
+		/// <param name="droppedTriangle">Dropped triangle.</param>
+		private bool TrianglesOverlap(Sprite3 gridTriangle, Sprite3 droppedTriangle)
+		{
+
+			bool active = (droppedTriangle.getActive() && gridTriangle.getActive());
+			bool filled = gridTriangle.varBool0; // grid triangle can't already be filled
+			// same rotation
+			bool rotationMatch = Math.Abs(gridTriangle.getDisplayAngleRadians() - droppedTriangle.getDisplayAngleRadians()) < 0.1;
+			bool overlap = gridTriangle.getBoundingBoxAA().Contains(droppedTriangle.getPos());
+			return active && !filled && rotationMatch && overlap;
 		}
 
 		/// <summary>
@@ -326,10 +340,7 @@ namespace Combine
 					{
 						piece.PieceGrid.forAllItems(delegate (int _x, int _y, Sprite3 part)
 						{
-							if (s.getActive() && part.getActive()
-								&& !s.varBool0
-								&& Math.Abs(s.getDisplayAngleRadians() - part.getDisplayAngleRadians()) < 0.1
-								&& s.getBoundingBoxAA().Contains((int)part.getPosX(), (int)part.getPosY()))
+							if (TrianglesOverlap(s, part))
 							{
 								matchedTriangles.Add(s);
 							}
