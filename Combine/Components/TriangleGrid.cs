@@ -50,7 +50,10 @@ namespace Combine
 				Sprites[x, y].setColor(DefaultColor);
 				Sprites[x, y].setWidthHeight(partSize, partSize);
 				Sprites[x, y].setBBandHSFractionOfTexCentered(1);
-				Sprites[x, y].setBB(PartSize * 0.25f, 0, PartSize * 0.6f, PartSize);
+				Sprites[x, y].setBB(Sprites[x, y].getTexture().Width * 0.25f,
+									0,
+									Sprites[x, y].getTexture().Width * 0.55f,
+									Sprites[x, y].getTexture().Height);
 				if (!validTriangle(x, y))
 				{
 					Sprites[x, y].setActive(false);
