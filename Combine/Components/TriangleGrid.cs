@@ -129,64 +129,31 @@ namespace Combine
 		}
 
 		/// <summary>
-		/// Rotates the Grid right One step (60 Degrees)
+		/// Rotates the Grid right One step (60 Degrees) ONLY WORKS FOR A PIECE, mappings are hard coded for a y = 2x
 		/// </summary>
 		public void RotateRight()
-		{ //TODO adapt for triangle
+		{
 			Sprite3[,] newSprites = new Sprite3[Size * 2, Size];
 
-			// Transpose grid into the new array
-			forAllItems(delegate (int x, int y, Sprite3 s)
-			{
-				// In a transpose element at row y column x in the original is placed at row x column y of the transpose
-				// https://chortle.ccsu.edu/VectorLessons/vmch13/vmch13_14.html
-				newSprites[y, x] = s;
-			});
+			newSprites[0, 0] = Sprites[1, 1];
+			newSprites[1, 0] = Sprites[0, 0];
+			newSprites[2, 0] = Sprites[1, 0];
+			newSprites[1, 1] = Sprites[2, 1];
+			newSprites[2, 1] = Sprites[3, 1];
+			newSprites[3, 1] = Sprites[2, 0];
+			// not used for a rotation as a rotation is only the internal pieces
+			newSprites[3, 0] = Sprites[3, 0];
+			newSprites[0, 1] = Sprites[0, 1];
+
 			Sprites = newSprites;
 
-			// Reverse rows
-			// http://stackoverflow.com/questions/21023348/fast-algorithm-in-java-to-reverse-an-array
-			for (int y = 0; y < Size; y++)
-			{ // row
-				for (int x = 0; x < (Size / 2); x++) // half the columns
-				{
-					Sprite3 temp = Sprites[x, y];
-					Sprites[x, y] = Sprites[Size - x - 1, y];
-					Sprites[Size - x - 1, y] = temp;
-				}
-			}
-
-			// For a square grid, we also want to shift the piece left and up to the top every rotation
-			int shiftX = Sprites.GetLength(0);
-			int shiftY = Sprites.GetLength(1);
-			forAllItems(delegate (int x, int y, Sprite3 s)
-			{
-				if (s.getActive())
-				{
-					if (x < shiftX) shiftX = x;
-					if (y < shiftY) shiftY = y;
-				}
-			});
-
-			// Shift the array
-			Sprite3[,] alignedSprites = new Sprite3[Size * 2, Size];
-			forAllItems(delegate (int x, int y, Sprite3 s)
-			{
-				x -= shiftX;
-				y -= shiftY;
-				if (x < 0) x = Sprites.GetLength(0) + x;
-				if (y < 0) y = Sprites.GetLength(1) + y;
-				alignedSprites[x, y] = s;
-			});
-			Sprites = alignedSprites;
-
 			// Update sprite positions
-			// Transpose grid into the new array
 			forAllItems(delegate (int x, int y, Sprite3 s)
 			{
-				// new sprite positions (and rotations, if this wasn't a square grid!)
+				// new sprite position
 				s.setPos(getPosForSprite(x, y));
 			});
+			Align();
 
 		}
 

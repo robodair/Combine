@@ -90,7 +90,7 @@ namespace Combine
 					PieceGrid.getSprite(2, 1).setActive(true);
 					break;
 				case 5:
-					// 4 Triangle
+					// 4 Triangle (not a Hex)
 					PieceGrid.getSprite(0, 0).setActive(true);
 					PieceGrid.getSprite(0, 1).setActive(true);
 					PieceGrid.getSprite(1, 1).setActive(true);
