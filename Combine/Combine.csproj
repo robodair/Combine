@@ -75,6 +75,8 @@
     <Compile Include="Components\ShapePiece.cs" />
     <Compile Include="Components\TriangleGrid.cs" />
     <Compile Include="Components\TrianglePiece.cs" />
+    <Compile Include="Components\PentagonGrid.cs" />
+    <Compile Include="Components\PentagonPiece.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />
