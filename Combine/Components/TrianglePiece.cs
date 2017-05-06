@@ -23,6 +23,12 @@ namespace Combine
 		bool dragging;
 		Vector2 dragOffset;
 		int PartSize;               // Width/Height of parts
+		enum RotationStrategy
+		{
+			FLIP,
+			CIRCLE
+		};
+		RotationStrategy rotationStrategy;
 
 
 		public TrianglePiece(float x, int partSize)
@@ -56,6 +62,7 @@ namespace Combine
 			}
 
 			PieceGrid = new TriangleGrid(2, 0, 0, 30, false, PartColor);
+			rotationStrategy = RotationStrategy.CIRCLE;
 
 			// Setup active sprites for the grid
 			switch (Rand.Next(0, 7))
@@ -95,6 +102,7 @@ namespace Combine
 					PieceGrid.getSprite(0, 1).setActive(true);
 					PieceGrid.getSprite(1, 1).setActive(true);
 					PieceGrid.getSprite(2, 1).setActive(true);
+					rotationStrategy = RotationStrategy.FLIP;
 					break;
 				case 6:
 					// 3 Triangle Radiation Symbol
@@ -198,7 +206,14 @@ namespace Combine
 
 		public void RotateRight()
 		{
-			PieceGrid.RotateRight();
+			if (rotationStrategy == RotationStrategy.CIRCLE) // circle rotations rotate as normal
+			{
+				PieceGrid.RotateRight();
+			}
+			else if (rotationStrategy == RotationStrategy.FLIP) // flip on the vertical
+			{
+				PieceGrid.Flip();
+			}
 		}
 
 		public void endDrag()

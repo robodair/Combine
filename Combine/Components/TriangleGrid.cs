@@ -154,7 +154,33 @@ namespace Combine
 				s.setPos(getPosForSprite(x, y));
 			});
 			Align();
+		}
 
+		/// <summary>
+		/// Flip this instance.
+		/// </summary>
+		public void Flip()
+		{
+			Sprite3[,] newSprites = new Sprite3[Size * 2, Size];
+
+			newSprites[0, 0] = Sprites[1, 0];
+			newSprites[1, 0] = Sprites[0, 0];
+			newSprites[2, 0] = Sprites[1, 1];
+			newSprites[3, 0] = Sprites[0, 1];
+			newSprites[0, 1] = Sprites[3, 0];
+			newSprites[1, 1] = Sprites[2, 0];
+			newSprites[2, 1] = Sprites[3, 1];
+			newSprites[3, 1] = Sprites[2, 1];
+
+			Sprites = newSprites;
+
+			// Update sprite positions
+			forAllItems(delegate (int x, int y, Sprite3 s)
+			{
+				// new sprite position
+				s.setPos(getPosForSprite(x, y));
+			});
+			Align();
 		}
 
 		/// <summary>
@@ -235,9 +261,10 @@ namespace Combine
 
 			bool active = (droppedTriangle.getActive() && gridTriangle.getActive());
 			bool filled = gridTriangle.varBool0; // grid triangle can't already be filled
+
 			// same rotation
 			bool rotationMatch = Math.Abs(gridTriangle.getDisplayAngleRadians() - droppedTriangle.getDisplayAngleRadians()) < 0.1;
-			bool overlap = gridTriangle.getBoundingBoxAA().Contains(droppedTriangle.getPos());
+			bool overlap = gridTriangle.getBoundingBoxAA().Contains(droppedTriangle.getBoundingBoxAA().Location);
 			return active && !filled && rotationMatch && overlap;
 		}
 
