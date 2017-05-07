@@ -325,10 +325,17 @@ namespace Combine
 				// for every piece in the array
 				foreach (SquarePiece piece in pieces)
 				{
-					// for every square on the board
-					forAllItems(delegate (int x, int y, Sprite3 s){
-						fitPieceToLocation(x, y, piece);
-					});
+					if (piece != null)
+					{
+						// for every square on the board
+						forAllItems(delegate (int x, int y, Sprite3 s)
+						{
+							if (fitPieceToLocation(x, y, piece))
+							{
+								throw new PlaceFoundException();
+							}
+						});
+					}
 				}
 			}
 			catch (PlaceFoundException)
@@ -340,14 +347,49 @@ namespace Combine
 
 		/// <summary>
 		/// Fits the piece to location.
+		/// Raises PlaceFoundException if a place is found
 		/// </summary>
 		/// <param name="x">The x coordinate.</param>
 		/// <param name="y">The y coordinate.</param>
 		/// <param name="piece">Piece.</param>
-		private void fitPieceToLocation(int x, int y, SquarePiece piece)
+		private bool fitPieceToLocation(int x, int y, SquarePiece piece)
 		{
+			bool matchFound = false;
 			// for all four rotations of the piece, check whether the squares
 			// the piece occupies line up with grid pieces
+			for (int i = 0; i < 4; i++)
+			{
+				int numMatched = 0;
+				piece.RotateRight();
+
+				piece.PieceGrid.forAllItems(delegate (int part_x, int part_y, Sprite3 piece_part)
+				{
+					if (x + part_x >= Sprites.GetLength(0)
+					   || y + part_y >= Sprites.GetLength(1))
+					{
+						// skip parts outside grid boundaries
+						return;
+					}
+					// check if the piece part is active and not filled
+					if (piece_part.getActive() && !piece_part.varBool0)
+					{
+						// check if the part at [x + part_x, y + part_y] is active and has no color
+						if (Sprites[x + part_x, y + part_y].getActive()
+								&& !Sprites[x + part_x, y + part_y].varBool0)
+						{
+							// We've matched a part!
+							numMatched++;
+						}
+					}
+				});
+
+				if (numMatched == piece.NumParts)
+				{
+					matchFound = true;
+				}
+			}
+
+			return matchFound;
 		}
 	}
 }
