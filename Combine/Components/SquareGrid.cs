@@ -265,7 +265,6 @@ namespace Combine
 					}
 				});
 			}
-			Console.WriteLine("Dropped: " + matchedSquares.Count);
 			// If all parts have a square, apply the colors and return true
 			if (matchedSquares.Count == piece.NumParts)
 			{

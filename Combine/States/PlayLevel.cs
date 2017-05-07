@@ -71,7 +71,6 @@ namespace Combine
 			MediaPlayer.Play(song);
 			MediaPlayer.IsRepeating = true;
 			dragging = false;
-			Console.WriteLine("Enter Play");
 			base.EnterLevel(fromLevelNum);
 		}
 
@@ -79,19 +78,16 @@ namespace Combine
 		{
 			dragging = false;
 			MediaPlayer.Resume();
-			Console.WriteLine("Resume Play");
 		}
 
 		public override void SuspendLevel()
 		{
 			MediaPlayer.Pause();
-			Console.WriteLine("Suspend Play");
 		}
 
 		public override void ExitLevel()
 		{
 			MediaPlayer.Stop();
-			Console.WriteLine("Exit Play");
 		}
 
 		public override void Update(GameTime gameTime)
@@ -182,7 +178,6 @@ namespace Combine
 				pieces[0].SetTargetPosition(PiecePositions[0]);
 				((GUI_Control)pieces[0]).attachLeftMouseDownCallback(pieces[0].RotateRight);
 				GUI.AddControl(((GUI_Control)pieces[0]));
-				Console.WriteLine("Piece Created!!");
 			}
 			foreach (ShapePiece piece in pieces)
 			{
@@ -208,13 +203,11 @@ namespace Combine
 
 		public void homeButtonClicked()
 		{
-			Console.WriteLine("Home Button Clicked");
 			gameStateManager.setLevel(1);
 		}
 
 		public void pauseButtonClicked()
 		{
-			Console.WriteLine("Pause Button Clicked");
 			//gameStateManager.setLevel(); //TODO: Some other pause state
 		}
 	}
