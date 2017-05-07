@@ -356,7 +356,7 @@ namespace Combine
 		{
 			bool matchFound = false;
 			// for all four rotations of the piece, check whether the squares
-			// the piece occupies line up with grid pieces
+			// underneath where the piece would be are free
 			for (int i = 0; i < 4; i++)
 			{
 				int numMatched = 0;
@@ -386,6 +386,7 @@ namespace Combine
 				if (numMatched == piece.NumParts)
 				{
 					matchFound = true;
+					// we COULD break here, but then the piece wouldn't stay at the same rotation
 				}
 			}
 
