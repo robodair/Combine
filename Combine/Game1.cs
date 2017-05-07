@@ -47,7 +47,7 @@ namespace Combine
 			StateManager.AddLevel(HOME_SCREEN, new HomeScreen(StateManager));
 			StateManager.AddLevel(SQUARES_LEVEL, new PlayLevel<SquareGrid, SquarePiece>(StateManager, "square", 6));
 			StateManager.AddLevel(TRIANGLES_LEVEL, new PlayLevel<TriangleGrid, TrianglePiece>(StateManager, "triangle", 6));
-			//StateManager.AddLevel(PENTAGONS_LEVELNTAGONS_LEVEL, new PlayLevel(StateManager, "pentagon"));
+			StateManager.AddLevel(PENTAGONS_LEVEL, new PlayLevel<PentagonGrid, PentagonPiece>(StateManager, "pentagon", 3));
 
 			this.IsMouseVisible = true;
 			base.Initialize();
@@ -64,6 +64,7 @@ namespace Combine
 			RC_GameStateParent.font = font;
 			SquareGrid.LoadContent(Content);
 			TriangleGrid.LoadContent(Content);
+			PentagonGrid.LoadContent(Content);
 			Grid.LoadContent(Content);
 
 
