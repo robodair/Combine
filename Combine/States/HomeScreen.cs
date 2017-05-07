@@ -24,11 +24,11 @@ namespace Combine
 			buttonTexture = Content.Load<Texture2D>("textures/gui/buttonDefault");
 			HomeMenu = new GUI_Control();
 			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 100)
-			                                ).attachLeftMouseDownCallback(Level1ButtonClick));
+											).attachLeftMouseDownCallback(Level1ButtonClick));
 			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 200)
-			                                ).attachLeftMouseDownCallback(Level2ButtonClick));
+											).attachLeftMouseDownCallback(Level2ButtonClick));
 			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 300)
-			                                ).attachLeftMouseDownCallback(Level3ButtonClick));
+											).attachLeftMouseDownCallback(Level3ButtonClick));
 
 		}
 
