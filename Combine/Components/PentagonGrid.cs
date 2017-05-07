@@ -195,9 +195,7 @@ namespace Combine
 				{
 					piece.PieceGrid.forAllItems3D(delegate (int _x, int _y, int _z, Sprite3 part)
 					{
-						if (part.getActive()
-							&& s.Contains((int)part.getPosX(), (int)part.getPosY())
-							&& !s.varBool0) // varBool0 means the space is already filled
+						if (PentagonsOverlap(s, part))
 						{
 							s.setColor(Util.lighterOrDarker(part.colour, 0.8f));
 						}
@@ -261,9 +259,7 @@ namespace Combine
 					{
 						piece.PieceGrid.forAllItems3D(delegate (int _x, int _y, int _z, Sprite3 part)
 						{
-							if (s.getActive() && part.getActive()
-								&& !s.varBool0
-								&& s.Contains((int)part.getPosX(), (int)part.getPosY()))
+							if (PentagonsOverlap(s, part))
 							{
 								matchedPentagons.Add(s);
 							}
@@ -283,6 +279,17 @@ namespace Combine
 				return true;
 			}
 			return false;
+		}
+
+		private bool PentagonsOverlap(Sprite3 gridSprite, Sprite3 droppedSprite)
+		{
+			bool active = (droppedSprite.getActive() && gridSprite.getActive());
+			bool filled = gridSprite.varBool0; // grid triangle can't already be filled
+
+			// same rotation
+			bool rotationMatch = Math.Abs(gridSprite.getDisplayAngleRadians() - droppedSprite.getDisplayAngleRadians()) < 0.1;
+			bool overlap = gridSprite.getBoundingBoxAA().Contains(droppedSprite.getBoundingBoxAA().Location);
+			return active && !filled && rotationMatch && overlap;
 		}
 
 		/// <summary>

@@ -32,7 +32,6 @@ namespace Combine
 			inPosition = false;
 			Position = new Vector2(x, -50); // start above the game
 			createPentagonPart();
-			NumParts = 4;
 		}
 
 		private void createPentagonPart()
@@ -56,61 +55,34 @@ namespace Combine
 					break;
 			}
 
-			PieceGrid = new PentagonGrid(4, 0, 0, 30, false, PartColor);
+			PieceGrid = new PentagonGrid(2, 0, 0, 30, false, PartColor);
 
 			// Setup active sprites for the grid
-			switch (Rand.Next(0, 7))
+			switch (Rand.Next(0, 4))
 			{
 				case 0:
-					// I block
-					PieceGrid.getSprite(0, 0).setActive(true);
-					PieceGrid.getSprite(1, 0).setActive(true);
-					PieceGrid.getSprite(2, 0).setActive(true);
-					PieceGrid.getSprite(3, 0).setActive(true);
+					// Top Left Corner Piece
+					PieceGrid.getSprite(0, 0, 0).setActive(true);
+					PieceGrid.getSprite(0, 0, 1).setActive(true);
 					break;
 				case 1:
-					// O block
-					PieceGrid.getSprite(0, 0).setActive(true);
-					PieceGrid.getSprite(1, 0).setActive(true);
-					PieceGrid.getSprite(0, 1).setActive(true);
-					PieceGrid.getSprite(1, 1).setActive(true);
+					// Middle two pentagon piece
+					PieceGrid.getSprite(0, 0, 1).setActive(true);
+					PieceGrid.getSprite(0, 0, 3).setActive(true);
 					break;
 				case 2:
-					// T Block
-					PieceGrid.getSprite(0, 0).setActive(true);
-					PieceGrid.getSprite(1, 0).setActive(true);
-					PieceGrid.getSprite(2, 0).setActive(true);
-					PieceGrid.getSprite(1, 1).setActive(true);
+					// Outer two pentagon piece
+					PieceGrid.getSprite(0, 0, 0).setActive(true);
+					PieceGrid.getSprite(0, 0, 2).setActive(true);
 					break;
 				case 3:
-					// J block
-					PieceGrid.getSprite(1, 0).setActive(true);
-					PieceGrid.getSprite(1, 1).setActive(true);
-					PieceGrid.getSprite(1, 2).setActive(true);
-					PieceGrid.getSprite(0, 2).setActive(true);
-					break;
-				case 4:
-					// L block
-					PieceGrid.getSprite(0, 0).setActive(true);
-					PieceGrid.getSprite(1, 0).setActive(true);
-					PieceGrid.getSprite(2, 0).setActive(true);
-					PieceGrid.getSprite(2, 1).setActive(true);
-					break;
-				case 5:
-					// S block
-					PieceGrid.getSprite(1, 0).setActive(true);
-					PieceGrid.getSprite(2, 0).setActive(true);
-					PieceGrid.getSprite(0, 1).setActive(true);
-					PieceGrid.getSprite(1, 1).setActive(true);
-					break;
-				case 6:
-					// Z block
-					PieceGrid.getSprite(0, 0).setActive(true);
-					PieceGrid.getSprite(1, 0).setActive(true);
-					PieceGrid.getSprite(1, 1).setActive(true);
-					PieceGrid.getSprite(2, 1).setActive(true);
+					// Bottom Left Corner Piece
+					PieceGrid.getSprite(0, 0, 0).setActive(true);
+					PieceGrid.getSprite(0, 0, 3).setActive(true);
 					break;
 			}
+
+			NumParts = 2;
 
 			// Set the bounds for the piece
 			bounds = new Rectangle(Position.ToPoint(),
