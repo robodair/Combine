@@ -56,9 +56,10 @@ namespace Combine
 			}
 
 			PieceGrid = new PentagonGrid(2, 0, 0, 30, false, PartColor);
+			NumParts = 2;
 
 			// Setup active sprites for the grid
-			switch (Rand.Next(0, 4))
+			switch (Rand.Next(0, 5))
 			{
 				case 0:
 					// Top Left Corner Piece
@@ -80,9 +81,12 @@ namespace Combine
 					PieceGrid.getSprite(0, 0, 0).setActive(true);
 					PieceGrid.getSprite(0, 0, 3).setActive(true);
 					break;
+				case 4:
+					// Single Piece
+					PieceGrid.getSprite(0, 0, 0).setActive(true);
+					NumParts = 1;
+					break;
 			}
-
-			NumParts = 2;
 
 			// Set the bounds for the piece
 			bounds = new Rectangle(Position.ToPoint(),

@@ -241,9 +241,16 @@ namespace Combine
 			// and add them to the list plus create particle effects for them
 			forAllItems(delegate (int x, int y, Sprite3 s)
 			{
-				// check the block at [x, y]
+				if (horizontalFilled(x, y, pentagonsToClear))
+				{
+					numMatches++;
+				}
 
-				// check the block that [x, y, 3] is the top of.
+				if (verticalFilled(x, y, pentagonsToClear))
+				{
+					numMatches++;
+				}
+
 			});
 
 			// Spawn particle systems and reset colors TODO: Make the effect nicer
@@ -263,6 +270,104 @@ namespace Combine
 				particleEffects.addReuse(p);
 			}
 			return numMatches;
+		}
+
+		bool verticalFilled(int x, int y, HashSet<Sprite3> pentagonsToClear)
+		{
+			if (y % 2 > 0)
+			{
+				// odd row
+				return verticalFilledOdd(x, y, pentagonsToClear);
+			}
+			else
+			{
+				// even row
+				return verticalFilledEven(x, y, pentagonsToClear);
+			}
+		}
+
+		bool verticalFilledEven(int x, int y, HashSet<Sprite3> pentagonsToClear)
+		{
+			if ((x - 1) < 0 || (y + 2) > Sprites.GetLength(1))
+			{
+				return false;
+			}
+
+			bool activeAndFilled = (Sprites[x, y, 3].getActive() && Sprites[x, y, 3].varBool0
+									&& Sprites[x - 1, y + 1, 2].getActive() && Sprites[x - 1, y + 1, 2].varBool0
+									&& Sprites[x, y + 1, 0].getActive() && Sprites[x, y + 1, 0].varBool0
+									&& Sprites[x, y + 2, 0].getActive() && Sprites[x, y + 2, 1].varBool0);
+
+			bool sameColor = (Sprites[x, y, 3].getColor() == Sprites[x - 1, y + 1, 2].getColor()
+							  && Sprites[x, y, 3].getColor() == Sprites[x, y + 1, 0].getColor()
+							  && Sprites[x, y, 3].getColor() == Sprites[x, y + 2, 1].getColor());
+
+			if (activeAndFilled && sameColor)
+			{
+				pentagonsToClear.Add(Sprites[x, y, 3]);
+				pentagonsToClear.Add(Sprites[x - 1, y + 1, 2]);
+				pentagonsToClear.Add(Sprites[x, y + 1, 0]);
+				pentagonsToClear.Add(Sprites[x, y + 2, 1]);
+			}
+
+			return activeAndFilled && sameColor;
+		}
+
+		bool verticalFilledOdd(int x, int y, HashSet<Sprite3> pentagonsToClear)
+		{
+			if ((x + 1) >= Sprites.GetLength(0) || (y + 2) >= Sprites.GetLength(1))
+			{
+				return false;
+			}
+
+			bool activeAndFilled = (Sprites[x, y, 3].getActive() && Sprites[x, y, 3].varBool0
+									&& Sprites[x, y + 1, 2].getActive() && Sprites[x, y + 1, 2].varBool0
+									&& Sprites[x + 1, y + 1, 0].getActive() && Sprites[x + 1, y + 1, 0].varBool0
+									&& Sprites[x, y + 2, 0].getActive() && Sprites[x, y + 2, 1].varBool0);
+
+			bool sameColor = (Sprites[x, y, 3].getColor() == Sprites[x, y + 1, 2].getColor()
+							  && Sprites[x, y, 3].getColor() == Sprites[x + 1, y + 1, 0].getColor()
+							  && Sprites[x, y, 3].getColor() == Sprites[x, y + 2, 1].getColor());
+
+			if (activeAndFilled && sameColor)
+			{
+				pentagonsToClear.Add(Sprites[x, y, 3]);
+				pentagonsToClear.Add(Sprites[x, y + 1, 2]);
+				pentagonsToClear.Add(Sprites[x + 1, y + 1, 0]);
+				pentagonsToClear.Add(Sprites[x, y + 2, 1]);
+			}
+
+			return activeAndFilled && sameColor;
+		}
+
+		bool horizontalFilled(int x, int y, HashSet<Sprite3> pentagonsToClear)
+		{
+			bool sameColor = true;
+			bool activeAndFilled = true;
+			// check the block at [x, y]
+			for (int z = 0; z < 4; z++)
+			{
+				if (!Sprites[x, y, z].getActive() || !Sprites[x, y, z].varBool0)
+				{
+					activeAndFilled = false;
+					break;
+				}
+				if (Sprites[x, y, 0].getColor() != Sprites[x, y, z].getColor())
+				{
+					sameColor = false;
+					break;
+				}
+			}
+
+			if (sameColor && activeAndFilled)
+			{
+				pentagonsToClear.Add(Sprites[x, y, 0]);
+				pentagonsToClear.Add(Sprites[x, y, 1]);
+				pentagonsToClear.Add(Sprites[x, y, 2]);
+				pentagonsToClear.Add(Sprites[x, y, 3]);
+			}
+
+			return sameColor && activeAndFilled;
 		}
 
 		/// <summary>
