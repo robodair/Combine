@@ -395,11 +395,17 @@ namespace Combine
 				// for every piece in the array
 				foreach (TrianglePiece piece in pieces)
 				{
-					// for every triangle on the board
-					forAllItems(delegate (int x, int y, Sprite3 s)
+					if (piece != null)
 					{
-						fitPieceToLocation(x, y, piece);
-					});
+						// for every triangle on the board
+						forAllItems(delegate (int x, int y, Sprite3 s)
+						{
+							if (fitPieceToLocation(x, y, piece))
+							{
+								throw new PlaceFoundException();
+							}
+						});
+					}
 				}
 			}
 			catch (PlaceFoundException)
@@ -416,9 +422,50 @@ namespace Combine
 		/// <param name="x">The x coordinate.</param>
 		/// <param name="y">The y coordinate.</param>
 		/// <param name="piece">The Piece.</param>
-		private void fitPieceToLocation(int x, int y, TrianglePiece piece)
+		private bool fitPieceToLocation(int x, int y, TrianglePiece piece)
 		{
+			bool matchFound = false;
 
+			// if the rotation strategy is flip we only need to do two iterations
+			int iterations = 2;
+			if (piece.rotationStrategy == TrianglePiece.RotationStrategy.CIRCLE)
+			{
+				iterations = 6;
+			}
+			// for all rotations of the piece, check if the triangles underneath where the piece would be are free
+			for (int i = 0; i < iterations; i++)
+			{
+				int numMatched = 0;
+				piece.RotateRight(); // Internally the piece will just flip if necessary
+
+				piece.PieceGrid.forAllItems(delegate (int part_x, int part_y, Sprite3 piece_part)
+				{
+					if (x + part_x >= Sprites.GetLength(0)
+					   || y + part_y >= Sprites.GetLength(1))
+					{
+						// skip parts outside grid boundaries
+						return;
+					}
+					// check if the piece part is active and not filled
+					if (piece_part.getActive() && !piece_part.varBool0)
+					{
+						// check if the part at [x + part_x, y + part_y] is active and has no color
+						if (Sprites[x + part_x, y + part_y].getActive()
+								&& !Sprites[x + part_x, y + part_y].varBool0)
+						{
+							// We've matched a part!
+							numMatched++;
+						}
+					}
+				});
+				if (numMatched == piece.NumParts)
+				{
+					matchFound = true;
+					// we COULD break here, but then the piece wouldn't stay at the same rotation
+				}
+			}
+
+			return matchFound;
 		}
 	}
 }

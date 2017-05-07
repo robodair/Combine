@@ -23,12 +23,12 @@ namespace Combine
 		bool dragging;
 		Vector2 dragOffset;
 		int PartSize;               // Width/Height of parts
-		enum RotationStrategy
+		public enum RotationStrategy
 		{
 			FLIP,
 			CIRCLE
 		};
-		RotationStrategy rotationStrategy;
+		public RotationStrategy rotationStrategy { get; private set; }
 
 
 		public TrianglePiece(float x, int partSize)
@@ -115,7 +115,8 @@ namespace Combine
 			// Num parts is equal to the number of active sprites in the grid
 
 			NumParts = 0;
-			PieceGrid.forAllItems(delegate (int x, int y, Sprite3 s){
+			PieceGrid.forAllItems(delegate (int x, int y, Sprite3 s)
+			{
 				if (s.getActive())
 				{
 					NumParts++;
