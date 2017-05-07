@@ -382,5 +382,43 @@ namespace Combine
 		{
 			return Sprites[x, y];
 		}
+
+		/// <summary>
+		/// return true if there are no moves that can be made with the given pieces
+		/// </summary>
+		/// <returns><c>true</c>, if no moves left <c>false</c> otherwise.</returns>
+		/// <param name="pieces">Pieces.</param>
+		public bool hasNoMovesLeft(ShapePiece[] pieces)
+		{
+			try
+			{
+				// for every piece in the array
+				foreach (TrianglePiece piece in pieces)
+				{
+					// for every triangle on the board
+					forAllItems(delegate (int x, int y, Sprite3 s)
+					{
+						fitPieceToLocation(x, y, piece);
+					});
+				}
+			}
+			catch (PlaceFoundException)
+			{
+				return false;
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// Fits the piece to location.
+		/// Raises PlaceFoundException if a place is found
+		/// </summary>
+		/// <param name="x">The x coordinate.</param>
+		/// <param name="y">The y coordinate.</param>
+		/// <param name="piece">The Piece.</param>
+		private void fitPieceToLocation(int x, int y, TrianglePiece piece)
+		{
+
+		}
 	}
 }

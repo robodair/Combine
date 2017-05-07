@@ -312,5 +312,42 @@ namespace Combine
 		{
 			return PartSpacing;
 		}
+
+		/// <summary>
+		/// return true if there are no moves that can be made with the given pieces
+		/// </summary>
+		/// <returns><c>true</c>, if no moves left <c>false</c> otherwise.</returns>
+		/// <param name="pieces">Pieces.</param>
+		public bool hasNoMovesLeft(ShapePiece[] pieces)
+		{
+			try
+			{
+				// for every piece in the array
+				foreach (SquarePiece piece in pieces)
+				{
+					// for every square on the board
+					forAllItems(delegate (int x, int y, Sprite3 s){
+						fitPieceToLocation(x, y, piece);
+					});
+				}
+			}
+			catch (PlaceFoundException)
+			{
+				return false;
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// Fits the piece to location.
+		/// </summary>
+		/// <param name="x">The x coordinate.</param>
+		/// <param name="y">The y coordinate.</param>
+		/// <param name="piece">Piece.</param>
+		private void fitPieceToLocation(int x, int y, SquarePiece piece)
+		{
+			// for all four rotations of the piece, check whether the squares
+			// the piece occupies line up with grid pieces
+		}
 	}
 }

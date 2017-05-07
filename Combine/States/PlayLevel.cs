@@ -66,7 +66,6 @@ namespace Combine
 			if (pieces != null)
 				foreach (ShapePiece piece in pieces) { GUI.RemoveControl((GUI_Control)piece); }
 			pieces = (new ShapePiece[3]);
-			// TODO: use Type to decide which grid we should implement
 			grid = (ShapeGrid<PieceType>)Activator.CreateInstance(typeof(GridType), new object[] { GridSize, 100, 100, 30, true, null });
 			MediaPlayer.Play(song);
 			MediaPlayer.IsRepeating = true;
@@ -116,10 +115,10 @@ namespace Combine
 						move++;
 						score += ((ShapeGrid<PieceType>)grid).RemoveCompletedShapes() * MATCH_SCORE;
 						savedControl = null;
-						//if (grid.noMorePossibleMoves(pieces))
-						//{
-						//	// TODO: show end of game screen & save score
-						//}
+						if (grid.hasNoMovesLeft(pieces))
+						{
+							Console.WriteLine("NO MOVES LEFT");
+						}
 					}
 				}
 				dragging = false; // cancel dragging

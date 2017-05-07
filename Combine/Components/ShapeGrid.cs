@@ -64,6 +64,13 @@ namespace Combine
 		/// </summary>
 		/// <returns>The part spacing.</returns>
 		int getPartSpacing();
+
+		/// <summary>
+		/// Return true if the given pieces cannot be applied to the grid.
+		/// </summary>
+		/// <returns><c>true</c>, if no moves left, <c>false</c> otherwise.</returns>
+		/// <param name="pieces">Pieces.</param>
+		bool hasNoMovesLeft(ShapePiece[] pieces);
 	}
 
 	/// <summary>
