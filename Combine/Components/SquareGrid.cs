@@ -242,7 +242,7 @@ namespace Combine
 		/// </summary>
 		/// <returns><c>true</c>, if dropped object was captured, <c>false</c> otherwise.</returns>
 		/// <param name="piece">Piece</param>
-		public bool CaptureDroppedPiece(SquarePiece piece) // TODO change to SquarePiece
+		public bool CaptureDroppedPiece(SquarePiece piece)
 		{
 			// Collect a list of squares that match
 			List<Sprite3> matchedSquares = new List<Sprite3>();
