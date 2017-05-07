@@ -65,4 +65,23 @@ namespace Combine
 		/// <returns>The part spacing.</returns>
 		int getPartSpacing();
 	}
+
+	/// <summary>
+	/// Extension of shapegrid interface for grids that have a 3D internal representation
+	/// </summary>
+	public interface ShapeGrid3D<PieceType> : ShapeGrid<PieceType>
+	{
+		/// <summary>
+		/// For all items.
+		/// </summary>
+		/// <param name="action">Action.</param>
+		void forAllItems3D(Action<int, int, int, Sprite3> action);
+
+		/// <summary>
+		/// Gets the sprite at (x, y, z).
+		/// </summary>
+		/// <param name="x">The x coordinate.</param>
+		/// <param name="y">The y coordinate.</param>
+		Sprite3 getSprite(int x, int y, int z);
+	}
 }
