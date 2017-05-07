@@ -257,17 +257,16 @@ namespace Combine
 		/// If the given triangles overlap (one could be dropped into the other)
 		/// </summary>
 		/// <returns><c>true</c>, if overlap was trianglesed, <c>false</c> otherwise.</returns>
-		/// <param name="gridTriangle">Grid triangle.</param>
-		/// <param name="droppedTriangle">Dropped triangle.</param>
-		private bool TrianglesOverlap(Sprite3 gridTriangle, Sprite3 droppedTriangle)
+		/// <param name="gridSprite">Grid triangle.</param>
+		/// <param name="droppedSprite">Dropped triangle.</param>
+		private bool TrianglesOverlap(Sprite3 gridSprite, Sprite3 droppedSprite)
 		{
-
-			bool active = (droppedTriangle.getActive() && gridTriangle.getActive());
-			bool filled = gridTriangle.varBool0; // grid triangle can't already be filled
+			bool active = (droppedSprite.getActive() && gridSprite.getActive());
+			bool filled = gridSprite.varBool0; // grid triangle can't already be filled
 
 			// same rotation
-			bool rotationMatch = Math.Abs(gridTriangle.getDisplayAngleRadians() - droppedTriangle.getDisplayAngleRadians()) < 0.1;
-			bool overlap = gridTriangle.getBoundingBoxAA().Contains(droppedTriangle.getBoundingBoxAA().Location);
+			bool rotationMatch = Math.Abs(gridSprite.getDisplayAngleRadians() - droppedSprite.getDisplayAngleRadians()) < 0.1;
+			bool overlap = gridSprite.getBoundingBoxAA().Contains(droppedSprite.getBoundingBoxAA().Location);
 			return active && !filled && rotationMatch && overlap;
 		}
 
