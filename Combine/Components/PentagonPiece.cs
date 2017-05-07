@@ -157,13 +157,16 @@ namespace Combine
 			// TODO possibly offset the piece based on rotation?
 		}
 
-		public override void Draw(SpriteBatch sb)
+		public override void Draw(SpriteBatch sb, bool debug)
 		{
-			PieceGrid.Draw(sb, true);
+			PieceGrid.Draw(sb, debug);
 
-			// Debug drawing
-			LineBatch.drawLineRectangle(sb, bounds, Color.Goldenrod);
-			LineBatch.drawCross(sb, Position.X, Position.Y, 5, Color.GhostWhite, Color.GhostWhite);
+			if (debug)
+			{
+				// Debug drawing
+				LineBatch.drawLineRectangle(sb, bounds, Color.Goldenrod);
+				LineBatch.drawCross(sb, Position.X, Position.Y, 5, Color.GhostWhite, Color.GhostWhite);
+			}
 			base.Draw(sb);
 		}
 

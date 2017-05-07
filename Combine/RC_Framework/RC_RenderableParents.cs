@@ -113,6 +113,17 @@ namespace RC_Framework
         {
         }
 
+        /// <summary>
+        /// Standard draw routine which assumes the renderable knows where it is,
+        /// takes a parameter to tell the sprite to draw debug information
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="debug"></param>
+        public virtual void Draw(SpriteBatch sb, bool debug)
+        {
+            Draw(sb);
+        }
+
         public virtual void Update(GameTime gameTime)
         {
         }

@@ -70,7 +70,7 @@ namespace Combine
 		public override void Draw(GameTime gameTime)
 		{
 			graphicsDevice.Clear(Color.DarkSlateBlue);
-			HomeMenu.drawSubControls(spriteBatch);
+			HomeMenu.drawSubControls(spriteBatch, false);
 		}
 
 		public void Level1ButtonClick()

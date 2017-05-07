@@ -256,14 +256,14 @@ namespace RC_Framework
 		/// draw my sub controls if any
 		/// </summary>
 		/// <param name="sb"></param>
-		public virtual void drawSubControls(SpriteBatch sb)
+		public virtual void drawSubControls(SpriteBatch sb, bool debug)
 		{
 			if (controls == null) return;
 			if (controls.Count <= 0) return;
 
 			for (int i = 0; i < controls.Count; i++)
 			{
-				if (controls[i].visible) controls[i].Draw(sb);
+				if (controls[i].visible) controls[i].Draw(sb, debug);
 			}
 		}
 
@@ -477,7 +477,7 @@ namespace RC_Framework
 			Vector2 pos = getScreenPos();
 			Rectangle r = new Rectangle((int)pos.X, (int)pos.Y, bounds.Width, bounds.Height);
 			sb.Draw(tex, r, colour);
-			drawSubControls(sb);
+			drawSubControls(sb, false);
 		}
 	}
 
@@ -544,7 +544,7 @@ namespace RC_Framework
 				sb.Draw(up, r, colour);
 			if (state == 1)
 				sb.Draw(down, r, colour);
-			drawSubControls(sb);
+			drawSubControls(sb, false);
 			//drawToolTip(sb);
 		}
 
@@ -672,7 +672,7 @@ namespace RC_Framework
 			{
 				sb.DrawString(tfont, TextToDisplay, new Vector2(pos.X + textOffset.X, pos.Y + textOffset.Y), GUI_Globals.defaultTextColor);
 			}
-			drawSubControls(sb);
+			drawSubControls(sb, false);
 		}
 
 		/// <summary>
@@ -782,7 +782,7 @@ namespace RC_Framework
 			Rectangle r = new Rectangle((int)pos.X, (int)pos.Y, bounds.Width, bounds.Height);
 			sb.Draw(tex, r, colour);
 			if (text != "") sb.DrawString(font, text, new Vector2(pos.X + textOffset.X, pos.Y + textOffset.Y), textColor);
-			drawSubControls(sb);
+			drawSubControls(sb, false);
 		}
 
 		/// <summary>
@@ -934,7 +934,7 @@ namespace RC_Framework
 			{
 				sb.DrawString(font, text, new Vector2(pos.X + textOffset.X, pos.Y + textOffset.Y), GUI_Globals.defaultTextColor);
 			}
-			drawSubControls(sb);
+			drawSubControls(sb, false);
 		}
 
 		/// <summary>
@@ -1075,7 +1075,7 @@ namespace RC_Framework
 				Vector2 itemSize = font.MeasureString(text);
 				ypos = ypos + (int)(itemSize.Y + 0.5) + 2;
 			}
-			drawSubControls(sb);
+			drawSubControls(sb, false);
 		}
 
 		/// <summary>

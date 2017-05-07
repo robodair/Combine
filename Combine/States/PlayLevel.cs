@@ -9,6 +9,8 @@ namespace Combine
 {
 	public class PlayLevel<GridType, PieceType> : RC_GameStateParent
 	{
+		bool debug = false;
+
 		const int rightSideItemsX = 720;
 		const int rightSideStep = 25;
 		const int piecesX = 550;
@@ -94,6 +96,11 @@ namespace Combine
 
 		public override void Update(GameTime gameTime)
 		{
+			// Enable/disable debug drawing
+			if (keyState.IsKeyDown(Keys.B) && prevKeyState.IsKeyUp(Keys.B))
+			{
+				debug = !debug;
+			}
 			((ShapeGrid<PieceType>)grid).UpdateAsLevelGrid(gameTime, (PieceType)savedControl);
 			// Click UP Event
 			if (previousMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
@@ -189,14 +196,14 @@ namespace Combine
 		{
 			graphicsDevice.Clear(Color.DarkSlateBlue);
 
-			grid.Draw(spriteBatch, true);
+			grid.Draw(spriteBatch, debug);
 
 			spriteBatch.DrawString(font, "MOVE", RightSideItems[0], Color.Gray, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 			spriteBatch.DrawString(font, move.ToString(), RightSideItems[1], Color.White, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 			spriteBatch.DrawString(font, "SCORE", RightSideItems[2], Color.Gray, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 			spriteBatch.DrawString(font, score.ToString(), RightSideItems[3], Color.White, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 
-			GUI.drawSubControls(spriteBatch); // This draws the pieces too
+			GUI.drawSubControls(spriteBatch, debug); // This draws the pieces too
 		}
 
 		public void homeButtonClicked()

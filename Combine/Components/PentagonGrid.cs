@@ -164,13 +164,13 @@ namespace Combine
 		public void Draw(SpriteBatch sb, bool debug)
 		{
 			forAllItems3D(delegate (int x, int y, int z, Sprite3 s)
-						{
-							s.Draw(sb);
-							if (debug)
-							{
-								//s.drawInfo(sb, Color.AliceBlue, Color.Goldenrod);
-							}
-						});
+			{
+				s.Draw(sb);
+				if (debug)
+				{
+					s.drawInfo(sb, Color.AliceBlue, Color.Goldenrod);
+				}
+			});
 			particleEffects.Draw(sb);
 		}
 
