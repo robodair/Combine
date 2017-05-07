@@ -151,9 +151,33 @@ namespace Combine
 		/// </summary>
 		public void RotateRight()
 		{
-			Sprite3[,,] newSprites = new Sprite3[Size, Size + 2, 4];
-			// there are 4 possible rotations for each pentagon, possibly manual mapping is the only sane way to do this
+			Sprite3[,,] newSprites = new Sprite3[Sprites.GetLength(0), Sprites.GetLength(1), 4];
+			Sprite3[,,] oldSprites = Sprites;
 
+			// Manual mapping
+			newSprites[0, 0, 0] = Sprites[1, 2, 1];
+			newSprites[0, 0, 1] = Sprites[0, 1, 2];
+			newSprites[0, 0, 2] = Sprites[1, 0, 3];
+			newSprites[0, 0, 3] = Sprites[1, 1, 0];
+
+			newSprites[1, 0, 3] = Sprites[0, 0, 0];
+			newSprites[0, 1, 2] = Sprites[0, 0, 3];
+			newSprites[1, 1, 0] = Sprites[0, 0, 1];
+			newSprites[1, 2, 1] = Sprites[0, 0, 2];
+
+			Sprites = newSprites;
+
+			// Update sprite positions (and fill the ones that were blank)
+			forAllItems3D(delegate (int x, int y, int z, Sprite3 s)
+			{
+				if (s == null)
+				{
+					Sprites[x, y, z] = oldSprites[x, y, z];
+				}
+				// new sprite position
+				Sprites[x, y, z].setPos(getPosForSprite(x, y, z));
+			});
+			Align();
 		}
 
 		/// <summary>
