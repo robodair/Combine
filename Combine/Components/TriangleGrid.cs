@@ -276,7 +276,6 @@ namespace Combine
 		/// <returns>The number completed hexagons.</returns>
 		public int RemoveCompletedShapes()
 		{
-			// TODO adapt to work correctly for triangles
 			HashSet<Sprite3> trianglesToClear = new HashSet<Sprite3>();
 			int numMatches = 0;
 
@@ -286,27 +285,27 @@ namespace Combine
 			// and add them to the list plus create particle effects for them
 			forAllItems(delegate (int x, int y, Sprite3 s)
 			{
-				// TODO: can only be the top left corner of a hex if the x is EVEN
+				// Can only be the top left corner of a hex if the x is EVEN
 				if (x % 2 == 0 && (x + 3) < Sprites.GetLength(0) && (y + 1) < Sprites.GetLength(1)
 					// Sprites are active
 					&& s.getActive()
-				    && Sprites[x + 1, y].getActive()
-				    && Sprites[x + 2, y].getActive()
-				    && Sprites[x + 1, y + 1].getActive()
-				    && Sprites[x + 2, y + 1].getActive()
-				    && Sprites[x + 3, y + 1].getActive()
-				    // Sprites are colored
-				    && s.varBool0
-				    && Sprites[x + 1, y].varBool0
-				    && Sprites[x + 2, y].varBool0
-				    && Sprites[x + 1, y + 1].varBool0
-				    && Sprites[x + 2, y + 1].varBool0
-				    && Sprites[x + 3, y + 1].varBool0
-				    // Sprite colours match
+					&& Sprites[x + 1, y].getActive()
+					&& Sprites[x + 2, y].getActive()
+					&& Sprites[x + 1, y + 1].getActive()
+					&& Sprites[x + 2, y + 1].getActive()
+					&& Sprites[x + 3, y + 1].getActive()
+					// Sprites are colored
+					&& s.varBool0
+					&& Sprites[x + 1, y].varBool0
+					&& Sprites[x + 2, y].varBool0
+					&& Sprites[x + 1, y + 1].varBool0
+					&& Sprites[x + 2, y + 1].varBool0
+					&& Sprites[x + 3, y + 1].varBool0
+					// Sprite colours match
 					&& s.getColor() == Sprites[x + 1, y].getColor()
 					&& s.getColor() == Sprites[x + 2, y].getColor()
 					&& s.getColor() == Sprites[x + 1, y + 1].getColor()
-				    && s.getColor() == Sprites[x + 2, y + 1].getColor()
+					&& s.getColor() == Sprites[x + 2, y + 1].getColor()
 					&& s.getColor() == Sprites[x + 3, y + 1].getColor()
 				)
 				{
