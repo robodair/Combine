@@ -271,36 +271,57 @@ namespace Combine
 		}
 
 		/// <summary>
-		/// Checks for completed squares and replaces them with particle effects
+		/// Checks for completed hexagons and replaces them with particle effects
 		/// </summary>
-		/// <returns>The number completed squares.</returns>
+		/// <returns>The number completed hexagons.</returns>
 		public int RemoveCompletedShapes()
 		{
-			HashSet<Sprite3> squaresToClear = new HashSet<Sprite3>();
+			// TODO adapt to work correctly for triangles
+			HashSet<Sprite3> trianglesToClear = new HashSet<Sprite3>();
 			int numMatches = 0;
 
-			// for each square check color of: the next door one, the one below, and the one diagonally below
+			// for each triangle, if the triangle is an even row (pointing up) check color of:
+			// - the two to the right
+			// - the three below but shifted one column to the right
 			// and add them to the list plus create particle effects for them
 			forAllItems(delegate (int x, int y, Sprite3 s)
 			{
-				if (x < Size - 1 && y < Size - 1
+				// TODO: can only be the top left corner of a hex if the x is EVEN
+				if (x % 2 == 0 && (x + 3) < Sprites.GetLength(0) && (y + 1) < Sprites.GetLength(1)
+					// Sprites are active
 					&& s.getActive()
-					&& s.varBool0   // Sprite must be marked as dropped
+				    && Sprites[x + 1, y].getActive()
+				    && Sprites[x + 2, y].getActive()
+				    && Sprites[x + 1, y + 1].getActive()
+				    && Sprites[x + 2, y + 1].getActive()
+				    && Sprites[x + 3, y + 1].getActive()
+				    // Sprites are colored
+				    && s.varBool0
+				    && Sprites[x + 1, y].varBool0
+				    && Sprites[x + 2, y].varBool0
+				    && Sprites[x + 1, y + 1].varBool0
+				    && Sprites[x + 2, y + 1].varBool0
+				    && Sprites[x + 3, y + 1].varBool0
+				    // Sprite colours match
 					&& s.getColor() == Sprites[x + 1, y].getColor()
+					&& s.getColor() == Sprites[x + 2, y].getColor()
 					&& s.getColor() == Sprites[x + 1, y + 1].getColor()
-					&& s.getColor() == Sprites[x, y + 1].getColor()
+				    && s.getColor() == Sprites[x + 2, y + 1].getColor()
+					&& s.getColor() == Sprites[x + 3, y + 1].getColor()
 				)
 				{
 					numMatches++;
-					squaresToClear.Add(s);
-					squaresToClear.Add(Sprites[x + 1, y]);
-					squaresToClear.Add(Sprites[x + 1, y + 1]);
-					squaresToClear.Add(Sprites[x, y + 1]);
+					trianglesToClear.Add(s);
+					trianglesToClear.Add(Sprites[x + 1, y]);
+					trianglesToClear.Add(Sprites[x + 2, y]);
+					trianglesToClear.Add(Sprites[x + 1, y + 1]);
+					trianglesToClear.Add(Sprites[x + 2, y + 1]);
+					trianglesToClear.Add(Sprites[x + 3, y + 1]);
 				}
 			});
 
 			// Spawn particle systems and reset colors TODO: Make the effect nicer
-			foreach (Sprite3 s in squaresToClear)
+			foreach (Sprite3 s in trianglesToClear)
 			{
 				// reset the colours
 				s.setColor(DefaultColor);
