@@ -379,23 +379,20 @@ namespace Combine
 		{
 			// Collect a list of pentagons that match
 			List<Sprite3> matchedPentagons = new List<Sprite3>();
-			if (piece != null)
+			forAllItems3D(delegate (int x, int y, int z, Sprite3 s)
 			{
-				forAllItems3D(delegate (int x, int y, int z, Sprite3 s)
-				{
 					// Highlight the pentagons under the given piece (if they don't have a color)
 					if (piece != null)
+				{
+					piece.PieceGrid.forAllItems3D(delegate (int _x, int _y, int _z, Sprite3 part)
 					{
-						piece.PieceGrid.forAllItems3D(delegate (int _x, int _y, int _z, Sprite3 part)
+						if (PentagonsOverlap(s, part))
 						{
-							if (PentagonsOverlap(s, part))
-							{
-								matchedPentagons.Add(s);
-							}
-						});
-					}
-				});
-			}
+							matchedPentagons.Add(s);
+						}
+					});
+				}
+			});
 
 			// If all parts have a pentagon, apply the colors and return true
 			if (matchedPentagons.Count == piece.NumParts)

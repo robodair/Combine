@@ -416,17 +416,14 @@ namespace Combine
 				// for every piece in the array
 				foreach (TrianglePiece piece in pieces)
 				{
-					if (piece != null)
+					// for every triangle on the board
+					forAllItems(delegate (int x, int y, Sprite3 s)
 					{
-						// for every triangle on the board
-						forAllItems(delegate (int x, int y, Sprite3 s)
+						if (fitPieceToLocation(x, y, piece))
 						{
-							if (fitPieceToLocation(x, y, piece))
-							{
-								throw new PlaceFoundException();
-							}
-						});
-					}
+							throw new PlaceFoundException();
+						}
+					});
 				}
 			}
 			catch (PlaceFoundException)

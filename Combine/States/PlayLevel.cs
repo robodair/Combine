@@ -40,6 +40,8 @@ namespace Combine
 		public int MATCH_SCORE = 30;
 		public String Type { get; private set; }
 
+		bool checkForNoMoreMoves = false;
+
 		public PlayLevel(RC_GameStateManager lm, string type, int gridSize) :
 			base(lm)
 		{
@@ -115,10 +117,7 @@ namespace Combine
 						move++;
 						score += ((ShapeGrid<PieceType>)grid).RemoveCompletedShapes() * MATCH_SCORE;
 						savedControl = null;
-						if (grid.hasNoMovesLeft(pieces))
-						{
-							Console.WriteLine("NO MOVES LEFT");
-						}
+						checkForNoMoreMoves = true;
 					}
 				}
 				dragging = false; // cancel dragging
@@ -183,6 +182,17 @@ namespace Combine
 				if (piece != null)
 					piece.Update(gameTime);
 			}
+
+			// The final thing we do is check if any of the pieces can fit into the grid
+			if (checkForNoMoreMoves == true && grid.hasNoMovesLeft(pieces))
+			{
+				Console.WriteLine("NO MOVES LEFT");
+			}
+			else
+			{
+				checkForNoMoreMoves = false;
+			}
+
 			base.Update(gameTime);
 		}
 
