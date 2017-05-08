@@ -500,7 +500,16 @@ namespace Combine
 		/// <param name="piece">The Piece.</param>
 		private void fitPieceToLocation(int x, int y, PentagonPiece piece)
 		{
+			// for every hexagon (x, y) on the board, for every rotation of the piece
 
+			// decide on what the offset is based on even or odd row
+
+			// check the positions of the parts in the horizontal hexagon against
+			// the positions of the grid horizontal hexagon
+
+			// check the positions of the parts in the piece vertical hexagon
+			// against the vertical hexagon directly under the hexagon at [x, y]
+			// That is, the one with it's top at [x, y, 3]
 		}
 	}
 }
