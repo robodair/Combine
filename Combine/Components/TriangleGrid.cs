@@ -463,8 +463,8 @@ namespace Combine
 						// skip parts outside grid boundaries
 						return;
 					}
-					// check if the piece part is active and not filled
-					if (piece_part.getActive() && !piece_part.varBool0)
+					// check if the piece part is active
+					if (piece_part.getActive())
 					{
 						// check if the part at [x + part_x, y + part_y] is active and has no color
 						if (Sprites[x + part_x, y + part_y].getActive()
