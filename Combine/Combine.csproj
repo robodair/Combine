@@ -78,6 +78,7 @@
     <Compile Include="Components\PentagonGrid.cs" />
     <Compile Include="Components\PentagonPiece.cs" />
     <Compile Include="Components\PlaceFoundException.cs" />
+    <Compile Include="States\GameOverLevel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />
