@@ -186,6 +186,7 @@ namespace Combine
 			// The final thing we do is check if any of the pieces can fit into the grid
 			if (checkForNoMoreMoves == true && grid.hasNoMovesLeft(pieces))
 			{
+				checkForNoMoreMoves = false;
 				Console.WriteLine("NO MOVES LEFT");
 			}
 			else
