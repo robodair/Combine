@@ -181,6 +181,35 @@ namespace Combine
 		}
 
 		/// <summary>
+		/// Rotates the Grid right One step (90 Degrees) only within the first pentagon (for single piece pieces ONLY)
+		/// </summary>
+		public void RotateRightWithinSinglePentagon()
+		{
+			Sprite3[,,] newSprites = new Sprite3[Sprites.GetLength(0), Sprites.GetLength(1), 4];
+			Sprite3[,,] oldSprites = Sprites;
+
+			// Manual mapping
+			newSprites[0, 0, 0] = Sprites[0, 0, 3];
+			newSprites[0, 0, 1] = Sprites[0, 0, 0];
+			newSprites[0, 0, 2] = Sprites[0, 0, 1];
+			newSprites[0, 0, 3] = Sprites[0, 0, 2];
+
+			Sprites = newSprites;
+
+			// Update sprite positions (and fill the ones that were blank)
+			forAllItems3D(delegate (int x, int y, int z, Sprite3 s)
+			{
+				if (s == null)
+				{
+					Sprites[x, y, z] = oldSprites[x, y, z];
+				}
+				// new sprite position
+				Sprites[x, y, z].setPos(getPosForSprite(x, y, z));
+			});
+			Align();
+		}
+
+		/// <summary>
 		/// Draw the specified sb and debug.
 		/// </summary>
 		/// <param name="sb">SpriteBatch.</param>
