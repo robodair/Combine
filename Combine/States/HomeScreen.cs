@@ -13,6 +13,7 @@ namespace Combine
 		Texture2D buttonTexture;
 		GUI_Control HomeMenu;
 		Song song;
+		Vector2 helpTextPos = new Vector2(20, 20);
 		public HomeScreen(RC_GameStateManager lm) :
 			base(lm)
 		{
@@ -58,6 +59,7 @@ namespace Combine
 		public override void Draw(GameTime gameTime)
 		{
 			graphicsDevice.Clear(Color.DarkSlateBlue);
+			spriteBatch.DrawString(font, "(F1) Help", helpTextPos, Color.Lavender, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 			HomeMenu.drawSubControls(spriteBatch, false);
 		}
 
