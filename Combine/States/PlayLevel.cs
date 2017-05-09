@@ -75,7 +75,7 @@ namespace Combine
 			if (pieces != null)
 				foreach (ShapePiece piece in pieces) { GUI.RemoveControl((GUI_Control)piece); }
 			pieces = (new ShapePiece[3]);
-			grid = (ShapeGrid<PieceType>)Activator.CreateInstance(typeof(GridType), new object[] { GridSize, 100, 100, 30, true, null });
+			grid = (ShapeGrid<PieceType>)Activator.CreateInstance(typeof(GridType), new object[] { GridSize, 150, 150, 30, true, null });
 			MediaPlayer.Play(song);
 			MediaPlayer.IsRepeating = true;
 			dragging = false;
@@ -234,7 +234,7 @@ namespace Combine
 			spriteBatch.DrawString(font, move.ToString(), RightSideItems[1], Color.White, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 			spriteBatch.DrawString(font, "SCORE", RightSideItems[2], Color.Gray, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 			spriteBatch.DrawString(font, score.ToString(), RightSideItems[3], Color.White, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
-			spriteBatch.DrawString(font, "(P) To Pause" + Environment.NewLine + "(F1) for help", helpTextPos, Color.Lavender, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
+			spriteBatch.DrawString(font, "(P) Pause" + Environment.NewLine + "(F1) Help" + Environment.NewLine + "(B) BB drawing", helpTextPos, Color.Lavender, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 			GUI.drawSubControls(spriteBatch, debug); // This draws the pieces too
 		}
 
