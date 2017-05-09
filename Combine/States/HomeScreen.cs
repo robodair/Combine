@@ -24,11 +24,14 @@ namespace Combine
 			song = Content.Load<Song>("music/puzzle-1-b");
 			buttonTexture = Content.Load<Texture2D>("textures/gui/buttonDefault");
 			HomeMenu = new GUI_Control();
-			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 100)
+			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(100, 100)
+			                                 ).setText(" Square Level", font, 0.35f, Color.MediumPurple
 											).attachLeftMouseDownCallback(Level1ButtonClick));
-			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 200)
+			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(100, 200)
+			                                 ).setText("Triangle Level", font, 0.35f, Color.MediumPurple
 											).attachLeftMouseDownCallback(Level2ButtonClick));
-			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(200, 300)
+			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(100, 300)
+			                                 ).setText("Pentagon Level", font, 0.35f, Color.MediumPurple
 											).attachLeftMouseDownCallback(Level3ButtonClick));
 
 		}

@@ -603,6 +603,10 @@ namespace RC_Framework
 		/// </summary>
 		public String TextToDisplay = "";
 
+		float TextScale;
+
+		Color TextColor;
+
 		/// <summary>
 		/// Font to display text
 		/// </summary>
@@ -611,7 +615,7 @@ namespace RC_Framework
 		/// <summary>
 		/// Where to show the text 
 		/// </summary>
-		public Vector2 textOffset = new Vector2(5, 3);
+		public Vector2 textOffset = new Vector2(20, 7);
 
 		/// <summary>
 		/// ButtonSI Constructor - resizes to texture
@@ -625,6 +629,7 @@ namespace RC_Framework
 			bounds = new Rectangle((int)pos.X, (int)pos.Y, up.Width, up.Height);
 			wasClicked = false;
 			colClicked = cClicked;
+			TextColor = GUI_Globals.defaultTextColor;
 		}
 
 		/// <summary>
@@ -647,11 +652,14 @@ namespace RC_Framework
 		/// </summary>
 		/// <param name="t"></param>
 		/// <param name="f"></param>
-		public void setText(String t, SpriteFont f)
+		public ButtonSI setText(String t, SpriteFont f, float textScale, Color textColor)
 		{
 			// Optional text string 
 			TextToDisplay = t;
+			TextScale = textScale;
+			TextColor = textColor;
 			tfont = f;
+			return this;
 		}
 
 		/// <summary>
@@ -670,7 +678,7 @@ namespace RC_Framework
 
 			if (TextToDisplay != "")
 			{
-				sb.DrawString(tfont, TextToDisplay, new Vector2(pos.X + textOffset.X, pos.Y + textOffset.Y), GUI_Globals.defaultTextColor);
+				sb.DrawString(tfont, TextToDisplay, new Vector2(pos.X + textOffset.X, pos.Y + textOffset.Y), TextColor, 0, Vector2.Zero, TextScale, SpriteEffects.None, 0);
 			}
 			drawSubControls(sb, false);
 		}
