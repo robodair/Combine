@@ -116,3 +116,9 @@
 /processorParam:TextureFormat=Color
 /build:textures/pieces/triangle.png
 
+#begin sound/chime.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sound/chime.mp3
+

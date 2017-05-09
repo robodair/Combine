@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using RC_Framework;
@@ -31,6 +31,7 @@ namespace Combine
 		int move;
 		int score;
 		Song song;
+		SoundEffect chime;
 
 		Boolean dragging = false;
 		MouseState beginDragging;
@@ -52,6 +53,7 @@ namespace Combine
 		public override void LoadContent()
 		{
 			song = Content.Load<Song>("music/puzzle-1-a");
+			chime = Content.Load<SoundEffect>("sound/chime");
 			Texture2D homeButton = Content.Load<Texture2D>("textures/gui/homeButton");
 			Texture2D pauseButton = Content.Load<Texture2D>("textures/gui/pauseButton");
 			GUI = new GUI_Control();
@@ -115,9 +117,14 @@ namespace Combine
 						pieces[Array.IndexOf(pieces, savedControl)] = null;
 						GUI.RemoveControl((GUI_Control)savedControl);
 						move++;
-						score += ((ShapeGrid<PieceType>)grid).RemoveCompletedShapes() * MATCH_SCORE;
+						int points = ((ShapeGrid<PieceType>)grid).RemoveCompletedShapes() * MATCH_SCORE;
+						score += points;
 						savedControl = null;
 						checkForNoMoreMoves = true;
+						if (points > 0)
+						{
+							chime.Play();
+						}
 					}
 				}
 				dragging = false; // cancel dragging
