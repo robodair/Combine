@@ -122,3 +122,9 @@
 /processorParam:Quality=Best
 /build:sound/success.wav
 
+#begin music/doodle.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/doodle.mp3
+
