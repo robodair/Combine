@@ -210,6 +210,8 @@ namespace Combine
 								};
 				GameOverOverlayTimer.AutoReset = false;
 				GameOverOverlayTimer.Enabled = true;
+				Game1.lastScore = score;
+				Game1.lastLevel = gameStateManager.getCurrentLevelNum();
 			}
 			else
 			{
@@ -240,7 +242,7 @@ namespace Combine
 
 		public void homeButtonClicked()
 		{
-			gameStateManager.setLevel(1);
+			gameStateManager.setLevel(Game1.HOME_SCREEN);
 		}
 
 		public void pauseButtonClicked()
