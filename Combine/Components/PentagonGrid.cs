@@ -509,7 +509,10 @@ namespace Combine
 					// for every group on the board
 					forAllItems(delegate (int x, int y, Sprite3 s)
 					{
-						fitPieceToLocation(x, y, piece);
+						if (fitPieceToLocation(x, y, piece))
+						{
+							throw new PlaceFoundException();
+						}
 					});
 				}
 			}
@@ -527,18 +530,161 @@ namespace Combine
 		/// <param name="x">The x coordinate.</param>
 		/// <param name="y">The y coordinate.</param>
 		/// <param name="piece">The Piece.</param>
-		private void fitPieceToLocation(int x, int y, PentagonPiece piece)
+		private bool fitPieceToLocation(int x, int y, PentagonPiece piece)
 		{
-			// for every hexagon (x, y) on the board, for every rotation of the piece
+			bool matchFound = false;
+			// for every rotation of the piece
+			for (int i = 0; i < 4; i++)
+			{
+				int numMatched = 0;
+				piece.RotateRight();
+				//piece.RotateRight();
+				// check the positions of the parts in the horizontal hexagon against
+				// the positions of the grid horizontal hexagon
+				for (int z = 0; z < 4; z++)
+				{
+					if (Sprites[x, y, z].getActive()
+						&& !Sprites[x, y, z].varBool0
+						&& piece.PieceGrid.Sprites[0, 0, z].getActive())
+					{
+						numMatched++;
+					}
+				}
 
-			// decide on what the offset is based on even or odd row
+				if (numMatched == piece.NumParts)
+				{
+					matchFound = true;
+					// we COULD break here, but then the piece wouldn't stay at the same rotation
+				}
+				numMatched = 0;
+				// check the positions of the parts in the piece vertical hexagon
+				if (y % 2 > 0)
+				{
+					// odd row
+					numMatched += verticalPentagonFitOdd(x, y, piece);
+				}
+				else
+				{
+					// even row
+					// against the vertical hexagon directly under the hexagon at [x, y]
+					// That is, the one with it's top at [x, y, 3]
+					numMatched += verticalPentagonFitEven(x, y, piece);
+				}
+				if (numMatched == piece.NumParts)
+				{
+					matchFound = true;
+					// we COULD break here, but then the piece wouldn't stay at the same rotation
+				}
+			}
 
-			// check the positions of the parts in the horizontal hexagon against
-			// the positions of the grid horizontal hexagon
+			if (matchFound)
+			{
+				Console.WriteLine($"Found a location for a piece at x{x}, y{y}");
+			}
 
-			// check the positions of the parts in the piece vertical hexagon
-			// against the vertical hexagon directly under the hexagon at [x, y]
-			// That is, the one with it's top at [x, y, 3]
+			return matchFound;
+		}
+
+		private int verticalPentagonFitEven(int x, int y, PentagonPiece piece)
+		{
+			int numMatched = 0;
+			for (int z = 0; z < 4; z++)
+			{
+				Sprite3 gridSprite = null;
+				Sprite3 pieceSprite = null;
+				switch (z)
+				{
+					case 0:
+						if ((y + 1) >= Sprites.GetLength(1))
+						{
+							continue;
+						}
+						gridSprite = Sprites[x, y + 1, 0];
+						pieceSprite = piece.PieceGrid.Sprites[1, 1, 0];
+						break;
+					case 1:
+						if ((y + 2) >= Sprites.GetLength(1))
+						{
+							continue;
+						}
+						gridSprite = Sprites[x, y + 2, 1];
+						pieceSprite = piece.PieceGrid.Sprites[1, 2, 1];
+						break;
+					case 2:
+						if ((x - 1) < 0 || (y + 1) >= Sprites.GetLength(1))
+						{
+							continue;
+						}
+						gridSprite = Sprites[x - 1, y + 1, 2];
+						pieceSprite = piece.PieceGrid.Sprites[0, 1, 2];
+						break;
+					case 3:
+						gridSprite = Sprites[x, y, 3];
+						pieceSprite = piece.PieceGrid.Sprites[1, 0, 3];
+						break;
+				}
+
+				if (gridSprite.getActive()
+						&& !gridSprite.varBool0
+						&& pieceSprite.getActive())
+				{
+					numMatched++;
+				}
+
+			}
+
+			return numMatched;
+		}
+
+		private int verticalPentagonFitOdd(int x, int y, PentagonPiece piece)
+		{
+			int numMatched = 0;
+			for (int z = 0; z < 4; z++)
+			{
+				Sprite3 gridSprite = null;
+				Sprite3 pieceSprite = null;
+				switch (z)
+				{
+					case 0:
+						if ((x + 1) >= Sprites.GetLength(0) || (y + 1) >= Sprites.GetLength(1))
+						{
+							continue;
+						}
+						gridSprite = Sprites[x + 1, y + 1, 0];
+						pieceSprite = piece.PieceGrid.Sprites[1, 1, 0];
+						break;
+					case 1:
+						if ((y + 2) >= Sprites.GetLength(1))
+						{
+							continue;
+						}
+						gridSprite = Sprites[x, y + 2, 1];
+						pieceSprite = piece.PieceGrid.Sprites[1, 2, 1];
+						break;
+					case 2:
+						if ((y + 1) >= Sprites.GetLength(1))
+						{
+							continue;
+						}
+						gridSprite = Sprites[x, y + 1, 2];
+						pieceSprite = piece.PieceGrid.Sprites[0, 1, 2];
+						break;
+					case 3:
+						gridSprite = Sprites[x, y, 3];
+						pieceSprite = piece.PieceGrid.Sprites[1, 0, 3];
+						break;
+				}
+
+				if (gridSprite.getActive()
+						&& !gridSprite.varBool0
+						&& pieceSprite.getActive())
+				{
+					numMatched++;
+				}
+
+			}
+
+			return numMatched;
 		}
 	}
 }

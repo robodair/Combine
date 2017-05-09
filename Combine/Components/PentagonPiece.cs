@@ -176,7 +176,14 @@ namespace Combine
 
 		public void RotateRight()
 		{
-			PieceGrid.RotateRight();
+			if (NumParts == 1)
+			{
+				PieceGrid.RotateRightWithinSinglePentagon();
+			}
+			else
+			{
+				PieceGrid.RotateRight();
+			}
 		}
 
 		public void endDrag()
