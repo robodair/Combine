@@ -410,8 +410,8 @@ namespace Combine
 			List<Sprite3> matchedPentagons = new List<Sprite3>();
 			forAllItems3D(delegate (int x, int y, int z, Sprite3 s)
 			{
-					// Highlight the pentagons under the given piece (if they don't have a color)
-					if (piece != null)
+				// Highlight the pentagons under the given piece (if they don't have a color)
+				if (piece != null)
 				{
 					piece.PieceGrid.forAllItems3D(delegate (int _x, int _y, int _z, Sprite3 part)
 					{
