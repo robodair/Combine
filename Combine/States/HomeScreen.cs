@@ -40,18 +40,10 @@ namespace Combine
 
 		public override void ResumeLevel()
 		{
-			MediaPlayer.Resume();
+			MediaPlayer.Play(song);
+			MediaPlayer.IsRepeating = true;
 		}
 
-		public override void SuspendLevel()
-		{
-			MediaPlayer.Pause();
-		}
-
-		public override void ExitLevel()
-		{
-			MediaPlayer.Stop();
-		}
 
 		public override void Update(GameTime gameTime)
 		{

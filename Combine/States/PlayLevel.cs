@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using RC_Framework;
+using System.Timers;
+
 namespace Combine
 {
 	public class PlayLevel<GridType, PieceType> : RC_GameStateParent
@@ -41,7 +43,7 @@ namespace Combine
 		public int MATCH_SCORE = 30;
 		public String Type { get; private set; }
 
-		bool checkForNoMoreMoves = false;
+		bool checkForNoMoreMoves;
 
 		public PlayLevel(RC_GameStateManager lm, string type, int gridSize) :
 			base(lm)
@@ -75,23 +77,15 @@ namespace Combine
 			MediaPlayer.Play(song);
 			MediaPlayer.IsRepeating = true;
 			dragging = false;
+			checkForNoMoreMoves = false;
 			base.EnterLevel(fromLevelNum);
 		}
 
 		public override void ResumeLevel()
 		{
 			dragging = false;
-			MediaPlayer.Resume();
-		}
-
-		public override void SuspendLevel()
-		{
-			MediaPlayer.Pause();
-		}
-
-		public override void ExitLevel()
-		{
-			MediaPlayer.Stop();
+			MediaPlayer.Play(song);
+			MediaPlayer.IsRepeating = true;
 		}
 
 		public override void Update(GameTime gameTime)
@@ -191,11 +185,29 @@ namespace Combine
 					piece.Update(gameTime);
 			}
 
+
 			// The final thing we do is check if any of the pieces can fit into the grid
 			if (checkForNoMoreMoves == true && grid.hasNoMovesLeft(pieces))
 			{
 				checkForNoMoreMoves = false;
 				Console.WriteLine("NO MOVES LEFT");
+				// Set a timer to move to the game over screen
+				Timer GameOverScreenTimer = new Timer(4000);
+				GameOverScreenTimer.Elapsed += delegate
+								{
+									gameStateManager.setLevel(Game1.GAME_OVER_LEVEL);
+								};
+				GameOverScreenTimer.AutoReset = false;
+				GameOverScreenTimer.Enabled = true;
+
+				// Show the "No More Moves popup"
+				Timer GameOverOverlayTimer = new Timer(300);
+				GameOverOverlayTimer.Elapsed += delegate
+								{
+									gameStateManager.setLevel(Game1.GAME_OVER_OVERLAY);
+								};
+				GameOverOverlayTimer.AutoReset = false;
+				GameOverOverlayTimer.Enabled = true;
 			}
 			else
 			{

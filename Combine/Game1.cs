@@ -18,10 +18,16 @@ namespace Combine
 		RC_GameStateManager StateManager;
 
 		const int SPLASH_SCREEN = 0;
-		const int HOME_SCREEN = 1;
+		public const int HOME_SCREEN = 1;
 		const int SQUARES_LEVEL = 2;
 		const int TRIANGLES_LEVEL = 3;
 		const int PENTAGONS_LEVEL = 4;
+		public const int GAME_OVER_LEVEL = 5;
+		public const int GAME_OVER_OVERLAY = 6;
+		public const int HELP_LEVEL = 7;
+
+		bool helpLevelActive = false;
+
 
 		public Game1()
 		{
@@ -48,6 +54,9 @@ namespace Combine
 			StateManager.AddLevel(SQUARES_LEVEL, new PlayLevel<SquareGrid, SquarePiece>(StateManager, "square", 6));
 			StateManager.AddLevel(TRIANGLES_LEVEL, new PlayLevel<TriangleGrid, TrianglePiece>(StateManager, "triangle", 6));
 			StateManager.AddLevel(PENTAGONS_LEVEL, new PlayLevel<PentagonGrid, PentagonPiece>(StateManager, "pentagon", 3));
+			StateManager.AddLevel(GAME_OVER_LEVEL, new GameOverLevel(StateManager));
+			StateManager.AddLevel(GAME_OVER_OVERLAY, new GameOverOverlay(StateManager));
+			StateManager.AddLevel(HELP_LEVEL, new HelpScreen(StateManager));
 
 			this.IsMouseVisible = true;
 			base.Initialize();
@@ -75,8 +84,7 @@ namespace Combine
 
 			GUI_Globals.initGUIGlobals(GraphicsDevice, font, font, Color.White);
 
-			StateManager.setLevel(HOME_SCREEN);
-			StateManager.pushLevel(SPLASH_SCREEN);
+			StateManager.setLevel(SPLASH_SCREEN);
 		}
 
 		/// <summary>
@@ -90,6 +98,20 @@ namespace Combine
 
 			if (RC_GameStateParent.keyState.IsKeyDown(Keys.Escape))
 				Exit();
+
+			if (RC_GameStateParent.keyState.IsKeyDown(Keys.F1) && RC_GameStateParent.prevKeyState.IsKeyUp(Keys.F1))
+			{
+				if (!helpLevelActive)
+				{
+					StateManager.pushLevel(Game1.HELP_LEVEL);
+					helpLevelActive = true;
+				}
+				else
+				{
+					StateManager.popLevel();
+					helpLevelActive = false;
+				}
+			}
 
 			StateManager.getCurrentLevel().Update(gameTime);
 

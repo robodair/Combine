@@ -40,7 +40,7 @@ namespace Combine
 			counter++;
 			if (counter == 30)
 			{
-				gameStateManager.popLevel();
+				gameStateManager.setLevel(Game1.HOME_SCREEN);
 			}
 		}
 	}
