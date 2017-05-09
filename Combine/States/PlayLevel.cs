@@ -31,7 +31,7 @@ namespace Combine
 		int move;
 		int score;
 		Song song;
-		SoundEffect chime;
+		SoundEffectInstance chime;
 
 		Boolean dragging = false;
 		MouseState beginDragging;
@@ -53,7 +53,8 @@ namespace Combine
 		public override void LoadContent()
 		{
 			song = Content.Load<Song>("music/puzzle-1-a");
-			chime = Content.Load<SoundEffect>("sound/chime");
+			chime = Content.Load<SoundEffect>("sound/success").CreateInstance();
+			chime.Volume = 0.5f;
 			Texture2D homeButton = Content.Load<Texture2D>("textures/gui/homeButton");
 			Texture2D pauseButton = Content.Load<Texture2D>("textures/gui/pauseButton");
 			GUI = new GUI_Control();
