@@ -25,6 +25,7 @@ namespace Combine
 		public const int GAME_OVER_LEVEL = 5;
 		public const int GAME_OVER_OVERLAY = 6;
 		public const int HELP_LEVEL = 7;
+		public const int PAUSE_LEVEL = 8;
 
 		bool helpLevelActive = false;
 
@@ -57,6 +58,7 @@ namespace Combine
 			StateManager.AddLevel(GAME_OVER_LEVEL, new GameOverLevel(StateManager));
 			StateManager.AddLevel(GAME_OVER_OVERLAY, new GameOverOverlay(StateManager));
 			StateManager.AddLevel(HELP_LEVEL, new HelpScreen(StateManager));
+			StateManager.AddLevel(PAUSE_LEVEL, new PauseLevel(StateManager));
 
 			this.IsMouseVisible = true;
 			base.Initialize();

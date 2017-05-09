@@ -43,6 +43,8 @@ namespace Combine
 		public int MATCH_SCORE = 30;
 		public String Type { get; private set; }
 
+		Vector2 helpTextPos = new Vector2(20, 20);
+
 		bool checkForNoMoreMoves;
 
 		public PlayLevel(RC_GameStateManager lm, string type, int gridSize) :
@@ -214,6 +216,11 @@ namespace Combine
 				checkForNoMoreMoves = false;
 			}
 
+			if (keyState.IsKeyDown(Keys.P) && prevKeyState.IsKeyUp(Keys.P))
+			{
+				gameStateManager.pushLevel(Game1.PAUSE_LEVEL);
+			}
+
 			base.Update(gameTime);
 		}
 
@@ -227,7 +234,7 @@ namespace Combine
 			spriteBatch.DrawString(font, move.ToString(), RightSideItems[1], Color.White, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 			spriteBatch.DrawString(font, "SCORE", RightSideItems[2], Color.Gray, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 			spriteBatch.DrawString(font, score.ToString(), RightSideItems[3], Color.White, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
-
+			spriteBatch.DrawString(font, "(P) To Pause" + Environment.NewLine + "(F1) for help", helpTextPos, Color.Lavender, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 			GUI.drawSubControls(spriteBatch, debug); // This draws the pieces too
 		}
 
@@ -238,7 +245,7 @@ namespace Combine
 
 		public void pauseButtonClicked()
 		{
-			//gameStateManager.setLevel(); //TODO: Some other pause state
+			gameStateManager.pushLevel(Game1.PAUSE_LEVEL);
 		}
 	}
 }

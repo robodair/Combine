@@ -81,6 +81,7 @@
     <Compile Include="States\GameOverLevel.cs" />
     <Compile Include="States\GameOverOverlay.cs" />
     <Compile Include="States\HelpScreen.cs" />
+    <Compile Include="States\PauseLevel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />

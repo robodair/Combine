@@ -6,10 +6,8 @@ namespace Combine
 {
 	public class GameOverLevel : RC_GameStateParent
 	{
-		Song song;
-
 		public GameOverLevel(RC_GameStateManager lm) :
-					base(lm)
+							base(lm)
 		{
 		}
 
