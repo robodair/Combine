@@ -16,6 +16,11 @@ namespace Combine
 		const int rightSideItemsX = 720;
 		const int rightSideStep = 25;
 		const int piecesX = 550;
+		int rotationAlpha;
+		bool rotationAlphaDirection;
+		int pauseRotationTimer;
+		const int ROTATION_INTERVAL = 300;
+		bool pauseRotationFade;
 
 		int GridSize;
 
@@ -47,6 +52,8 @@ namespace Combine
 
 		bool checkForNoMoreMoves;
 
+		SpriteList rotationIndicators;
+
 		public PlayLevel(RC_GameStateManager lm, string type, int gridSize) :
 			base(lm)
 		{
@@ -64,6 +71,27 @@ namespace Combine
 			GUI = new GUI_Control();
 			GUI.AddControl(new ButtonSI(homeButton, Color.Goldenrod, RightSideItems[4]).attachLeftMouseDownCallback(homeButtonClicked));
 			GUI.AddControl(new ButtonSI(pauseButton, Color.Goldenrod, RightSideItems[5]).attachLeftMouseDownCallback(pauseButtonClicked));
+
+			Texture2D rotationInd = Content.Load<Texture2D>("textures/arrows");
+			rotationIndicators = new SpriteList(3);
+
+			for (int i = 0; i < 3; i++)
+			{
+				Sprite3 s = new Sprite3(true, rotationInd, PiecePositions[i].X, PiecePositions[i].Y);
+				s.setWidthHeight(128, 128);
+				s.setXframes(18);
+				s.setYframes(1);
+				Vector2[] sequence = new Vector2[18];
+				for (int frame = 0; frame < 18; frame++)
+				{
+					sequence[frame] = new Vector2(frame, 0);
+				}
+				s.setAnimationSequence(sequence, 0, 17, 10);
+				s.animationStart();
+				s.setColor(new Color(Color.White, 0));
+				rotationIndicators.addSprite(s);
+			}
+
 			base.LoadContent();
 		}
 
@@ -80,6 +108,10 @@ namespace Combine
 			MediaPlayer.IsRepeating = true;
 			dragging = false;
 			checkForNoMoreMoves = false;
+			rotationAlpha = 0;
+			rotationAlphaDirection = true;
+			pauseRotationTimer = ROTATION_INTERVAL;
+			pauseRotationFade = true;
 			base.EnterLevel(fromLevelNum);
 		}
 
@@ -127,6 +159,40 @@ namespace Combine
 				dragging = false; // cancel dragging
 			}
 			GUI.Update(gameTime);
+
+			rotationIndicators.Update(gameTime);
+			rotationIndicators.animationTick();
+			rotationIndicators.setColor(new Color(Color.White, rotationAlpha));
+
+			if (!pauseRotationFade)
+			{
+				if (rotationAlphaDirection)
+				{
+					rotationAlpha += 2;
+				}
+				else
+				{
+					rotationAlpha -= 2;
+				}
+				if (rotationAlpha <= 0)
+				{
+					rotationAlphaDirection = true;
+					pauseRotationFade = true;
+				}
+				else if (rotationAlpha >= 255)
+				{
+					rotationAlphaDirection = false;
+				}
+			}
+			else
+			{
+				pauseRotationTimer--;
+				if (pauseRotationTimer <= 0)
+				{
+					pauseRotationTimer = ROTATION_INTERVAL;
+					pauseRotationFade = false;
+				}
+			}
 
 			// Save state in case there's a drag
 			if (previousMouseState.LeftButton == ButtonState.Released && currentMouseState.LeftButton == ButtonState.Pressed)
@@ -251,7 +317,7 @@ namespace Combine
 			graphicsDevice.Clear(Color.DarkSlateBlue);
 
 			grid.Draw(spriteBatch, debug);
-
+			rotationIndicators.Draw(spriteBatch);
 			spriteBatch.DrawString(font, "MOVE", RightSideItems[0], Color.Gray, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 			spriteBatch.DrawString(font, move.ToString(), RightSideItems[1], Color.White, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 			spriteBatch.DrawString(font, "SCORE", RightSideItems[2], Color.Gray, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);

@@ -140,7 +140,7 @@ namespace Combine
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{
-			spriteBatch.Begin();
+			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
 			StateManager.getCurrentLevel().Draw(gameTime);
 			spriteBatch.End();
 
