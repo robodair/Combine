@@ -212,6 +212,26 @@ namespace Combine
 				GameOverOverlayTimer.Enabled = true;
 				Game1.lastScore = score;
 				Game1.lastLevel = gameStateManager.getCurrentLevelNum();
+
+				// add the score to the high scores list
+				if (Type == "square")
+				{
+					Game1.squareLevelScores.Add(score);
+					Game1.squareLevelScores.Sort();
+					Game1.squareLevelScores.Reverse();
+				}
+				else if (Type == "triangle")
+				{
+					Game1.triangleLevelScores.Add(score);
+					Game1.triangleLevelScores.Sort();
+					Game1.triangleLevelScores.Reverse();
+				}
+				else
+				{
+					Game1.pentagonLevelScores.Add(score);
+					Game1.pentagonLevelScores.Sort();
+					Game1.pentagonLevelScores.Reverse();
+				}
 			}
 			else
 			{

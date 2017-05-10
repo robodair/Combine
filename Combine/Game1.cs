@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -31,6 +31,11 @@ namespace Combine
 
 		public static int lastScore = 0;
 		public static int lastLevel = 0;
+		public static List<int> squareLevelScores;
+		public static List<int> triangleLevelScores;
+		public static List<int> pentagonLevelScores;
+
+
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
@@ -60,6 +65,14 @@ namespace Combine
 			StateManager.AddLevel(GAME_OVER_OVERLAY, new GameOverOverlay(StateManager));
 			StateManager.AddLevel(HELP_LEVEL, new HelpScreen(StateManager));
 			StateManager.AddLevel(PAUSE_LEVEL, new PauseLevel(StateManager));
+
+			// init a set of 0 scores
+			squareLevelScores = new List<int>();
+			triangleLevelScores = new List<int>();
+			pentagonLevelScores = new List<int>();
+			squareLevelScores.Add(0);
+			triangleLevelScores.Add(0);
+			pentagonLevelScores.Add(0);
 
 			this.IsMouseVisible = true;
 			base.Initialize();
