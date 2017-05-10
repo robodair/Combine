@@ -14,10 +14,14 @@ namespace Combine
 		GUI_Control HomeMenu;
 		Song song;
 		Vector2 helpTextPos = new Vector2(20, 20);
-		Vector2 squareScoresStart = new Vector2(400, 100);
-		Vector2 triangleScoresStart = new Vector2(500, 100);
-		Vector2 pentagonScoresStart = new Vector2(600, 100);
+		Vector2 highscoresTextPos = new Vector2(430, 50);
+		Vector2 squareScoresStart = new Vector2(400, 170);
+		Vector2 triangleScoresStart = new Vector2(500, 170);
+		Vector2 pentagonScoresStart = new Vector2(600, 170);
 		Vector2 scoresOffset = new Vector2(0, 30);
+		TextureFade SquareIcon;
+		TextureFade TriangleIcon;
+		TextureFade PentagonIcon;
 		public HomeScreen(RC_GameStateManager lm) :
 			base(lm)
 		{
@@ -37,6 +41,16 @@ namespace Combine
 			HomeMenu.AddControl(new ButtonSI(buttonTexture, Color.Blue, new Vector2(100, 300)
 											 ).setText("Pentagon Level", font, 0.35f, Color.MediumPurple
 											).attachLeftMouseDownCallback(Level3ButtonClick));
+
+			SquareIcon = new TextureFade(SquarePiece.Texture, new Rectangle(390, 110, 40, 40),
+				new Rectangle(385, 105, 50, 50), Color.Crimson, Color.DodgerBlue, 125);
+			SquareIcon.setLoop(2);
+			TriangleIcon = new TextureFade(TrianglePiece.Texture, new Rectangle(490, 110, 40, 40),
+				new Rectangle(485, 105, 50, 50), Color.Chartreuse, Color.DodgerBlue, 100);
+			TriangleIcon.setLoop(2);
+			PentagonIcon = new TextureFade(PentagonPiece.Texture, new Rectangle(590, 110, 40, 40),
+				new Rectangle(585, 105, 50, 50), Color.DarkOrchid, Color.DodgerBlue, 150);
+			PentagonIcon.setLoop(2);
 
 		}
 
@@ -60,6 +74,9 @@ namespace Combine
 			{
 				HomeMenu.MouseDownEventLeft(currentMouseState.X, currentMouseState.Y);
 			}
+			SquareIcon.Update(gameTime);
+			TriangleIcon.Update(gameTime);
+			PentagonIcon.Update(gameTime);
 			base.Update(gameTime);
 		}
 
@@ -67,6 +84,7 @@ namespace Combine
 		{
 			graphicsDevice.Clear(Color.DarkSlateBlue);
 			spriteBatch.DrawString(font, "(F1) Help", helpTextPos, Color.Lavender, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
+			spriteBatch.DrawString(font, "Highscores", highscoresTextPos, Color.Lavender, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
 			HomeMenu.drawSubControls(spriteBatch, false);
 
 			// Draw the high score table directly
@@ -90,6 +108,10 @@ namespace Combine
 				spriteBatch.DrawString(font, $"{score}", pentagonScoresStart + scoresOffset * scorePosition, Color.Lavender, 0, Vector2.Zero, 0.3f, SpriteEffects.None, 0);
 				scorePosition++;
 			}
+
+			SquareIcon.Draw(spriteBatch);
+			TriangleIcon.Draw(spriteBatch);
+			PentagonIcon.Draw(spriteBatch);
 		}
 
 		public void Level1ButtonClick()
