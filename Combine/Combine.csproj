@@ -67,8 +67,6 @@
     <Compile Include="States\HomeScreen.cs" />
     <Compile Include="States\SplashScreen.cs" />
     <Compile Include="States\PlayLevel.cs" />
-    <Compile Include="Components\Piece.cs" />
-    <Compile Include="Components\Grid.cs" />
     <Compile Include="Components\SquarePiece.cs" />
     <Compile Include="Components\SquareGrid.cs" />
     <Compile Include="Components\ShapeGrid.cs" />

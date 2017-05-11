@@ -90,8 +90,6 @@ namespace Combine
 			SquareGrid.LoadContent(Content);
 			TriangleGrid.LoadContent(Content);
 			PentagonGrid.LoadContent(Content);
-			Grid.LoadContent(Content);
-
 
 			for (int i = 0; i < StateManager.numLevels; i++)
 			{
