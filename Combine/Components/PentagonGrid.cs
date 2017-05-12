@@ -49,8 +49,40 @@ namespace Combine
 				Sprites[x, y, z].setColor(DefaultColor);
 				Sprites[x, y, z].setWidthHeight(partSize, partSize);
 				Sprites[x, y, z].setBBandHSFractionOfTexCentered(0.6f);
+				if (!validPentagon(x, y))
+				{
+					Sprites[x, y, z].setActive(false);
+				}
 			});
 			Align(); // this will ensure all the pentagons point the right way
+		}
+
+		/// <summary>
+		/// Based on the position of the x, y, return whether the pentagon should be active or inactive
+		/// </summary>
+		/// <returns><c>true</c>, if pentagon was valided, <c>false</c> otherwise.</returns>
+		/// <param name="">.</param>
+		private bool validPentagon(int x, int y)
+		{
+			if (y == 0 || y == 4)
+			{
+				if (x == 1)
+				{
+					return true;
+				}
+			}
+			else if (y == 1 || y == 3)
+			{
+				if (x == 0 || x == 1)
+				{
+					return true;
+				}
+			}
+			else if (y == 2)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private void Align()
